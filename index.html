@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- AUTORSKÁ PRÁVA A LICENCE -->
+    <meta name="author" content="Ondřej Lacina">
+    <meta name="copyright" content="Ondřej Lacina">
+    <!--
+        ====================================================================
+        AUTOR A VLASTNÍK PRÁV: Ondřej Lacina
+        
+        Všechna práva vyhrazena. Tento software, jeho zdrojový kód, 
+        uživatelské rozhraní, design a tréninková/výživová metodika jsou 
+        výhradním duševním vlastnictvím autora (Ondřej Lacina).
+        
+        Jakékoliv kopírování, úpravy, distribuce nebo neoprávněné užívání 
+        tohoto kódu bez výslovného souhlasu autora je přísně zakázáno.
+        ====================================================================
+    -->
+
+    <title>SOVIET COACH ELITE</title>
+    <style>
+        /* --- AESTHETIC & RESPONSIVE DESIGN --- */
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --primary: #ffffff;
+            --accent-red: #d32f2f;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --border-color: #2a2a2a;
+            --desktop-bg: #050505;
+            --accent-blue: #2196F3; 
+            --accent-green: #4CAF50;
+            --accent-gold: #FFC107;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { background-color: var(--desktop-bg); color: var(--text-main); display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 500px; background-color: var(--bg-color); min-height: 100vh; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.9); padding-bottom: 90px; overflow-x: hidden; }
+        
+        /* Odstranění nativních šipek u číselných políček pro čistý vzhled */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+
+        /* Header */
+        header { background-color: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;}
+        #headerTitle { font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); }
+        .date-navigator { display: flex; align-items: center; gap: 10px; margin-top: 5px; width: 100%; justify-content: space-between;}
+        #globalDateDisplay { font-size: 0.9rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; }
+        .btn-today { background: #333; color: white; border: none; padding: 4px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none;}
+        .btn-today:active { transform: scale(0.95); }
+
+        .content-padding { padding: 20px; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h2.section-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 15px; font-weight: 800; border-left: 3px solid var(--primary); padding-left: 8px;}
+
+        .btn { display: block; width: 100%; padding: 16px; margin-bottom: 12px; background-color: var(--primary); color: var(--bg-color); border: none; font-size: 0.95rem; font-weight: 900; text-transform: uppercase; text-align: center; cursor: pointer; border-radius: 6px; letter-spacing: 1px; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none;}
+        .btn:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-outline { background-color: transparent; border: 2px solid var(--border-color); color: var(--text-main); }
+        .btn-small { padding: 10px 15px; font-size: 0.8rem; width: auto; display: inline-block; }
+        
+        .card { background-color: var(--card-bg); padding: 18px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; }
+        
+        /* Cviky & Série UI */
+        .exercise-item { display: flex; flex-direction: column; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); transition: opacity 0.3s; }
+        .exercise-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .ex-top-row { display: flex; align-items: flex-start; cursor: pointer; width: 100%; }
+        .checkbox-custom { min-width: 24px; height: 24px; border: 2px solid var(--text-muted); margin-right: 15px; display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+        .exercise-item.done .checkbox-custom { background-color: var(--primary); border-color: var(--primary); }
+        .exercise-item.done .checkbox-custom::after { content: '✓'; color: var(--bg-color); font-weight: bold; font-size: 14px; }
+        .exercise-item.done .ex-text h3 { text-decoration: line-through; color: var(--text-muted); }
+        .ex-text { flex: 1; }
+        .ex-text h3 { font-size: 1.05rem; margin-bottom: 4px; font-weight: 800; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between;}
+        .ex-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;}
+        
+        .info-btn { color: var(--bg-color); background: var(--text-muted); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; cursor: pointer; font-weight: bold; font-family: serif; font-style: italic; transition: 0.2s; flex-shrink: 0; }
+        .info-btn:active { background: var(--primary); }
+
+        .ex-meta { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+        .meta-tag { background: #1a1a1a; border: 1px solid var(--border-color); padding: 4px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; color: #ccc; }
+        .meta-tag i { color: var(--accent-red); font-style: normal; }
+        
+        /* Odklikávání Sérií */
+        .sets-container { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; width: 100%; }
+        .set-box { width: 34px; height: 34px; border: 2px solid var(--border-color); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s; background: var(--bg-color); user-select: none; -webkit-tap-highlight-color: transparent;}
+        .set-box.active { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
+        
+        .exercise-item.done { opacity: 0.5; }
+        .exercise-item.done .ex-text h3 { text-decoration: line-through; color: var(--text-muted); }
+        .exercise-item.done .set-box.active { background: var(--primary); border-color: var(--primary); color: #000; }
+
+        .yt-link-btn { display: inline-flex; align-items: center; gap: 5px; background: transparent; color: #888; border: 1px solid #444; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-decoration: none; margin-top: 10px; text-transform: uppercase; transition: 0.2s; }
+        .yt-link-btn:active { background: #333; color: white; border-color: #555; }
+
+        /* Spodní menu */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; max-width: 500px; background-color: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 100;}
+        .nav-item { color: var(--text-muted); text-align: center; font-size: 0.65rem; flex: 1; cursor: pointer; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; user-select: none; -webkit-user-select: none;}
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        
+        /* Kalendář UI */
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .cal-day-name { font-size: 0.7rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+        .cal-cell { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 0; cursor: pointer; position: relative; font-weight: bold; font-size: 0.9rem; transition: 0.2s; user-select: none; -webkit-tap-highlight-color: transparent;}
+        .cal-cell:active { background: #333; transform: scale(0.95); }
+        .cal-cell.today { border-color: var(--primary); color: var(--primary); }
+        .cal-cell.active-view { background: #333; border-color: var(--accent-gold); color: var(--accent-gold); }
+        .cal-cell.other-month { opacity: 0.3; }
+        .dot-gym { border-bottom: 3px solid var(--primary); }
+        .dot-box { border-bottom: 3px solid var(--accent-red); }
+        .dot-cardio { border-bottom: 3px solid var(--accent-blue); }
+
+        /* Jídelníček UI */
+        .macro-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
+        .macro-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .macro-box { background: #1a1a1a; border-radius: 6px; padding: 12px; text-align: center; border: 1px solid var(--border-color); }
+        .macro-val { font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
+        .macro-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold; }
+        .macro-target { font-size: 0.75rem; color: #888; margin-top: 4px; font-weight: bold; }
+        .macro-target.error { color: var(--accent-red); cursor: pointer; }
+        
+        .food-search-wrapper { position: relative; margin-bottom: 15px; }
+        .food-search-input { width: 100%; background: var(--bg-color); border: 1px solid var(--primary); color: white; padding: 15px; font-size: 1rem; border-radius: 6px; font-weight: bold; outline: none; appearance: none; -webkit-appearance: none; }
+        .food-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); z-index: 20; max-height: 250px; overflow-y: auto; display: none; border-radius: 0 0 6px 6px; box-shadow: 0 5px 20px rgba(0,0,0,0.9); }
+        .food-dropdown li { padding: 12px 15px; border-bottom: 1px solid var(--border-color); cursor: pointer; font-size: 0.9rem; font-weight: bold; list-style: none; transition: background 0.2s; }
+        .food-dropdown li:hover, .food-dropdown li:active { background: #333; }
+        
+        .food-entry { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
+        .food-entry-macros { color: var(--text-muted); font-size: 0.75rem; margin-top: 3px; }
+        .btn-delete-food { background: transparent; border: none; color: var(--accent-red); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0 10px; transition: transform 0.2s; appearance: none; -webkit-appearance: none; }
+        .btn-delete-food:active { transform: scale(1.2); }
+
+        /* Modals & Vylepšení pro zavírání */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: var(--card-bg); padding: 25px; border: 1px solid var(--border-color); text-align: left; width: 100%; max-width: 350px; border-radius: 8px; position: relative; }
+        .modal-close-x { position: absolute; top: 10px; right: 15px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s; z-index: 10; }
+        .modal-close-x:active { color: white; }
+        .modal-input { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); color: white; padding: 12px; font-size: 1rem; margin-bottom: 15px; text-align: center; border-radius: 6px; outline: none; appearance: none; -webkit-appearance: none;}
+        
+        /* Floating Timer */
+        .fab-timer { position: fixed; bottom: 90px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-red), #900000); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4); cursor: pointer; z-index: 90; border: 2px solid #ff4444; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;}
+        @media (min-width: 500px) { .fab-timer { right: calc(50% - 230px); } }
+
+        /* Stats & Graphs UI */
+        .stats-toggle { display: flex; gap: 5px; margin-bottom: 15px; }
+        .stats-toggle-btn { flex: 1; padding: 10px; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); text-align: center; font-weight: bold; font-size: 0.8rem; cursor: pointer; border-radius: 4px; text-transform: uppercase; appearance: none; -webkit-appearance: none; user-select: none;}
+        .stats-toggle-btn.active { background: #333; color: white; border-color: var(--text-muted); }
+        .graph-container { width: 100%; height: 200px; background: var(--bg-color); border: 1px solid var(--border-color); padding: 15px 10px; position: relative; margin-bottom: 20px; border-radius: 6px; display: flex; align-items: flex-end;}
+        .graph-svg { width: 100%; height: 100%; overflow: visible; }
+        
+        /* Nové Stepper UI pro Timer (Uživatelsky mnohem příjemnější) */
+        .hiit-setup { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .hiit-row { display: flex; justify-content: space-between; align-items: center; background: #151515; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .hiit-label { font-size: 0.8rem; color: #aaa; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+        .stepper-ctrl { display: flex; align-items: center; background: #0a0a0a; border-radius: 6px; border: 1px solid #333; }
+        .stepper-btn { background: transparent; border: none; color: var(--accent-red); font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; appearance: none; -webkit-appearance: none; }
+        .stepper-btn:active { background: #222; }
+        .stepper-val { width: 50px; text-align: center; background: transparent; border: none; color: white; font-size: 1.2rem; font-weight: 900; -webkit-appearance: none; margin: 0; padding: 0; pointer-events: none;}
+        
+        .timer-mode-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px; flex: 1; cursor: pointer; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; transition: 0.2s; border-radius: 4px; appearance: none; -webkit-appearance: none;}
+        .timer-mode-btn.active { background: var(--primary); color: var(--bg-color); border-color: var(--primary); }
+        
+        .timer-paused { animation: blink 1.5s infinite; color: var(--text-muted) !important; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* Autosave Toast */
+        #autosaveToast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--accent-green); color: #000; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        
+        /* Copyright Footer */
+        .copyright-footer { margin-top: 25px; font-size: 0.65rem; color: #555; text-align: center; line-height: 1.4; border-top: 1px solid #222; padding-top: 15px;}
+    </style>
+</head>
+<body>
+
+<div id="autosaveToast">💾 Uloženo do paměti</div>
+
+<div class="app-container">
+    <header>
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+            <span id="headerTitle">PLÁN</span>
+            <button class="btn-today" onclick="setGlobalDateToToday()">Zpět na Dnešek</button>
+        </div>
+        <div class="date-navigator">
+            <span style="font-size: 0.75rem; color: #888;">Zobrazený den:</span>
+            <span id="globalDateDisplay">--</span>
+        </div>
+    </header>
+
+    <div class="content-padding">
+        
+        <!-- KALENDÁŘ TAB -->
+        <div id="tab-calendar" class="tab-content active">
+            <h2 class="section-title">Operační Kalendář</h2>
+            <div class="card" style="border-left-color: var(--accent-gold);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="color: var(--primary); font-size: 0.9rem;">Aktuální fáze:</strong><br>
+                        <span id="currentPhaseLabel" style="color: var(--text-muted); font-size: 0.8rem;">Načítám...</span>
+                    </div>
+                    <button class="btn-small btn-outline" style="border-color: var(--accent-gold); color: var(--accent-gold);" onclick="openSettingsModal()">Změnit</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="cal-header">
+                    <button class="btn-small btn-outline" onclick="changeMonth(-1)">◀</button>
+                    <h3 id="calMonthYear" style="text-transform: uppercase; font-weight: 900; letter-spacing: 1px;">-</h3>
+                    <button class="btn-small btn-outline" onclick="changeMonth(1)">▶</button>
+                </div>
+                <div class="cal-grid" id="calendarGrid"></div>
+            </div>
+            <div class="card" style="border:none; background: transparent; padding: 0;">
+                <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">LEGENDA: <span style="color:var(--primary);">Fitko</span> | <span style="color:var(--accent-red);">Dvoufázově (Box)</span> | <span style="color:var(--accent-blue);">Kardio</span> | <span style="color:var(--text-muted);">Volno</span></p>
+            </div>
+        </div>
+
+        <!-- TRÉNINK (MISE) TAB -->
+        <div id="tab-workout" class="tab-content">
+            <div id="workout-trigger-block" class="card" style="text-align: center; padding: 30px 20px;">
+                <h2 style="font-size: 1.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px;">Status pro <span class="activeDateText">dnes</span></h2>
+                <div id="todayStatusText" style="color: var(--accent-red); font-size: 1.1rem; font-weight: bold; margin-bottom: 25px;">Zkontroluj kalendář</div>
+                <button class="btn" id="btnStartWorkout" onclick="initWorkoutFromPlan()">ZOBRAZIT MISI</button>
+                <button class="btn btn-outline" style="border-color: #444; font-size: 0.8rem; margin-top: 10px;" onclick="switchTab('calendar', document.querySelector('.nav-item'))">Změnit plán v kalendáři</button>
+            </div>
+            
+            <div id="workout-block" style="display: none;">
+                <div style="margin-bottom: 20px;">
+                    <h2 id="workout-title" style="color: var(--primary); font-size: 1.4rem; font-weight: 900; text-transform: uppercase;"></h2>
+                    <span id="workout-subtitle" style="color: var(--accent-red); font-size: 0.8rem; font-weight: bold; text-transform: uppercase;"></span>
+                </div>
+                <div id="exercise-list" style="padding: 10px 0; background: transparent; border: none;"></div>
+                <div style="margin-top: 20px;">
+                    <button class="btn" style="background-color: var(--accent-green);" onclick="saveWorkout()">DOKONČIT A ULOŽIT</button>
+                    <button class="btn btn-outline" style="border-color: var(--border-color); color: var(--text-muted); font-size: 0.8rem;" onclick="resetWorkoutUI()">Zrušit / Zpět</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- REGE & PRE-HAB TAB -->
+        <div id="tab-rege" class="tab-content">
+            <h2 class="section-title" style="border-left-color: var(--accent-blue);">Údržba Stroje & Pre-hab</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Kombinace cílené mobility (protažení zkrácenin) a Pre-habu (posílení stabilizátorů proti zranění). Prováděj ve dny volna nebo večer.</p>
+            <div id="rege-list" style="padding: 10px 0; background: transparent; border: none;"></div>
+            <button class="btn" style="background-color: var(--accent-blue);" onclick="saveRege()">DOKONČIT ÚDRŽBU</button>
+        </div>
+
+        <!-- PALIVO (KALORIE) TAB -->
+        <div id="tab-diet" class="tab-content">
+            <div class="macro-header">
+                <h2 class="section-title" style="margin: 0; border-left-color: var(--accent-gold);">Příjem pro <span class="activeDateText">dnes</span></h2>
+                <button class="btn-small btn-outline" style="padding: 5px 10px; font-size: 0.7rem;" onclick="openSettingsModal()">⚙️ Tělo / BMR</button>
+            </div>
+            
+            <div class="macro-boxes">
+                <div class="macro-box">
+                    <div class="macro-label">KCAL</div>
+                    <div class="macro-val" id="macro-kcal-val" style="color: var(--primary);">0</div>
+                    <div class="macro-target" id="macro-kcal-target">Cíl: 0</div>
+                </div>
+                <div class="macro-box">
+                    <div class="macro-label">Bílkoviny</div>
+                    <div class="macro-val" id="macro-p-val" style="color: var(--accent-blue);">0g</div>
+                    <div class="macro-target" id="macro-p-target">Cíl: 0g</div>
+                </div>
+                <div class="macro-box">
+                    <div class="macro-label">Sacharidy</div>
+                    <div class="macro-val" id="macro-c-val" style="color: var(--accent-red);">0g</div>
+                    <div class="macro-target" id="macro-c-target">Cíl: 0g</div>
+                </div>
+                <div class="macro-box">
+                    <div class="macro-label">Tuky</div>
+                    <div class="macro-val" id="macro-f-val" style="color: var(--accent-gold);">0g</div>
+                    <div class="macro-target" id="macro-f-target">Cíl: 0g</div>
+                </div>
+            </div>
+
+            <!-- Výdej z tréninku -->
+            <div id="trainingBurnDisplay" class="card" style="border-left-color: var(--accent-red); margin-bottom: 10px; padding: 12px; display: none;">
+                <strong style="color: var(--accent-red); font-size: 0.85rem; text-transform: uppercase;">🔥 Odhadovaný výdej tréninkem:</strong>
+                <span id="trainingBurnVal" style="float: right; font-weight: 900; color: white;">+0 kcal</span>
+            </div>
+
+            <!-- Vizuální upozornění na vodu -->
+            <div class="card" style="border-left-color: var(--accent-blue); display: flex; align-items: center; gap: 15px; padding: 12px;">
+                <div style="font-size: 1.8rem;">💧</div>
+                <div>
+                    <strong style="color: var(--accent-blue); display: block; margin-bottom: 2px;">Hydratace motoru</strong>
+                    <span id="waterTargetDisplay" style="color: var(--text-muted); font-size: 0.85rem;">Doporučen cíl: Načítám...</span>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; margin-top: 25px;">
+                <h2 class="section-title" style="margin: 0; border-left-color: var(--accent-gold);">Zapsat potravinu</h2>
+                <div style="display: flex; gap: 5px;">
+                    <button class="btn-small btn-outline" style="border-color: var(--accent-gold); color: var(--accent-gold); font-size: 0.7rem;" onclick="openRecipeModal()">+ Recept</button>
+                    <button class="btn-small btn-outline" style="border-color: #555; color: #ccc; font-size: 0.7rem;" onclick="openRecipeManager()">⚙️ Správa</button>
+                </div>
+            </div>
+            
+            <div class="card" style="overflow: visible;">
+                <div class="food-search-wrapper">
+                    <input type="text" id="foodSearchInput" class="food-search-input" placeholder="Hledat (jídlo nebo tvůj recept)..." onkeyup="handleFoodSearch()" onfocus="handleFoodSearch()" autocomplete="off">
+                    <ul id="foodDropdown" class="food-dropdown"></ul>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="number" id="foodWeightInput" class="modal-input" placeholder="Množství" style="margin-bottom: 0; flex: 1;">
+                    <span id="foodUnitLabel" style="color: var(--text-muted); font-size: 0.8rem; font-weight: bold; width: 45px; text-align: left;">jedn.</span>
+                    <button class="btn" style="width: auto; margin-bottom: 0; padding: 0 20px; background-color: var(--accent-gold); color: black;" onclick="addEatenFood()">PŘIDAT</button>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="border-left-color: var(--accent-gold);">Snědeno (pro vybraný den)</h2>
+            <div class="card" id="eatenFoodList" style="padding: 10px 20px;"></div>
+        </div>
+
+        <!-- DENÍK & STATS TAB -->
+        <div id="tab-history" class="tab-content">
+            <div class="stats-toggle">
+                <button class="stats-toggle-btn active" id="btnTogHistory" onclick="toggleStats('history')">Deník Operací</button>
+                <button class="stats-toggle-btn" id="btnTogStats" onclick="toggleStats('stats')">Statistiky & Grafy</button>
+            </div>
+
+            <!-- Historie Blok -->
+            <div id="historyBlock">
+                <div id="history-list"></div>
+                <button class="btn btn-outline" style="margin-top: 20px; padding: 15px; font-size: 0.8rem; border-color: var(--border-color); color: var(--text-muted);" onclick="if(confirm('Opravdu smazat celou historii?')){localStorage.removeItem('sovietCoachHistoryV2'); loadHistory(); showAutosave();}">SMAZAT PROTOKOLY</button>
+            </div>
+
+            <!-- Statistiky Blok -->
+            <div id="statsBlock" style="display: none;">
+                <div class="card">
+                    <label style="display:block; text-align:left; font-size:0.75rem; color:var(--text-muted); margin-bottom:10px; text-transform: uppercase; font-weight: bold;">Zadat ranní váhu (KG) pro <span class="activeDateText">dnes</span></label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="dailyWeightInput" class="modal-input" placeholder="Např. 84.5" step="0.1" style="margin-bottom: 0;">
+                        <button class="btn" style="width: auto; margin-bottom: 0;" onclick="saveDailyWeight()">Uložit</button>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; margin-top: 20px;">Vývoj Váhy (Posledních 14 dní)</h3>
+                <div class="graph-container" id="weightGraph"></div>
+
+                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px;">Příjem Kalorií (Posledních 14 dní)</h3>
+                <div class="graph-container" id="kcalGraph"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPODNÍ MENU -->
+    <div class="nav-bottom">
+        <div class="nav-item active" onclick="switchTab('calendar', this)"><span class="nav-icon">📅</span>Plán</div>
+        <div class="nav-item" onclick="switchTab('workout', this)"><span class="nav-icon">⚡</span>Mise</div>
+        <div class="nav-item" onclick="switchTab('rege', this)"><span class="nav-icon">🧘‍♂️</span>Rege</div>
+        <div class="nav-item" onclick="switchTab('diet', this)"><span class="nav-icon">🥩</span>Palivo</div>
+        <div class="nav-item" onclick="switchTab('history', this)"><span class="nav-icon">📈</span>Deník</div>
+    </div>
+    
+    <!-- PLOVOUCÍ TLAČÍTKO - TIMER -->
+    <div class="fab-timer" onclick="openTimerModal()">⏱️</div>
+</div>
+
+<!-- PLAN DAY MODAL -->
+<div id="planDayModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center;">
+        <button class="modal-close-x" onclick="closePlanModal()">✕</button>
+        <h3 style="margin-bottom: 5px; color: white;" id="planDayTitle">Plán na den</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Nastav primární zaměření na tento den.</p>
+        <button class="btn" style="background: var(--primary); color: #000;" onclick="setPlanForDay('gym')">🏋️ FITKO (SÍLA + LAKTÁT)</button>
+        <button class="btn" style="background: var(--accent-red);" onclick="setPlanForDay('box')">🥊 RANNÍ PRIMER + VEČERNÍ BOX</button>
+        <button class="btn" style="background: var(--accent-blue);" onclick="setPlanForDay('cardio')">🏃 KARDIO (AEROBNÍ BÁZE)</button>
+        <button class="btn" style="background: #333;" onclick="setPlanForDay('rest')">🛌 VOLNO BEZ TRÉNINKU</button>
+        
+        <hr style="border-color: #333; margin: 20px 0;">
+        <button class="btn btn-outline" style="border-color: var(--accent-red); color: var(--accent-red); font-size: 0.8rem;" onclick="clearActiveDayData()">🗑️ Vymazat vše z tohoto dne</button>
+    </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center; max-height: 90vh; overflow-y: auto;">
+        <button class="modal-close-x" onclick="document.getElementById('settingsModal').style.display='none'">✕</button>
+        <h3 style="margin-bottom: 10px; color: white;">Osobní Profil</h3>
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px;">Periodizace tréninku a výpočet BMR.</p>
+        
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Fáze Přípravy (Mění objem tréninku)</label>
+        <select id="setPhase" class="modal-input">
+            <option value="1">FÁZE 1: Adaptace (Základní objem)</option>
+            <option value="2">FÁZE 2: Motor (Střední objem)</option>
+            <option value="3">FÁZE 3: Elita (Lomachenko objem)</option>
+        </select>
+
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Váha (KG)</label>
+        <input type="number" id="setWeight" class="modal-input" value="84.4" step="0.1">
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Výška (CM)</label>
+        <input type="number" id="setHeight" class="modal-input" placeholder="Např. 180">
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Věk (Roky)</label>
+        <input type="number" id="setAge" class="modal-input" placeholder="Např. 28">
+        <button class="btn" style="background: var(--accent-gold); color: black;" onclick="saveSettings()">Uložit data</button>
+        
+        <hr style="border-color: #333; margin: 20px 0;">
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 10px;">Správa paměti a zálohování</h4>
+        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 15px;">Pokud by aplikace ztrácela data, stáhni si zálohu a otevři soubor v aplikaci "Documents by Readdle".</p>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px;" onclick="exportData()">📥 Export (Záloha)</button>
+            <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px;" onclick="document.getElementById('backupFileInput').click()">📤 Import Dat</button>
+            <input type="file" id="backupFileInput" style="display:none;" accept=".json" onchange="importData(event)">
+        </div>
+
+        <button class="btn btn-outline" style="border: none; margin-top: 10px;" onclick="document.getElementById('settingsModal').style.display='none'">Zavřít panel</button>
+
+        <div class="copyright-footer">
+            &copy; 2026 Ondřej Lacina<br>
+            Všechna práva vyhrazena.<br>Výhradní autorská práva a práva na užívání.
+        </div>
+    </div>
+</div>
+
+<!-- INFO MODAL -->
+<div id="infoModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close-x" onclick="document.getElementById('infoModal').style.display='none'">✕</button>
+        <h3 id="infoModalTitle" style="color: var(--primary); margin-bottom: 10px; font-weight: 900; text-transform: uppercase;">Info</h3>
+        <strong style="color: var(--accent-red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px;">Proč tohle děláš:</strong>
+        <p id="infoModalText" style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px;"></p>
+        <button class="btn" onclick="document.getElementById('infoModal').style.display='none'">ROZUMÍM</button>
+    </div>
+</div>
+
+<!-- OBYČEJNÝ CUSTOM MODAL (CHYBY) -->
+<div id="customModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center;">
+        <button class="modal-close-x" onclick="document.getElementById('customModal').style.display='none'">✕</button>
+        <h3 id="modalTitle" style="color: white; margin-bottom: 10px;">Info</h3>
+        <p id="modalText" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;"></p>
+        <button class="btn" onclick="document.getElementById('customModal').style.display='none'">ROZUMÍM</button>
+    </div>
+</div>
+
+<!-- BUILD RECIPE MODAL -->
+<div id="recipeModal" class="modal-overlay">
+    <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
+        <button class="modal-close-x" onclick="closeRecipeModal()">✕</button>
+        <h3 style="color: var(--accent-gold); margin-bottom: 10px;">Vytvořit Recept</h3>
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px;">Slož si oblíbené jídlo. Uloží se jako jedna položka, kterou můžeš kdykoliv přidat z menu.</p>
+        
+        <input type="text" id="recipeNameInput" class="modal-input" placeholder="Název jídla (např. Moje Kaše)" style="border-color: var(--accent-gold);">
+        
+        <div style="background: #222; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: bold;">
+                <span>Ingredience v receptu:</span>
+                <span id="recipeTotalKcal">0 kcal</span>
+            </div>
+            <div id="recipeIngredientList" style="font-size: 0.8rem; color: white; min-height: 20px;"></div>
+        </div>
+
+        <div style="position: relative; margin-bottom: 10px;">
+            <input type="text" id="recipeSearchInput" class="modal-input" placeholder="Najít surovinu..." onkeyup="handleRecipeSearch()" onfocus="handleRecipeSearch()" autocomplete="off" style="margin-bottom: 5px;">
+            <ul id="recipeDropdown" class="food-dropdown" style="top: 45px;"></ul>
+        </div>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <input type="number" id="recipeWeightInput" class="modal-input" placeholder="Množství" style="margin-bottom: 0; flex: 1;">
+            <span id="recipeUnitLabel" style="color: var(--text-muted); font-size: 0.8rem; font-weight: bold; width: 45px; align-self: center;">jedn.</span>
+            <button class="btn btn-outline" style="width: auto; margin-bottom: 0; padding: 0 15px;" onclick="addIngredientToRecipe()">+</button>
+        </div>
+
+        <button class="btn" style="background: var(--accent-gold); color: #000; margin-bottom: 10px;" onclick="saveCustomRecipe()">Uložit Recept</button>
+        <button class="btn btn-outline" style="border: none;" onclick="closeRecipeModal()">Zpět / Zrušit</button>
+    </div>
+</div>
+
+<!-- MANAGE RECIPES MODAL -->
+<div id="recipeManagerModal" class="modal-overlay">
+    <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
+        <button class="modal-close-x" onclick="document.getElementById('recipeManagerModal').style.display='none'">✕</button>
+        <h3 style="color: var(--accent-gold); margin-bottom: 15px;">Moje Recepty</h3>
+        <div id="recipeManagerList" style="overflow-y: auto; margin-bottom: 15px; max-height: 50vh;"></div>
+        <button class="btn btn-outline" style="border: none; margin-top: 10px;" onclick="document.getElementById('recipeManagerModal').style.display='none'">Zavřít panel</button>
+    </div>
+</div>
+
+<!-- TIMER MODAL -->
+<div id="timerModal" class="modal-overlay">
+    <div class="modal-content" id="timerContentBox" style="padding: 20px; transition: border-color 0.3s; text-align: center;">
+        <h3 style="margin-bottom: 15px; color: var(--primary); font-weight: 900; letter-spacing: 1px;">BOXING / HIIT TIMER</h3>
+        
+        <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+            <button class="timer-mode-btn active" id="btnModeBox" onclick="setTimerMode('box')">BOX KOLA</button>
+            <button class="timer-mode-btn" id="btnModeHiit" onclick="setTimerMode('hiit')">HIIT / TABATA</button>
+        </div>
+
+        <!-- PREMIUM HIIT STEPPER UI -->
+        <div id="hiitSettings" style="display: none; margin-bottom: 20px;">
+            <div class="hiit-setup">
+                <div class="hiit-row">
+                    <span class="hiit-label">Práce (s)</span>
+                    <div class="stepper-ctrl">
+                        <button class="stepper-btn" onclick="adjHiit('base', -5)">-</button>
+                        <input type="number" id="inputHiitBase" class="stepper-val" value="40" readonly>
+                        <button class="stepper-btn" onclick="adjHiit('base', 5)">+</button>
+                    </div>
+                </div>
+                <div class="hiit-row">
+                    <span class="hiit-label">Pauza (s)</span>
+                    <div class="stepper-ctrl">
+                        <button class="stepper-btn" onclick="adjHiit('sprint', -5)">-</button>
+                        <input type="number" id="inputHiitSprint" class="stepper-val" value="10" readonly>
+                        <button class="stepper-btn" onclick="adjHiit('sprint', 5)">+</button>
+                    </div>
+                </div>
+                <div class="hiit-row">
+                    <span class="hiit-label">Počet Kol</span>
+                    <div class="stepper-ctrl">
+                        <button class="stepper-btn" onclick="adjHiit('rounds', -1)">-</button>
+                        <input type="number" id="inputHiitRounds" class="stepper-val" value="6" readonly>
+                        <button class="stepper-btn" onclick="adjHiit('rounds', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timer-display" id="timerDisplay" style="font-size: 5rem; font-weight: 900; margin: 15px 0; font-variant-numeric: tabular-nums;">3:00</div>
+        <div id="timerStatusLabel" style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;">PŘIPRAVEN</div>
+        <div id="timerRoundDisplay" style="font-size: 0.85rem; color: var(--text-muted); font-weight: bold; margin-bottom: 25px; text-transform: uppercase;">Kolo: 1</div>
+
+        <div style="display: flex; gap: 10px;">
+            <button class="btn" id="timerBtnAction" style="margin-bottom: 0;" onclick="startPauseTimer()">START</button>
+            <button class="btn btn-outline" style="margin-bottom: 0; padding: 18px;" onclick="resetTimer()">RESET</button>
+        </div>
+        <button class="btn btn-outline" style="border: none; margin-top: 15px; color: var(--text-muted);" onclick="document.getElementById('timerModal').style.display='none'">Zavřít panel</button>
+    </div>
+</div>
+
+<script>
+    // --- STROJ ČASU A GLOBÁLNÍ PROMĚNNÉ ---
+    window.audioUnlocked = window.audioUnlocked || false; 
+
+    function showAutosave() {
+        var toast = document.getElementById('autosaveToast');
+        if(!toast) return;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+    }
+
+    // Web Audio API Gong Synthesizer (Opravený a spolehlivý pro iOS/Android)
+    var audioCtx = null;
+    function playSoundSignal(type) {
+        if (!audioCtx) {
+            var AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        var strike = (freqs, duration, timeOffset, typeSignal) => {
+            var t = audioCtx.currentTime + timeOffset;
+            freqs.forEach((freq, i) => {
+                var osc = audioCtx.createOscillator();
+                var gain = audioCtx.createGain();
+                
+                if(typeSignal === 'gong') {
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(1 / freqs.length, t + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + duration + (i * 0.2)); 
+                } else if(typeSignal === 'beep') {
+                    osc.type = 'square';
+                    gain.gain.setValueAtTime(0.5, t);
+                    gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
+                }
+                
+                osc.frequency.value = freq;
+                osc.connect(gain); 
+                gain.connect(audioCtx.destination);
+                osc.start(t); 
+                osc.stop(t + duration + 0.5);
+            });
+        };
+
+        if (type === 'gong') {
+            strike([392, 440, 523, 784], 2.5, 0, 'gong');
+        } else if (type === 'doubleBeep') {
+            strike([880], 0.2, 0, 'beep');
+            strike([880], 0.2, 0.4, 'beep');
+        } else if (type === 'singleBeep') {
+            strike([660], 0.3, 0, 'beep');
+        }
+    }
+
+    // Force Audio Unlock on user interaction
+    function forceAudioUnlock() {
+        if (!window.audioUnlocked) {
+            if (!audioCtx) {
+                var AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            var osc = audioCtx.createOscillator();
+            var gain = audioCtx.createGain();
+            gain.gain.value = 0;
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(0);
+            osc.stop(0.001);
+            window.audioUnlocked = true;
+        }
+    }
+
+    // Globální event listenery pro zavírání Modals a Dropdowns kliknutím mimo
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal-overlay')) {
+            if (e.target.id === 'timerModal') return; // Timer nezavírat omylem
+            e.target.style.display = 'none';
+        }
+        if (e.target.id !== 'foodSearchInput' && e.target.id !== 'recipeSearchInput') {
+            var dropdown1 = document.getElementById('foodDropdown');
+            var dropdown2 = document.getElementById('recipeDropdown');
+            if (dropdown1) dropdown1.style.display = 'none';
+            if (dropdown2) dropdown2.style.display = 'none';
+        }
+    };
+
+    function getActiveDateStr() { 
+        return `${window.globalActiveDate.getFullYear()}-${String(window.globalActiveDate.getMonth()+1).padStart(2,'0')}-${String(window.globalActiveDate.getDate()).padStart(2,'0')}`; 
+    }
+    
+    function removeDiacritics(str) { return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+
+    function updateGlobalDateUI() {
+        var currentRealToday = new Date();
+        var isToday = window.globalActiveDate.toDateString() === currentRealToday.toDateString();
+        var dateString = window.globalActiveDate.toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('globalDateDisplay').innerText = isToday ? `DNES (${dateString})` : dateString;
+        document.getElementById('globalDateDisplay').style.color = isToday ? 'var(--accent-gold)' : 'var(--primary)';
+        
+        document.querySelectorAll('.activeDateText').forEach(el => {
+            el.innerText = isToday ? "dnes" : window.globalActiveDate.toLocaleDateString('cs-CZ', {day: 'numeric', month: 'numeric'});
+        });
+        
+        var phase = localStorage.getItem('userPhase') || "1";
+        var phaseNames = {"1": "FÁZE 1 (Základní objem)", "2": "FÁZE 2 (Střední objem)", "3": "FÁZE 3 (Elitní objem)"};
+        document.getElementById('currentPhaseLabel').innerText = phaseNames[phase];
+    }
+
+    function setGlobalDateToToday() {
+        window.globalActiveDate = new Date();
+        currentMonth = window.globalActiveDate.getMonth();
+        currentYear = window.globalActiveDate.getFullYear();
+        updateGlobalDateUI();
+        refreshCurrentTab();
+    }
+
+    function setActiveDateFromCalendar(year, month, day) {
+        window.globalActiveDate = new Date(year, month, day);
+        updateGlobalDateUI();
+        setTimeout(refreshCurrentTab, 10);
+    }
+
+    function refreshCurrentTab() {
+        var activeTab = document.querySelector('.tab-content.active').id;
+        if (activeTab === 'tab-calendar') renderCalendar();
+        if (activeTab === 'tab-workout') checkTodayPlanForWorkout();
+        if (activeTab === 'tab-diet') renderMacroSummary();
+        if (activeTab === 'tab-history') {
+            if (document.getElementById('btnTogStats').classList.contains('active')) renderStats();
+            else loadHistory();
+        }
+    }
+
+    function switchTab(tabId, el) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+        el.classList.add('active');
+        
+        if (tabId === 'calendar') renderCalendar();
+        if (tabId === 'workout') checkTodayPlanForWorkout();
+        if (tabId === 'rege') renderRegeList();
+        if (tabId === 'diet') renderMacroSummary();
+        if (tabId === 'history') toggleStats('history');
+        
+        var titles = { 'calendar': 'OPERAČNÍ PLÁN', 'workout': 'MISSION BRIEF', 'rege': 'REGE & PRE-HAB', 'history': 'DATA & DENÍK', 'diet': 'PALUBNÍ SYSTÉM' };
+        document.getElementById('headerTitle').innerText = titles[tabId];
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // --- DATA MANAGEMENT A ZÁLOHY ---
+    function exportData() {
+        var data = {
+            calendar: localStorage.getItem('sovietCoachCalendar'),
+            diet: localStorage.getItem('sovietCoachDiet'),
+            history: localStorage.getItem('sovietCoachHistoryV2'),
+            weight: localStorage.getItem('sovietCoachWeightLog'),
+            recipes: localStorage.getItem('sovietCoachRecipes'),
+            settings: {
+                phase: localStorage.getItem('userPhase'),
+                weight: localStorage.getItem('userWeight'),
+                height: localStorage.getItem('userHeight'),
+                age: localStorage.getItem('userAge'),
+                lastGym: localStorage.getItem('lastGymType')
+            }
+        };
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+        var anchor = document.createElement('a');
+        anchor.setAttribute("href", dataStr);
+        anchor.setAttribute("download", "soviet_coach_zaloha.json");
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function importData(event) {
+        var file = event.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                var data = JSON.parse(e.target.result);
+                if (data.calendar) localStorage.setItem('sovietCoachCalendar', data.calendar);
+                if (data.diet) localStorage.setItem('sovietCoachDiet', data.diet);
+                if (data.history) localStorage.setItem('sovietCoachHistoryV2', data.history);
+                if (data.weight) localStorage.setItem('sovietCoachWeightLog', data.weight);
+                if (data.recipes) localStorage.setItem('sovietCoachRecipes', data.recipes);
+                if (data.settings) {
+                    if(data.settings.phase) localStorage.setItem('userPhase', data.settings.phase);
+                    if(data.settings.weight) localStorage.setItem('userWeight', data.settings.weight);
+                    if(data.settings.height) localStorage.setItem('userHeight', data.settings.height);
+                    if(data.settings.age) localStorage.setItem('userAge', data.settings.age);
+                    if(data.settings.lastGym) localStorage.setItem('lastGymType', data.settings.lastGym);
+                }
+                document.getElementById('settingsModal').style.display = 'none';
+                document.getElementById('modalTitle').innerText="Úspěch"; 
+                document.getElementById('modalText').innerText="Data byla úspěbně obnovena ze zálohy."; 
+                document.getElementById('customModal').style.display='flex';
+                setGlobalDateToToday();
+            } catch (err) { 
+                alert("Chyba při čtení souboru. Ujisti se, že je to správná záloha."); 
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function clearActiveDayData() {
+        if(confirm('Opravdu chceš smazat všechna data (tréninky, jídlo, váhu, plán) pro tento zobrazený den?')) {
+            var dStr = getActiveDateStr();
+            
+            var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+            delete plans[dStr];
+            localStorage.setItem('sovietCoachCalendar', JSON.stringify(plans));
+            
+            var diet = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+            diet = diet.filter(f => f.date !== dStr);
+            localStorage.setItem('sovietCoachDiet', JSON.stringify(diet));
+            
+            var weights = JSON.parse(localStorage.getItem('sovietCoachWeightLog')) || {};
+            delete weights[dStr];
+            localStorage.setItem('sovietCoachWeightLog', JSON.stringify(weights));
+            
+            var hist = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
+            var startOfDay = new Date(window.globalActiveDate); startOfDay.setHours(0,0,0,0);
+            var endOfDay = new Date(window.globalActiveDate); endOfDay.setHours(23,59,59,999);
+            hist = hist.filter(h => h.timestamp < startOfDay.getTime() || h.timestamp > endOfDay.getTime());
+            localStorage.setItem('sovietCoachHistoryV2', JSON.stringify(hist));
+
+            showAutosave();
+            closePlanModal();
+            refreshCurrentTab();
+            document.getElementById('modalTitle').innerText="Vymazáno"; 
+            document.getElementById('modalText').innerText="Záznamy pro tento den byly smazány."; 
+            document.getElementById('customModal').style.display='flex';
+        }
+    }
+
+
+    // --- KALENDÁŘ LOGIKA ---
+    window.globalActiveDate = window.globalActiveDate || new Date();
+    var currentMonth = window.globalActiveDate.getMonth(), currentYear = window.globalActiveDate.getFullYear(), selectedDateForPlan = null;
+
+    function renderCalendar() {
+        var grid = document.getElementById('calendarGrid');
+        document.getElementById('calMonthYear').innerText = `${["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"][currentMonth]} ${currentYear}`;
+        grid.innerHTML = '';
+        
+        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        var startOffset = firstDay === 0 ? 6 : firstDay - 1;
+
+        ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'].forEach(d => {
+            var el = document.createElement('div'); el.className = 'cal-day-name'; el.innerText = d; grid.appendChild(el);
+        });
+
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+
+        for(let i = 0; i < startOffset; i++) { var el = document.createElement('div'); el.className = 'cal-cell other-month'; grid.appendChild(el); }
+
+        var currentRealToday = new Date();
+
+        for(let day = 1; day <= daysInMonth; day++) {
+            var dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+            var isRealToday = (day === currentRealToday.getDate() && currentMonth === currentRealToday.getMonth() && currentYear === currentRealToday.getFullYear());
+            var isActiveView = (day === window.globalActiveDate.getDate() && currentMonth === window.globalActiveDate.getMonth() && currentYear === window.globalActiveDate.getFullYear());
+            
+            var cell = document.createElement('div');
+            cell.className = `cal-cell ${isRealToday ? 'today' : ''} ${isActiveView ? 'active-view' : ''}`;
+            
+            if(plans[dateStr] === 'gym') cell.classList.add('dot-gym');
+            if(plans[dateStr] === 'box') cell.classList.add('dot-box');
+            if(plans[dateStr] === 'cardio') cell.classList.add('dot-cardio');
+
+            cell.innerText = day;
+            cell.onclick = () => { 
+                setActiveDateFromCalendar(currentYear, currentMonth, day);
+                selectedDateForPlan = dateStr; 
+                document.getElementById('planDayTitle').innerText = `Plán na ${day}. ${currentMonth+1}.`; 
+                document.getElementById('planDayModal').style.display = 'flex'; 
+            };
+            grid.appendChild(cell);
+        }
+    }
+
+    function changeMonth(dir) {
+        currentMonth += dir;
+        if(currentMonth > 11) { currentMonth = 0; currentYear++; }
+        if(currentMonth < 0) { currentMonth = 11; currentYear--; }
+        renderCalendar();
+    }
+    function closePlanModal() { document.getElementById('planDayModal').style.display = 'none'; }
+    function setPlanForDay(type) {
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        if (type === 'rest') delete plans[selectedDateForPlan]; else plans[selectedDateForPlan] = type;
+        localStorage.setItem('sovietCoachCalendar', JSON.stringify(plans));
+        showAutosave();
+        closePlanModal(); renderCalendar();
+    }
+
+    // --- WORKOUT GENERÁTOR ---
+    var workoutsDB = {
+        "1": {
+            gymA: { 
+                title: "Fáze 1: Hardware (Spodek + Motor)",
+                list: [
+                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Lehké skákání.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Zahřeje nohy a prevence zranění Achillovky." },
+                    { name: "Čelní dřepy", sets: 3, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 7", ytSearch: "Squat University front squat perfect form", benefit: "Buduje absolutní sílu nohou pro silný postoj." },
+                    { name: "Shyby", sets: 3, desc: "S gumou pokud nedáš.", detail: "5-8 op.", intensity: "RPE 7.5", ytSearch: "Pull up perfect form Squat University", benefit: "Sval zádový stahuje ruku bleskově zpět do krytu." },
+                    { name: "Explozivní kliky", sets: 3, desc: "Odraz z podlahy.", detail: "5 op.", intensity: "Výbušně", ytSearch: "Explosive plyometric pushups boxing", benefit: "Aktivuje rychlá svalová vlákna. Bleskový úder." },
+                    { name: "Horse Stance", sets: 3, desc: "Hluboký podřep na místě.", detail: "30s", intensity: "Výdrž", ytSearch: "Horse stance exercise legs", benefit: "Izometrie pro neúnavný Pendulum step." },
+                    { name: "Airbike Laktát", sets: 4, desc: "30s práce / 15s volno.", detail: "Interval", intensity: "Laktát", ytSearch: "Airbike intervals workout", benefit: "Laktátová tolerance pro kondici v ringu." }
+                ]
+            },
+            gymB: {
+                title: "Fáze 1: Hardware (Torze + Motor)",
+                list: [
+                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Lehké skákání.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Příprava CNS." },
+                    { name: "Landmine Press", sets: 3, desc: "Výbušnost kříže (Cross).", detail: "6 op/ruka", intensity: "RPE 7", ytSearch: "Landmine press boxing power", benefit: "Nejlepší cvik na torzní sílu pro zadní direkt." },
+                    { name: "Hip Thrust", sets: 3, desc: "Generátor síly.", detail: "8 op.", intensity: "RPE 7", ytSearch: "Barbell hip thrust perfect form", benefit: "Zadek je hlavním motorem pro rotaci." },
+                    { name: "Tlaky na ramena (OHP)", sets: 3, desc: "Osa ve stoje.", detail: "6 op.", intensity: "RPE 7.5", ytSearch: "Overhead press Squat University", benefit: "Silná ramena udrží kryt po celý zápas." },
+                    { name: "Ruský twist / Medball", sets: 3, desc: "Rotace těla.", detail: "15 op.", intensity: "Plynule", ytSearch: "Russian twist medicine ball boxing", benefit: "Zpevnění šikmých břišních svalů." },
+                    { name: "Veslo Laktát", sets: 4, desc: "30s práce / 15s volno.", detail: "Interval", intensity: "Laktát", ytSearch: "Rowing machine intervals", benefit: "Budování anaerobní báze." }
+                ]
+            },
+            boxPrimer: {
+                title: "Ranní Primer + Večerní Box",
+                list: [
+                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů před dnem bez hromadění únavy." },
+                    { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu, kroužení pažemi.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu a připravuje klouby." },
+                    { name: "Shadowboxing Flow", sets: 3, desc: "Žádná síla. Jen dýchání a technika na 30%.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Zlepšuje svalovou koordinaci a spojení mozku se svalem bez vyčerpání." },
+                    { name: "Lehká Izometrie Core", sets: 2, desc: "Plank nebo Bird-dog.", detail: "30s", intensity: "Aktivace", ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém, aby Tě večer nebolela záda." },
+                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
+                ]
+            },
+            cardio: {
+                title: "Fáze 1: Aerobní Báze (LISS)",
+                list: [
+                    { name: "Švihadlo (Zahřátí)", sets: 1, desc: "Příprava lýtek.", detail: "5 min", intensity: "Lehce", ytSearch: "Jump rope warmup boxing", benefit: "Adaptace úponů." },
+                    { name: "Roadwork (LISS)", sets: 1, desc: "Pomalý běh (Zone 2). Nezastavuj.", detail: "20-30 min", intensity: "HR 130", ytSearch: "Zone 2 running explained", benefit: "Buduje síť vlásečnic." },
+                    { name: "Kliky na zápěstí", sets: 2, desc: "Na kloubech.", detail: "10 op.", intensity: "Stabilita", ytSearch: "Knuckle pushups conditioning", benefit: "Zpevňuje pěsti proti zlomeninám." }
+                ]
+            }
+        },
+        "2": {
+            gymA: { 
+                title: "Fáze 2: Hardware (Spodek)",
+                list: [
+                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Rychlejší tempo.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Zahřátí CNS." },
+                    { name: "Čelní dřepy", sets: 4, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 8", ytSearch: "Squat University front squat perfect form", benefit: "Absolutní síla nohou." },
+                    { name: "Shyby se zátěží", sets: 4, desc: "Brzda pro tvé údery.", detail: "6-8 op.", intensity: "RPE 8", ytSearch: "Pull up perfect form Squat University", benefit: "Návrat ruky do krytu." },
+                    { name: "Explozivní kliky", sets: 4, desc: "S tlesknutím.", detail: "6 op.", intensity: "Výbušně", ytSearch: "Explosive plyometric pushups boxing", benefit: "Reaktivní síla." },
+                    { name: "Horse Stance", sets: 3, desc: "Drž hluboký podřep.", detail: "45s", intensity: "Pálení", ytSearch: "Horse stance exercise legs", benefit: "Izometrická výdrž." },
+                    { name: "Airbike Laktát", sets: 6, desc: "40s práce / 10s pauza.", detail: "Interval", intensity: "Tvrdě", ytSearch: "Airbike intervals workout", benefit: "Laktátová tolerance." }
+                ]
+            },
+            gymB: {
+                title: "Fáze 2: Hardware (Torze)",
+                list: [
+                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Rychlejší tempo.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Zahřátí." },
+                    { name: "Landmine Press", sets: 4, desc: "Rotace z nohy.", detail: "6 op/ruka", intensity: "RPE 8", ytSearch: "Landmine press boxing power", benefit: "Torzní síla pro zadní úder." },
+                    { name: "Hip Thrust", sets: 4, desc: "S osou.", detail: "8 op.", intensity: "RPE 8", ytSearch: "Barbell hip thrust perfect form", benefit: "Motor rotace pánve." },
+                    { name: "Tlaky na ramena (OHP)", sets: 4, desc: "Osa ve stoje.", detail: "6 op.", intensity: "RPE 8", ytSearch: "Overhead press Squat University", benefit: "Síla ramen pro kryt." },
+                    { name: "Ruský twist / Medball", sets: 4, desc: "Dynamická rotace.", detail: "20 op.", intensity: "Výbušně", ytSearch: "Russian twist medicine ball boxing", benefit: "Stabilizace trupu." },
+                    { name: "Veslo Laktát", sets: 6, desc: "40s práce / 10s pauza.", detail: "Interval", intensity: "Tvrdě", ytSearch: "Rowing machine intervals", benefit: "Laktát." }
+                ]
+            },
+            boxPrimer: {
+                title: "Ranní Primer + Večerní Box",
+                list: [
+                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů před dnem bez hromadění únavy." },
+                    { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu." },
+                    { name: "Shadowboxing Flow", sets: 4, desc: "Žádná síla. Dýchání, volnost.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Zlepšuje svalovou koordinaci." },
+                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "40s", intensity: "Aktivace", ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
+                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
+                ]
+            },
+            cardio: {
+                title: "Fáze 2: Aerobní Báze",
+                list: [
+                    { name: "Švihadlo (Zahřátí)", sets: 1, desc: "Práce jen v kotnících.", detail: "5 min", intensity: "Lehce", ytSearch: "Jump rope warmup boxing", benefit: "Reaktivní síla." },
+                    { name: "Roadwork (LISS)", sets: 1, desc: "Pomalý běh (Zone 2).", detail: "35-45 min", intensity: "HR 135", ytSearch: "Zone 2 running explained", benefit: "Budování kapilární sítě." },
+                    { name: "Kliky na zápěstí", sets: 3, desc: "Na kloubech.", detail: "10 op.", intensity: "Stabilita", ytSearch: "Knuckle pushups conditioning", benefit: "Zápěstí ze železa." }
+                ]
+            }
+        },
+        "3": {
+            gymA: { 
+                title: "Elita A: Síla nohou + Motor",
+                list: [
+                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Dvojšvihy, pohyb.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "CNS aktivace." },
+                    { name: "Čelní dřepy", sets: 5, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 8.5", ytSearch: "Squat University front squat perfect form", benefit: "Absolutní výkon noh." },
+                    { name: "Shyby se zátěží", sets: 5, desc: "Přidej váhu na pásek.", detail: "6-8 op.", intensity: "RPE 8.5", ytSearch: "Pull up perfect form Squat University", benefit: "Návrat úderu." },
+                    { name: "Explozivní kliky", sets: 5, desc: "Odraz z podlahy (Plyo).", detail: "8 op.", intensity: "100% MAX", ytSearch: "Explosive plyometric pushups boxing", benefit: "Reaktivní výbušnost." },
+                    { name: "Izometrie: Horse Stance", sets: 4, desc: "Drž hluboký podřep.", detail: "60s", intensity: "Max Výdrž", ytSearch: "Horse stance exercise legs", benefit: "Nohy nesmí ztěžknout." },
+                    { name: "Airbike Laktát", sets: 8, desc: "40s volně / 10s MAX sprint.", detail: "Interval", intensity: "Peklo", ytSearch: "Airbike intervals workout", benefit: "Neomezená nádrž." }
+                ]
+            },
+            gymB: {
+                title: "Elita B: Torze + Motor",
+                list: [
+                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Dvojšvihy, pohyb.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "CNS." },
+                    { name: "Landmine Press", sets: 5, desc: "Rotace z nohy.", detail: "6 op/ruka", intensity: "100% MAX", ytSearch: "Landmine press boxing power", benefit: "Ultimátní cross rána." },
+                    { name: "Hip Thrust", sets: 5, desc: "Generátor rotace.", detail: "8 op.", intensity: "RPE 8.5", ytSearch: "Barbell hip thrust perfect form", benefit: "Síla boků." },
+                    { name: "Tlaky na ramena (OHP)", sets: 5, desc: "Osa ve stoje.", detail: "6 op.", intensity: "RPE 8.5", ytSearch: "Overhead press Squat University", benefit: "Neúnavná ramena." },
+                    { name: "Ruský twist s váhou", sets: 5, desc: "Výbušná rotace.", detail: "20 op.", intensity: "Výbušně", ytSearch: "Russian twist medicine ball boxing", benefit: "Ochrana těla." },
+                    { name: "Veslo Laktát", sets: 8, desc: "40s volně / 10s MAX tahy.", detail: "Interval", intensity: "Peklo", ytSearch: "Rowing machine intervals", benefit: "Nekonečný motor." }
+                ]
+            },
+            boxPrimer: {
+                title: "Elita: Ranní Primer + Večerní Box",
+                list: [
+                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "15 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů." },
+                    { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu." },
+                    { name: "Shadowboxing Flow", sets: 5, desc: "Žádná síla. Jen dýchání a úhyby.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Neuro-svalová příprava na večer." },
+                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "60s", intensity: "Aktivace", ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
+                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
+                ]
+            },
+            cardio: {
+                title: "Elita: Roadwork Zóna 2",
+                list: [
+                    { name: "Švihadlo (Zahřátí)", sets: 1, desc: "Stiff ankles.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Jump rope warmup boxing", benefit: "Reaktivní síla." },
+                    { name: "Roadwork (LISS)", sets: 1, desc: "Pomalý běh.", detail: "50-60 min", intensity: "HR 130-140", ytSearch: "Zone 2 running explained", benefit: "Totální budování laktátové clearance." },
+                    { name: "Kliky na zápěstí", sets: 4, desc: "Na kloubech a prstech.", detail: "10 op.", intensity: "Stabilita", ytSearch: "Knuckle pushups conditioning", benefit: "Nezničitelné pěsti." }
+                ]
+            }
+        },
+        rege: {
+            title: "Komplexní Údržba: Mobilita & Pre-hab",
+            list: [
+                { name: "1. Krk: Půlkruhy a tah", sets: 1, desc: "Uvolnění trapézů po krytu.", detail: "2 min/str.", intensity: "Uvolnění", ytSearch: "Neck stretch for boxers", benefit: "Uvolňuje zatuhlost z neustálého balení brady do krytu." },
+                { name: "2. Hrudní páteř: Válec", sets: 1, desc: "Lehni na roller.", detail: "2 min", intensity: "Dýchat", ytSearch: "Thoracic spine foam rolling", benefit: "Odstraňuje 'kulatá boxerská záda' a otevírá hrudník." },
+                { name: "3. Hrudník: Pec Stretch", sets: 1, desc: "Ruka o zeď, vytočit se.", detail: "60s/str.", intensity: "Tah", ytSearch: "Pec stretch wall", benefit: "Prsa jsou z úderů permanentně zkrácená, tohle brání poranění ramene." },
+                { name: "4. Couch Stretch", sets: 1, desc: "Koleno vzadu u zdi.", detail: "60s/str.", intensity: "Silný tah", ytSearch: "Couch stretch perfect form", benefit: "Nuluje bolesti spodních zad. Uvolňuje sval (Psoas), zkrácený z boxerského postoje." },
+                { name: "5. 90/90 Kyčle", sets: 1, desc: "Rotace kyčlí na zemi.", detail: "60s/str.", intensity: "Tah z hýždí", ytSearch: "90/90 stretch hip mobility Squat University", benefit: "Odemknutí kyčlí. Bez volných kyčlí nemůžeš rotovat do úderu plynule." },
+                { name: "6. Knee to Wall", sets: 1, desc: "Kotníky, pata na zemi.", detail: "15 op/noha", intensity: "Plynule", ytSearch: "Knee to wall ankle mobility", benefit: "Nutné pro zdravý pohyb a odraz na švihadle a při Pendulum stepu." },
+                { name: "7. Band Pull-Aparts", sets: 3, desc: "S gumou. Zadní ramena.", detail: "15 op.", intensity: "Pálení", ytSearch: "Band pull aparts form", benefit: "PRE-HAB: Kompenzace. Posiluje zadní delty, které trpí kvůli držení rukou vpředu." },
+                { name: "8. Y-T-W Raises", sets: 2, desc: "Leh na břiše. Zvedání paží.", detail: "10 op.", intensity: "Kontrola", ytSearch: "YTW raises exercise", benefit: "PRE-HAB: Fixuje spodní a střední trapézy (zabraňuje odstávajícím lopatkám)." },
+                { name: "9. Izometrie Krku", sets: 4, desc: "Tlak hlavy do dlaní.", detail: "10s/str.", intensity: "Pevný střed", ytSearch: "Isometric neck exercises boxer", benefit: "PRE-HAB: Hlavní chránič proti knockoutu (KO)." },
+                { name: "10. Clamshells s gumou", sets: 2, desc: "Leh na boku, otevírat kolena.", detail: "15 op/str.", intensity: "Pálení boků", ytSearch: "Clamshells exercise glutes", benefit: "PRE-HAB: Aktivuje Gluteus Medius. Stabilizuje celou nohu a koleno při úderu." },
+                { name: "11. Tibialis Raises", sets: 3, desc: "Zvedání špiček u zdi.", detail: "20 op.", intensity: "Pálení holení", ytSearch: "Tibialis wall raises knees over toes", benefit: "PRE-HAB: Posiluje holeň. Absolutní prevence zánětu okostice (Shin Splints) ze švihadla." },
+                { name: "12. Zápěstí flexe", sets: 1, desc: "V kleku protahovat zápěstí.", detail: "60s", intensity: "Tah", ytSearch: "Wrist stretch for boxing", benefit: "Udržuje zápěstí ohebné a brání zatuhnutí po tvrdém bandážování." }
+            ]
+        }
+    };
+
+    var currentWorkoutType = '';
+
+    function checkTodayPlanForWorkout() {
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var activePlan = plans[getActiveDateStr()];
+        var statusTextEl = document.getElementById('todayStatusText');
+        var btnStart = document.getElementById('btnStartWorkout');
+
+        if (!activePlan || activePlan === 'rest') {
+            statusTextEl.innerText = "Pro tento den máš VOLNO. Ideální udělat si mobilitu a Pre-hab v záložce 'Rege'.";
+            statusTextEl.style.color = "var(--text-muted)";
+            btnStart.style.display = "none";
+        } else {
+            btnStart.style.display = "block";
+            var labels = { 'gym': 'FITKO (Síla & Motor)', 'box': 'RANNÍ PRIMER + VEČERNÍ BOX', 'cardio': 'KARDIO (Roadwork)' };
+            var colors = { 'gym': 'var(--primary)', 'box': 'var(--accent-red)', 'cardio': 'var(--accent-blue)' };
+            statusTextEl.innerText = `Mise na tento den: ${labels[activePlan]}`;
+            statusTextEl.style.color = colors[activePlan];
+        }
+    }
+
+    function initWorkoutFromPlan() {
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var activePlan = plans[getActiveDateStr()];
+        if(!activePlan) return;
+
+        var phase = localStorage.getItem('userPhase') || "1";
+        var workoutData = null;
+        
+        if(activePlan === 'gym') {
+            var lastGym = localStorage.getItem('lastGymType') || 'B';
+            var nextGym = lastGym === 'A' ? 'B' : 'A';
+            workoutData = workoutsDB[phase]['gym' + nextGym];
+            currentWorkoutType = "FITKO " + nextGym;
+        } else if (activePlan === 'box') {
+            workoutData = workoutsDB[phase].boxPrimer; currentWorkoutType = "PRIMER + BOX";
+        } else if (activePlan === 'cardio') {
+            workoutData = workoutsDB[phase].cardio; currentWorkoutType = "KARDIO";
+        }
+        renderWorkoutList(workoutData, 'workout-block', 'workout-trigger-block', 'exercise-list');
+    }
+
+    function renderRegeList() { renderWorkoutList(workoutsDB.rege, null, null, 'rege-list', true); }
+
+    function renderWorkoutList(data, showBlockId, hideBlockId, listId, isRege = false) {
+        if (showBlockId) {
+            document.getElementById(hideBlockId).style.display = 'none';
+            document.getElementById(showBlockId).style.display = 'block';
+            document.getElementById('workout-title').innerText = data.title;
+            document.getElementById('workout-subtitle').innerText = currentWorkoutType;
+        }
+        
+        var listDiv = document.getElementById(listId);
+        listDiv.innerHTML = '';
+        data.list.forEach((ex) => {
+            var item = document.createElement('div');
+            item.className = 'exercise-item';
+            
+            var ytLink = ex.ytSearch ? `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex.ytSearch)}" target="_blank" class="yt-link-btn" onclick="event.stopPropagation();">🔍 Najít na YouTube</a>` : '';
+            
+            var safeTitle = ex.name.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            var safeBenefit = ex.benefit ? ex.benefit.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : '';
+            var infoBtn = ex.benefit ? `<span class="info-btn" data-title="${safeTitle}" data-benefit="${safeBenefit}" onclick="showInfoModal(this, event)">i</span>` : '';
+
+            var setsHTML = `<div class="sets-container">`;
+            var setsCount = ex.sets || 1;
+            for(let i=1; i<=setsCount; i++) {
+                setsHTML += `<div class="set-box" onclick="toggleSet(this, ${setsCount}, event)">${i}</div>`;
+            }
+            setsHTML += `</div>`;
+
+            item.innerHTML = `
+                <div class="ex-top-row">
+                    <div class="ex-text">
+                        <h3>${ex.name} ${infoBtn}</h3>
+                        <p>${ex.desc}</p>
+                        <div class="ex-meta">
+                            <span class="meta-tag" style="color: ${isRege?'var(--accent-blue)':'var(--primary)'}"><i>${isRege?'🧘':'⚡'}</i> ${ex.intensity}</span> 
+                            <span class="meta-tag"><i>⏱️</i> ${ex.detail}</span>
+                        </div>
+                        ${setsHTML}
+                        ${ytLink}
+                    </div>
+                </div>
+            `;
+            listDiv.appendChild(item);
+        });
+    }
+
+    function toggleSet(el, totalSets, e) {
+        e.stopPropagation();
+        el.classList.toggle('active');
+        var parentEx = el.closest('.exercise-item');
+        var activeSets = parentEx.querySelectorAll('.set-box.active').length;
+        if(activeSets === totalSets) {
+            parentEx.classList.add('done');
+            if(navigator.vibrate) navigator.vibrate([30, 30, 30]);
+        } else {
+            parentEx.classList.remove('done');
+            if(navigator.vibrate) navigator.vibrate(10);
+        }
+    }
+
+    function showInfoModal(el, e) {
+        e.stopPropagation();
+        document.getElementById('infoModalTitle').innerText = el.dataset.title;
+        document.getElementById('infoModalText').innerText = el.dataset.benefit;
+        document.getElementById('infoModal').style.display = 'flex';
+    }
+
+    function resetWorkoutUI() { document.getElementById('workout-trigger-block').style.display = 'block'; document.getElementById('workout-block').style.display = 'none'; }
+
+    function saveWorkout() {
+        var items = document.querySelectorAll('#workout-block .exercise-item');
+        var doneItems = document.querySelectorAll('#workout-block .exercise-item.done');
+        if (doneItems.length === 0) { document.getElementById('modalTitle').innerText="Chyba"; document.getElementById('modalText').innerText="Odklikej si alespoň nějaké série, ať je vidět progres."; document.getElementById('customModal').style.display='flex'; return; }
+
+        if (currentWorkoutType.includes("FITKO")) localStorage.setItem('lastGymType', currentWorkoutType.split(" ")[1]);
+        
+        saveRecordToHistory(currentWorkoutType, `${doneItems.length}/${items.length}`);
+        document.getElementById('modalTitle').innerText="Skvělá práce"; document.getElementById('modalText').innerText="Záznam pro tento den uložen."; document.getElementById('customModal').style.display='flex';
+        showAutosave();
+        resetWorkoutUI();
+    }
+
+    function saveRege() {
+        var items = document.querySelectorAll('#tab-rege .exercise-item');
+        var doneItems = document.querySelectorAll('#tab-rege .exercise-item.done');
+        if (doneItems.length === 0) return;
+        saveRecordToHistory("MOBILITA & REGE", `${doneItems.length}/${items.length}`);
+        document.getElementById('modalTitle').innerText="Uvolněno"; document.getElementById('modalText').innerText="Stroj promazán. Záznam uložen."; document.getElementById('customModal').style.display='flex';
+        
+        document.querySelectorAll('#tab-rege .set-box.active').forEach(b => b.classList.remove('active'));
+        items.forEach(i => i.classList.remove('done'));
+        showAutosave();
+    }
+
+    function saveRecordToHistory(type, score) {
+        var record = { date: window.globalActiveDate.toLocaleDateString('cs-CZ') + ' | ' + new Date().toLocaleTimeString('cs-CZ', {hour:'2-digit', minute:'2-digit'}), timestamp: window.globalActiveDate.getTime(), type: type, score: score };
+        var history = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
+        history.unshift(record); 
+        if (history.length > 300) history.pop(); 
+        localStorage.setItem('sovietCoachHistoryV2', JSON.stringify(history));
+    }
+
+
+    // --- JÍDLO A MAKRA ---
+    var foodDB = [
+        { name: "Hovězí vývar (čistý)", kcal: 15, p: 2, c: 1, f: 0.5, unit: 'ml' },
+        { name: "Kuřecí vývar (čistý)", kcal: 12, p: 1.5, c: 1, f: 0.3, unit: 'ml' },
+        { name: "Zeleninový vývar (čistý)", kcal: 10, p: 0.5, c: 2, f: 0.1, unit: 'ml' },
+        { name: "Kostní vývar (silný)", kcal: 35, p: 4, c: 1, f: 1.5, unit: 'ml' },
+        { name: "Kuřecí prsa (syrová)", kcal: 110, p: 23, c: 0, f: 1.2, unit: 'g' },
+        { name: "Kuřecí stehna bez kůže", kcal: 119, p: 20, c: 0, f: 4, unit: 'g' },
+        { name: "Krůtí prsa (syrová)", kcal: 105, p: 24, c: 0, f: 1, unit: 'g' },
+        { name: "Krůtí mleté (syrové)", kcal: 145, p: 22, c: 0, f: 6, unit: 'g' },
+        { name: "Hovězí zadní libové", kcal: 134, p: 22, c: 0, f: 5, unit: 'g' },
+        { name: "Hovězí krk", kcal: 250, p: 18, c: 0, f: 20, unit: 'g' },
+        { name: "Hovězí roštěná", kcal: 125, p: 22, c: 0, f: 4, unit: 'g' },
+        { name: "Mleté maso (hovězí 10%)", kcal: 212, p: 20, c: 0, f: 14, unit: 'g' },
+        { name: "Mleté maso (mix vepř/hov)", kcal: 280, p: 17, c: 0, f: 24, unit: 'g' },
+        { name: "Vepřová panenka", kcal: 120, p: 21, c: 0, f: 4, unit: 'g' },
+        { name: "Vepřová krkovice", kcal: 260, p: 16, c: 0, f: 22, unit: 'g' },
+        { name: "Kachní prsa bez kůže", kcal: 140, p: 20, c: 0, f: 6, unit: 'g' },
+        { name: "Losos čerstvý", kcal: 208, p: 20, c: 0, f: 13, unit: 'g' },
+        { name: "Candát", kcal: 84, p: 19, c: 0, f: 1, unit: 'g' },
+        { name: "Treska", kcal: 82, p: 18, c: 0, f: 0.7, unit: 'g' },
+        { name: "Pstruh", kcal: 119, p: 19, c: 0, f: 5, unit: 'g' },
+        { name: "Kapr", kcal: 127, p: 18, c: 0, f: 6, unit: 'g' },
+        { name: "Makrela", kcal: 205, p: 19, c: 0, f: 14, unit: 'g' },
+        { name: "Krevety", kcal: 99, p: 24, c: 0, f: 0.3, unit: 'g' },
+        { name: "Tuňák ve vlastní šťávě", kcal: 116, p: 26, c: 0, f: 1, unit: 'g' },
+        { name: "Tuňák steak (syrový)", kcal: 130, p: 28, c: 0, f: 1.5, unit: 'g' },
+        { name: "Sardinky v oleji", kcal: 208, p: 24, c: 0, f: 11, unit: 'g' },
+        { name: "Šunka krůtí (nejvyšší jakost)", kcal: 104, p: 20, c: 1, f: 2, unit: 'g' },
+        { name: "Tofu natural", kcal: 76, p: 8, c: 2, f: 4, unit: 'g' },
+        { name: "Tempeh", kcal: 192, p: 19, c: 9, f: 11, unit: 'g' },
+        { name: "Seitan", kcal: 110, p: 24, c: 4, f: 0.5, unit: 'g' },
+        { name: "Rýže jasmínová/basmati (syrová)", kcal: 345, p: 7, c: 77, f: 2, unit: 'g' },
+        { name: "Rýže parboiled (syrová)", kcal: 350, p: 7, c: 78, f: 1, unit: 'g' },
+        { name: "Rýžové nudle (syrové)", kcal: 364, p: 3, c: 80, f: 0.5, unit: 'g' },
+        { name: "Pohankové nudle (Soba)", kcal: 340, p: 14, c: 65, f: 2, unit: 'g' },
+        { name: "Ovesné vločky", kcal: 389, p: 17, c: 66, f: 7, unit: 'g' },
+        { name: "Špaldové vločky", kcal: 360, p: 14, c: 68, f: 3, unit: 'g' },
+        { name: "Brambory (syrové)", kcal: 77, p: 2, c: 17, f: 0.1, unit: 'g' },
+        { name: "Batáty (syrové)", kcal: 86, p: 1.6, c: 20, f: 0.1, unit: 'g' },
+        { name: "Těstoviny pšeničné (syrové)", kcal: 350, p: 12, c: 72, f: 1.5, unit: 'g' },
+        { name: "Těstoviny celozrnné (syrové)", kcal: 348, p: 14, c: 65, f: 2, unit: 'g' },
+        { name: "Gnocchi (bramborové)", kcal: 155, p: 4, c: 33, f: 0.5, unit: 'g' },
+        { name: "Knedlík houskový", kcal: 230, p: 6, c: 45, f: 2, unit: 'g' },
+        { name: "Knedlík bramborový", kcal: 160, p: 4, c: 32, f: 1, unit: 'g' },
+        { name: "Kuskus (syrový)", kcal: 376, p: 13, c: 77, f: 1, unit: 'g' },
+        { name: "Bulgur (syrový)", kcal: 342, p: 12, c: 76, f: 1.3, unit: 'g' },
+        { name: "Quinoa (syrová)", kcal: 368, p: 14, c: 64, f: 6, unit: 'g' },
+        { name: "Pohanka (syrová)", kcal: 343, p: 13, c: 71, f: 3, unit: 'g' },
+        { name: "Červená čočka (syrová)", kcal: 353, p: 26, c: 60, f: 1, unit: 'g' },
+        { name: "Fazole (syrové)", kcal: 333, p: 24, c: 60, f: 1, unit: 'g' },
+        { name: "Cizrna", kcal: 364, p: 19, c: 61, f: 6, unit: 'g' },
+        { name: "Chléb žitný", kcal: 259, p: 9, c: 48, f: 3, unit: 'g' },
+        { name: "Chléb pšenično-žitný", kcal: 250, p: 8, c: 48, f: 1.5, unit: 'g' },
+        { name: "Chléb toustový světlý", kcal: 280, p: 8, c: 50, f: 4, unit: 'g' },
+        { name: "Chléb toustový celozrnný", kcal: 260, p: 10, c: 42, f: 4, unit: 'g' },
+        { name: "Rohlík bílý", kcal: 280, p: 9, c: 55, f: 3, unit: 'ks', baseAmount: 43 },
+        { name: "Kaiserka cereální", kcal: 270, p: 10, c: 45, f: 4, unit: 'ks', baseAmount: 60 },
+        { name: "Pšeničná tortilla (wrap)", kcal: 310, p: 8, c: 53, f: 7, unit: 'g' },
+        { name: "Rýžové chlebíčky", kcal: 387, p: 8, c: 81, f: 3, unit: 'g' },
+        { name: "Kukuřičné lupínky (Corn flakes)", kcal: 378, p: 8, c: 84, f: 1, unit: 'g' },
+        { name: "Ovesná kaše (hotová porce)", kcal: 350, p: 15, c: 50, f: 8, unit: 'porce', baseAmount: 1 },
+        { name: "Vejce celá (M/L)", kcal: 155, p: 13, c: 1, f: 11, unit: 'ks', baseAmount: 55 },
+        { name: "Vaječný bílek (tekutý)", kcal: 52, p: 11, c: 1, f: 0.2, unit: 'ml' },
+        { name: "Mléko polotučné 1.5%", kcal: 47, p: 3.4, c: 4.8, f: 1.5, unit: 'ml' },
+        { name: "Mléko plnotučné 3.5%", kcal: 62, p: 3.3, c: 4.8, f: 3.5, unit: 'ml' },
+        { name: "Mléko ovesné (bez cukru)", kcal: 42, p: 1, c: 7, f: 1, unit: 'ml' },
+        { name: "Mléko mandlové (bez cukru)", kcal: 13, p: 0.4, c: 0, f: 1.1, unit: 'ml' },
+        { name: "Kefír neochucený", kcal: 43, p: 3.3, c: 4, f: 1.5, unit: 'ml' },
+        { name: "Smetana 33%", kcal: 335, p: 2, c: 3, f: 33, unit: 'ml' },
+        { name: "Skyr neochucený", kcal: 65, p: 11, c: 4, f: 0.2, unit: 'g' },
+        { name: "Řecký jogurt 0%", kcal: 59, p: 10, c: 4, f: 0, unit: 'g' },
+        { name: "Řecký jogurt 5%", kcal: 96, p: 9, c: 4, f: 5, unit: 'g' },
+        { name: "Bílý jogurt 3%", kcal: 65, p: 4, c: 5, f: 3, unit: 'g' },
+        { name: "Cottage sýr", kcal: 98, p: 11, c: 3, f: 4, unit: 'g' },
+        { name: "Tvaroh odtučněný", kcal: 68, p: 12, c: 4, f: 0.1, unit: 'g' },
+        { name: "Tvaroh polotučný", kcal: 115, p: 12, c: 4, f: 4, unit: 'g' },
+        { name: "Tvaroh tučný", kcal: 160, p: 10, c: 4, f: 10, unit: 'g' },
+        { name: "Olomoucké tvarůžky", kcal: 127, p: 28, c: 2, f: 0.5, unit: 'g' },
+        { name: "Mozzarella light", kcal: 165, p: 20, c: 2, f: 9, unit: 'g' },
+        { name: "Mozzarella plnotučná", kcal: 247, p: 18, c: 2, f: 19, unit: 'g' },
+        { name: "Sýr Gouda 45%", kcal: 356, p: 25, c: 0, f: 28, unit: 'g' },
+        { name: "Sýr Eidam 30%", kcal: 260, p: 29, c: 1, f: 15, unit: 'g' },
+        { name: "Sýr Eidam 45%", kcal: 345, p: 26, c: 1, f: 26, unit: 'g' },
+        { name: "Parmazán", kcal: 402, p: 35, c: 3, f: 28, unit: 'g' },
+        { name: "Feta sýr", kcal: 264, p: 14, c: 4, f: 21, unit: 'g' },
+        { name: "Balkánský sýr", kcal: 250, p: 13, c: 2, f: 20, unit: 'g' },
+        { name: "Hermelín / Camembert", kcal: 286, p: 21, c: 1, f: 22, unit: 'g' },
+        { name: "Ricotta", kcal: 156, p: 8, c: 4, f: 12, unit: 'g' },
+        { name: "Mascarpone", kcal: 400, p: 5, c: 4, f: 40, unit: 'g' },
+        { name: "Olivový olej", kcal: 884, p: 0, c: 0, f: 100, unit: 'ml' },
+        { name: "Lněný olej", kcal: 884, p: 0, c: 0, f: 100, unit: 'ml' },
+        { name: "Kokosový olej", kcal: 862, p: 0, c: 0, f: 100, unit: 'g' },
+        { name: "Máslo", kcal: 717, p: 0.8, c: 0, f: 81, unit: 'g' },
+        { name: "Sádlo vepřové", kcal: 900, p: 0, c: 0, f: 100, unit: 'g' },
+        { name: "Ghí (přepuštěné máslo)", kcal: 898, p: 0, c: 0, f: 99, unit: 'g' },
+        { name: "Kešu", kcal: 553, p: 18, c: 30, f: 44, unit: 'g' },
+        { name: "Vlašské ořechy", kcal: 654, p: 15, c: 14, f: 65, unit: 'g' },
+        { name: "Lískové ořechy", kcal: 628, p: 15, c: 17, f: 61, unit: 'g' },
+        { name: "Mandle", kcal: 579, p: 21, c: 22, f: 50, unit: 'g' },
+        { name: "Pistácie", kcal: 560, p: 20, c: 27, f: 45, unit: 'g' },
+        { name: "Para ořechy (Brazílie)", kcal: 659, p: 14, c: 12, f: 67, unit: 'g' },
+        { name: "Makadamové ořechy", kcal: 718, p: 8, c: 14, f: 76, unit: 'g' },
+        { name: "Slunečnicová semínka", kcal: 584, p: 21, c: 20, f: 51, unit: 'g' },
+        { name: "Dýňová semínka", kcal: 559, p: 30, c: 10, f: 49, unit: 'g' },
+        { name: "Sezamová semínka", kcal: 573, p: 18, c: 23, f: 50, unit: 'g' },
+        { name: "Lněná semínka", kcal: 534, p: 18, c: 29, f: 42, unit: 'g' },
+        { name: "Chia semínka", kcal: 486, p: 17, c: 42, f: 31, unit: 'g' },
+        { name: "Arašídy", kcal: 567, p: 26, c: 16, f: 49, unit: 'g' },
+        { name: "Arašídové máslo (100%)", kcal: 588, p: 25, c: 20, f: 50, unit: 'g' },
+        { name: "Avokádo (dužina)", kcal: 160, p: 2, c: 8, f: 15, unit: 'g' },
+        { name: "Hořká čokoláda 80%", kcal: 598, p: 10, c: 30, f: 45, unit: 'g' },
+        { name: "Syrovátkový Protein (Whey)", kcal: 378, p: 75, c: 5, f: 4, unit: 'g' },
+        { name: "Gainer", kcal: 380, p: 15, c: 75, f: 2, unit: 'g' },
+        { name: "Proteinová tyčinka (průměr)", kcal: 360, p: 30, c: 35, f: 12, unit: 'g' },
+        { name: "Maltodextrin", kcal: 380, p: 0, c: 95, f: 0, unit: 'g' },
+        { name: "Kreatin", kcal: 0, p: 0, c: 0, f: 0, unit: 'g' },
+        { name: "BCAA / EAA", kcal: 400, p: 100, c: 0, f: 0, unit: 'g' },
+        { name: "Med", kcal: 304, p: 0.3, c: 82, f: 0, unit: 'g' },
+        { name: "Javorový sirup", kcal: 260, p: 0, c: 67, f: 0, unit: 'g' },
+        { name: "Agávový sirup", kcal: 310, p: 0, c: 76, f: 0, unit: 'g' },
+        { name: "Cukr bílý", kcal: 387, p: 0, c: 100, f: 0, unit: 'g' },
+        { name: "Třtinový cukr", kcal: 380, p: 0, c: 98, f: 0, unit: 'g' },
+        { name: "Banán", kcal: 89, p: 1, c: 23, f: 0.3, unit: 'ks', baseAmount: 120 },
+        { name: "Jablko", kcal: 52, p: 0.3, c: 14, f: 0.2, unit: 'ks', baseAmount: 150 },
+        { name: "Hruška", kcal: 57, p: 0.4, c: 15, f: 0.1, unit: 'ks', baseAmount: 150 },
+        { name: "Pomeranč", kcal: 47, p: 0.9, c: 12, f: 0.1, unit: 'ks', baseAmount: 150 },
+        { name: "Mandarinka", kcal: 53, p: 0.8, c: 13, f: 0.3, unit: 'ks', baseAmount: 100 },
+        { name: "Grapefruit", kcal: 42, p: 0.8, c: 11, f: 0.1, unit: 'ks', baseAmount: 200 },
+        { name: "Citron", kcal: 29, p: 1.1, c: 9, f: 0.3, unit: 'ks', baseAmount: 60 },
+        { name: "Kiwi", kcal: 61, p: 1.1, c: 15, f: 0.5, unit: 'ks', baseAmount: 70 },
+        { name: "Mango", kcal: 60, p: 0.8, c: 15, f: 0.4, unit: 'ks', baseAmount: 200 },
+        { name: "Ananas", kcal: 50, p: 0.5, c: 13, f: 0.1, unit: 'g' },
+        { name: "Broskev", kcal: 39, p: 0.9, c: 10, f: 0.3, unit: 'ks', baseAmount: 150 },
+        { name: "Švestky", kcal: 46, p: 0.7, c: 11, f: 0.3, unit: 'ks', baseAmount: 30 },
+        { name: "Vodní meloun", kcal: 30, p: 0.6, c: 8, f: 0.2, unit: 'g' },
+        { name: "Hroznové víno", kcal: 69, p: 0.7, c: 18, f: 0.2, unit: 'g' },
+        { name: "Borůvky", kcal: 43, p: 0.7, c: 14, f: 0.3, unit: 'g' },
+        { name: "Maliny", kcal: 52, p: 1.2, c: 12, f: 0.6, unit: 'g' },
+        { name: "Jahody", kcal: 32, p: 0.7, c: 8, f: 0.3, unit: 'g' },
+        { name: "Brokolice", kcal: 34, p: 2.8, c: 6.6, f: 0.4, unit: 'g' },
+        { name: "Špenát", kcal: 23, p: 2.9, c: 3.6, f: 0.4, unit: 'g' },
+        { name: "Rajče", kcal: 18, p: 0.9, c: 3.9, f: 0.2, unit: 'ks', baseAmount: 100 },
+        { name: "Okurka", kcal: 15, p: 0.7, c: 3.6, f: 0.1, unit: 'g' },
+        { name: "Paprika", kcal: 20, p: 0.9, c: 4.6, f: 0.2, unit: 'ks', baseAmount: 150 },
+        { name: "Ledový salát", kcal: 14, p: 0.9, c: 3, f: 0.1, unit: 'g' },
+        { name: "Rukola", kcal: 25, p: 2.6, c: 3.7, f: 0.7, unit: 'g' },
+        { name: "Cibule", kcal: 40, p: 1.1, c: 9, f: 0.1, unit: 'ks', baseAmount: 80 },
+        { name: "Česnek", kcal: 149, p: 6.4, c: 33, f: 0.5, unit: 'ks', baseAmount: 5 },
+        { name: "Květák", kcal: 25, p: 1.9, c: 5, f: 0.3, unit: 'g' },
+        { name: "Cuketa", kcal: 17, p: 1.2, c: 3.1, f: 0.3, unit: 'g' },
+        { name: "Lilek", kcal: 25, p: 1, c: 6, f: 0.2, unit: 'g' },
+        { name: "Zelí hlávkové", kcal: 25, p: 1.3, c: 6, f: 0.1, unit: 'g' },
+        { name: "Mrkev", kcal: 41, p: 0.9, c: 10, f: 0.2, unit: 'ks', baseAmount: 70 },
+        { name: "Celer", kcal: 16, p: 0.7, c: 3, f: 0.2, unit: 'g' },
+        { name: "Petržel", kcal: 36, p: 3, c: 6, f: 0.8, unit: 'g' },
+        { name: "Pórek", kcal: 61, p: 1.5, c: 14, f: 0.3, unit: 'g' },
+        { name: "Žampiony", kcal: 22, p: 3.1, c: 3.3, f: 0.3, unit: 'g' },
+        { name: "Chřest", kcal: 20, p: 2.2, c: 3.9, f: 0.1, unit: 'g' }
+    ];
+
+    var selectedFoodFromDB = null;
+
+    function handleFoodSearch() {
+        var query = removeDiacritics(document.getElementById('foodSearchInput').value);
+        var dropdown = document.getElementById('foodDropdown');
+        dropdown.innerHTML = '';
+        selectedFoodFromDB = null;
+        document.getElementById('foodUnitLabel').innerText = "jedn."; 
+
+        if (query.length < 2) { dropdown.style.display = 'none'; return; }
+
+        var customRecipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
+        var combinedDB = [...foodDB, ...customRecipes];
+
+        var results = combinedDB.filter(food => removeDiacritics(food.name).includes(query));
+        
+        if (results.length > 0) {
+            dropdown.style.display = 'block';
+            results.forEach(food => {
+                var li = document.createElement('li');
+                li.innerText = `${food.name}`;
+                if(food.isRecipe) li.innerText = `🍲 ${food.name} (Recept)`;
+                
+                li.onclick = () => {
+                    document.getElementById('foodSearchInput').value = food.name;
+                    selectedFoodFromDB = food;
+                    dropdown.style.display = 'none';
+                    document.getElementById('foodUnitLabel').innerText = food.unit;
+                    document.getElementById('foodWeightInput').value = food.isRecipe ? 1 : '';
+                    document.getElementById('foodWeightInput').focus();
+                };
+                dropdown.appendChild(li);
+            });
+        } else { dropdown.style.display = 'none'; }
+    }
+
+    function addEatenFood() {
+        if (!selectedFoodFromDB) { document.getElementById('modalTitle').innerText="Chyba"; document.getElementById('modalText').innerText="Musíš vybrat jídlo ze seznamu."; document.getElementById('customModal').style.display='flex'; return; }
+        var inputVal = parseFloat(document.getElementById('foodWeightInput').value);
+        if (!inputVal || inputVal <= 0) return;
+
+        var weightInGrams = inputVal;
+        if (selectedFoodFromDB.unit === 'ks' || selectedFoodFromDB.unit === 'porce') weightInGrams = inputVal * (selectedFoodFromDB.baseAmount || 100);
+
+        var multiplier = selectedFoodFromDB.isRecipe ? inputVal : (weightInGrams / 100);
+        
+        var entry = {
+            id: Date.now(), date: getActiveDateStr(), name: selectedFoodFromDB.name, 
+            amount: inputVal, unit: selectedFoodFromDB.unit,
+            kcal: Math.round(selectedFoodFromDB.kcal * multiplier),
+            p: Math.round(selectedFoodFromDB.p * multiplier),
+            c: Math.round(selectedFoodFromDB.c * multiplier),
+            f: Math.round(selectedFoodFromDB.f * multiplier)
+        };
+
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        dietHistory.push(entry); localStorage.setItem('sovietCoachDiet', JSON.stringify(dietHistory));
+
+        document.getElementById('foodSearchInput').value = ''; document.getElementById('foodWeightInput').value = '';
+        selectedFoodFromDB = null; document.getElementById('foodUnitLabel').innerText = "jedn.";
+        renderMacroSummary();
+        showAutosave();
+    }
+
+    function removeEatenFood(id) {
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        dietHistory = dietHistory.filter(f => f.id !== id);
+        localStorage.setItem('sovietCoachDiet', JSON.stringify(dietHistory));
+        renderMacroSummary();
+        showAutosave();
+    }
+
+    // --- RECEPT BUILDER ---
+    var tempRecipeIngredients = [];
+    var recipeSelectedFood = null;
+
+    function openRecipeModal() {
+        tempRecipeIngredients = [];
+        document.getElementById('recipeNameInput').value = '';
+        document.getElementById('recipeSearchInput').value = '';
+        document.getElementById('recipeWeightInput').value = '';
+        renderRecipeList();
+        document.getElementById('recipeModal').style.display = 'flex';
+    }
+
+    function closeRecipeModal() {
+        document.getElementById('recipeModal').style.display = 'none';
+        tempRecipeIngredients = [];
+    }
+
+    function handleRecipeSearch() {
+        var query = removeDiacritics(document.getElementById('recipeSearchInput').value);
+        var dropdown = document.getElementById('recipeDropdown');
+        dropdown.innerHTML = '';
+        recipeSelectedFood = null;
+        document.getElementById('recipeUnitLabel').innerText = "jedn."; 
+
+        if (query.length < 2) { dropdown.style.display = 'none'; return; }
+        var results = foodDB.filter(food => removeDiacritics(food.name).includes(query));
+        
+        if (results.length > 0) {
+            dropdown.style.display = 'block';
+            results.forEach(food => {
+                var li = document.createElement('li');
+                li.innerText = `${food.name}`;
+                li.onclick = () => {
+                    document.getElementById('recipeSearchInput').value = food.name;
+                    recipeSelectedFood = food;
+                    dropdown.style.display = 'none';
+                    document.getElementById('recipeUnitLabel').innerText = food.unit;
+                    document.getElementById('recipeWeightInput').focus();
+                };
+                dropdown.appendChild(li);
+            });
+        } else { dropdown.style.display = 'none'; }
+    }
+
+    function addIngredientToRecipe() {
+        if (!recipeSelectedFood) return;
+        var inputVal = parseFloat(document.getElementById('recipeWeightInput').value);
+        if (!inputVal || inputVal <= 0) return;
+
+        var weightInGrams = inputVal;
+        if (recipeSelectedFood.unit === 'ks') weightInGrams = inputVal * recipeSelectedFood.baseAmount;
+
+        var multiplier = weightInGrams / 100;
+        tempRecipeIngredients.push({
+            name: recipeSelectedFood.name, amount: inputVal, unit: recipeSelectedFood.unit,
+            kcal: Math.round(recipeSelectedFood.kcal * multiplier),
+            p: Math.round(recipeSelectedFood.p * multiplier),
+            c: Math.round(recipeSelectedFood.c * multiplier),
+            f: Math.round(recipeSelectedFood.f * multiplier)
+        });
+
+        document.getElementById('recipeSearchInput').value = ''; document.getElementById('recipeWeightInput').value = '';
+        recipeSelectedFood = null; document.getElementById('recipeUnitLabel').innerText = "jedn.";
+        renderRecipeList();
+    }
+
+    function renderRecipeList() {
+        var listDiv = document.getElementById('recipeIngredientList');
+        listDiv.innerHTML = '';
+        var totKcal = 0, totP = 0, totC = 0, totF = 0;
+
+        tempRecipeIngredients.forEach((ing, index) => {
+            totKcal += ing.kcal; totP += ing.p; totC += ing.c; totF += ing.f;
+            listDiv.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${ing.name} (${ing.amount}${ing.unit})</span> <span style="color:var(--accent-red); cursor:pointer;" onclick="tempRecipeIngredients.splice(${index},1); renderRecipeList();">✕</span></div>`;
+        });
+        document.getElementById('recipeTotalKcal').innerText = `${totKcal} kcal | B:${totP} S:${totC} T:${totF}`;
+    }
+
+    function saveCustomRecipe() {
+        var name = document.getElementById('recipeNameInput').value.trim();
+        if(!name || tempRecipeIngredients.length === 0) { alert("Zadej název a přidej suroviny."); return; }
+
+        var totKcal = 0, totP = 0, totC = 0, totF = 0;
+        tempRecipeIngredients.forEach(ing => { totKcal += ing.kcal; totP += ing.p; totC += ing.c; totF += ing.f; });
+
+        var newRecipe = {
+            name: name, isRecipe: true, unit: 'porce', baseAmount: 100,
+            kcal: totKcal, p: totP, c: totC, f: totF
+        };
+
+        var recipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
+        recipes.push(newRecipe);
+        localStorage.setItem('sovietCoachRecipes', JSON.stringify(recipes));
+
+        closeRecipeModal();
+        document.getElementById('modalTitle').innerText="Uloženo"; document.getElementById('modalText').innerText=`Recept ${name} byl přidán do databáze.`; document.getElementById('customModal').style.display='flex';
+        showAutosave();
+    }
+
+    // --- SPRÁVA RECEPTŮ ---
+    function openRecipeManager() {
+        renderRecipeManagerList();
+        document.getElementById('recipeManagerModal').style.display = 'flex';
+    }
+
+    function renderRecipeManagerList() {
+        var recipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
+        var list = document.getElementById('recipeManagerList');
+        if (recipes.length === 0) {
+            list.innerHTML = '<p style="color:var(--text-muted); font-size: 0.8rem; text-align: center;">Žádné vlastní recepty.</p>';
+            return;
+        }
+        list.innerHTML = '';
+        recipes.forEach((r, idx) => {
+            list.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding: 10px 0;">
+                    <div>
+                        <strong style="color: white;">${r.name}</strong><br>
+                        <span style="font-size:0.7rem; color:var(--primary); font-weight:bold;">${r.kcal} kcal</span>
+                        <span style="font-size:0.7rem; color:#888;"> | B:${r.p} S:${r.c} T:${r.f}</span>
+                    </div>
+                    <button class="btn-delete-food" style="margin: 0; padding: 10px;" onclick="deleteCustomRecipe(${idx})">✕</button>
+                </div>
+            `;
+        });
+    }
+
+    function deleteCustomRecipe(idx) {
+        if(confirm("Smazat tento recept?")) {
+            var recipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
+            recipes.splice(idx, 1);
+            localStorage.setItem('sovietCoachRecipes', JSON.stringify(recipes));
+            renderRecipeManagerList();
+            showAutosave();
+        }
+    }
+
+
+    function renderMacroSummary() {
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var activeDateStr = getActiveDateStr();
+        var activeDayFood = dietHistory.filter(f => f.date === activeDateStr);
+
+        var sumKcal = 0, sumP = 0, sumC = 0, sumF = 0;
+        var listDiv = document.getElementById('eatenFoodList'); listDiv.innerHTML = '';
+
+        if(activeDayFood.length === 0) {
+            listDiv.innerHTML = '<p style="color:var(--text-muted); text-align:center;">V tento den není nic zapsáno.</p>';
+        } else {
+            activeDayFood.forEach(food => {
+                sumKcal += food.kcal; sumP += food.p; sumC += food.c; sumF += food.f;
+                var row = document.createElement('div'); row.className = 'food-entry';
+                row.innerHTML = `
+                    <div style="flex:1;">
+                        <strong>${food.name}</strong> (${food.amount} ${food.unit})
+                        <div class="food-entry-macros">B: ${food.p}g | S: ${food.c}g | T: ${food.f}g</div>
+                    </div>
+                    <div style="font-weight:900; color:var(--primary); margin-right: 10px;">${food.kcal} kcal</div>
+                    <button class="btn-delete-food" onclick="removeEatenFood(${food.id})">✕</button>
+                `;
+                listDiv.appendChild(row);
+            });
+        }
+
+        document.getElementById('macro-kcal-val').innerText = sumKcal || '0';
+        document.getElementById('macro-p-val').innerText = (sumP || '0') + 'g';
+        document.getElementById('macro-c-val').innerText = (sumC || '0') + 'g';
+        document.getElementById('macro-f-val').innerText = (sumF || '0') + 'g';
+
+        var weight = parseFloat(localStorage.getItem('userWeight')) || 84.4;
+        var height = parseInt(localStorage.getItem('userHeight')) || 0;
+        var age = parseInt(localStorage.getItem('userAge')) || 0;
+        
+        var profileComplete = false;
+        var bmr = 0;
+        if (height > 0 && age > 0) {
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+            profileComplete = true;
+        }
+        
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var activePlan = plans[activeDateStr];
+        
+        var multiplier = 1.2; 
+        if (activePlan === 'cardio') multiplier = 1.35; 
+        if (activePlan === 'gym') multiplier = 1.55; 
+        if (activePlan === 'box') multiplier = 1.75; 
+
+        var baseWater = (weight * 0.035).toFixed(1);
+        var waterAdd = 0;
+        if (activePlan === 'cardio') waterAdd = 0.8;
+        if (activePlan === 'gym') waterAdd = 1.0;
+        if (activePlan === 'box') waterAdd = 1.5;
+        var trainWater = (weight * 0.035 + waterAdd).toFixed(1);
+        
+        document.getElementById('waterTargetDisplay').innerText = activePlan ? `Dnes potíš: ${trainWater} L` : `Základ: ${baseWater} L`;
+
+        if(profileComplete) {
+            var targetKcal = Math.round(bmr * multiplier) || 0;
+            var burnKcal = Math.round(bmr * (multiplier - 1.2)) || 0; 
+
+            var targetProtein = Math.round(weight * 2.0) || 0; 
+            var targetFat = Math.round(weight * 1.0) || 0; 
+            var targetCarbs = Math.round((targetKcal - (targetFat * 9) - (targetProtein * 4)) / 4) || 0;
+            if (targetCarbs < 0) targetCarbs = 0;
+
+            document.getElementById('macro-kcal-target').innerText = `Cíl: ${targetKcal}`;
+            document.getElementById('macro-p-target').innerText = `Cíl: ${targetProtein}g`;
+            document.getElementById('macro-f-target').innerText = `Cíl: ${targetFat}g`;
+            document.getElementById('macro-c-target').innerText = `Cíl: ${targetCarbs}g`;
+            document.getElementById('macro-kcal-target').classList.remove('error');
+
+            if(burnKcal > 0) {
+                document.getElementById('trainingBurnDisplay').style.display = 'block';
+                document.getElementById('trainingBurnVal').innerText = `+${burnKcal} kcal`;
+            } else {
+                document.getElementById('trainingBurnDisplay').style.display = 'none';
+            }
+        } else {
+            document.getElementById('macro-kcal-target').innerText = `Nenastaveno (Klikni na Tělo)`;
+            document.getElementById('macro-kcal-target').classList.add('error');
+            document.getElementById('macro-kcal-target').onclick = openSettingsModal;
+            document.getElementById('macro-p-target').innerText = `Cíl: 0g`;
+            document.getElementById('macro-f-target').innerText = `Cíl: 0g`;
+            document.getElementById('macro-c-target').innerText = `Cíl: 0g`;
+            document.getElementById('trainingBurnDisplay').style.display = 'none';
+        }
+    }
+
+    function openSettingsModal() {
+        document.getElementById('setPhase').value = localStorage.getItem('userPhase') || "1";
+        document.getElementById('setWeight').value = localStorage.getItem('userWeight') || 84.4;
+        document.getElementById('setHeight').value = localStorage.getItem('userHeight') || '';
+        document.getElementById('setAge').value = localStorage.getItem('userAge') || '';
+        document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function saveSettings() {
+        localStorage.setItem('userPhase', document.getElementById('setPhase').value);
+        localStorage.setItem('userWeight', document.getElementById('setWeight').value);
+        localStorage.setItem('userHeight', document.getElementById('setHeight').value);
+        localStorage.setItem('userAge', document.getElementById('setAge').value);
+        document.getElementById('settingsModal').style.display = 'none';
+        updateGlobalDateUI();
+        renderMacroSummary();
+        showAutosave();
+    }
+
+    // --- STATISTIKY A HISTORIE ---
+    function toggleStats(view) {
+        if(view === 'stats') {
+            document.getElementById('btnTogStats').classList.add('active');
+            document.getElementById('btnTogHistory').classList.remove('active');
+            document.getElementById('historyBlock').style.display = 'none';
+            document.getElementById('statsBlock').style.display = 'block';
+            renderStats();
+        } else {
+            document.getElementById('btnTogHistory').classList.add('active');
+            document.getElementById('btnTogStats').classList.remove('active');
+            document.getElementById('statsBlock').style.display = 'none';
+            document.getElementById('historyBlock').style.display = 'block';
+            loadHistory();
+        }
+    }
+
+    function saveDailyWeight() {
+        var w = parseFloat(document.getElementById('dailyWeightInput').value);
+        if(!w) return;
+        var wHist = JSON.parse(localStorage.getItem('sovietCoachWeightLog')) || {};
+        wHist[getActiveDateStr()] = w;
+        localStorage.setItem('sovietCoachWeightLog', JSON.stringify(wHist));
+        document.getElementById('dailyWeightInput').value = '';
+        renderStats();
+        showAutosave();
+    }
+
+    function renderStats() {
+        var weightContainer = document.getElementById('weightGraph');
+        var kcalContainer = document.getElementById('kcalGraph');
+        weightContainer.innerHTML = ''; kcalContainer.innerHTML = '';
+        
+        var wHist = JSON.parse(localStorage.getItem('sovietCoachWeightLog')) || {};
+        var dietHist = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        
+        var dates = [];
+        var weightData = [];
+        var kcalData = [];
+        
+        var cToday = new Date(window.globalActiveDate); // Změna: Grafy respektují vybrané datum v kalendáři
+        for(let i=13; i>=0; i--) {
+            let d = new Date(cToday);
+            d.setDate(d.getDate() - i);
+            let dStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+            dates.push(dStr);
+            
+            weightData.push(wHist[dStr] || null);
+            
+            let dayDiet = dietHist.filter(f => f.date === dStr);
+            let dKcal = dayDiet.reduce((sum, f) => sum + f.kcal, 0);
+            kcalData.push(dKcal > 0 ? dKcal : null);
+        }
+
+        drawSVGGraph(weightContainer, weightData, dates, 'Zatím málo dat');
+        drawSVGGraph(kcalContainer, kcalData, dates, 'Zatím málo dat');
+    }
+
+    function drawSVGGraph(container, dataPoints, dates, emptyMsg) {
+        var validPoints = dataPoints.filter(v => v !== null);
+        if(validPoints.length === 0) { 
+            container.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem; margin:auto;">${emptyMsg}</span>`; 
+            return; 
+        }
+        
+        var minV = Math.min(...validPoints), maxV = Math.max(...validPoints);
+        if(minV === maxV) { minV *= 0.9; maxV *= 1.1; }
+        if(minV === 0 && maxV === 0) { maxV = 1; }
+        var range = maxV - minV; minV -= range*0.1; maxV += range*0.1;
+        if(range === 0) range = 1;
+        
+        var padL = 35, padR = 10, padT = 10, padB = 20;
+        var w = container.clientWidth - padL - padR, h = container.clientHeight - padT - padB;
+        if(w <= 0 || h <= 0) return;
+
+        var svg = `<svg class="graph-svg" viewBox="0 0 ${container.clientWidth} ${container.clientHeight}">`;
+        
+        var getY = (val) => padT + h - ((val - minV) / (maxV - minV)) * h;
+        var getX = (idx) => padL + (idx / (dataPoints.length - 1)) * w;
+
+        var steps = 3;
+        for(let i=0; i<=steps; i++) {
+            let val = minV + (range*1.2) * (i/steps);
+            let y = getY(val);
+            svg += `<line x1="${padL}" y1="${y}" x2="${padL+w}" y2="${y}" stroke="#333" stroke-width="1" stroke-dasharray="4"/>`;
+            svg += `<text x="${padL-5}" y="${y+4}" text-anchor="end" fill="#888" font-size="10">${Math.round(val)}</text>`;
+        }
+
+        var path = "";
+        var first = true;
+        dataPoints.forEach((val, i) => {
+            if(val !== null) {
+                let x = getX(i), y = getY(val);
+                if(first) { path += `M ${x} ${y}`; first = false; } else { path += ` L ${x} ${y}`; }
+                svg += `<circle cx="${x}" cy="${y}" r="4" fill="var(--bg-color)" stroke="var(--primary)" stroke-width="2"/>`;
+                
+                if (i % 3 === 0 || i === dataPoints.length - 1) {
+                    let dObj = new Date(dates[i]);
+                    svg += `<text x="${x}" y="${padT+h+15}" text-anchor="middle" fill="#888" font-size="9">${dObj.getDate()}.${dObj.getMonth()+1}.</text>`;
+                }
+            }
+        });
+        
+        if (validPoints.length > 1) {
+            svg += `<path d="${path}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linejoin="round" />`;
+        }
+        svg += `</svg>`;
+        container.innerHTML = svg;
+    }
+
+
+    function loadHistory() {
+        var historyDiv = document.getElementById('history-list');
+        var history = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
+        if (history.length === 0) { historyDiv.innerHTML = '<p style="color:var(--text-muted); text-align:center;">Zatím prázdno.</p>'; return; }
+        historyDiv.innerHTML = '';
+        history.forEach(record => {
+            var item = document.createElement('div'); item.className = 'history-item';
+            var color = record.type.includes('MOBILITA') ? 'var(--accent-blue)' : 'var(--primary)';
+            item.innerHTML = `<div class="hist-header"><div class="hist-date">${record.date}</div></div><div class="hist-type" style="color:${color};">${record.type} (${record.score})</div>`;
+            historyDiv.appendChild(item);
+        });
+    }
+
+    // --- BOXING / HIIT TIMER ---
+    var timerInterval, timeLeft = 180, isTimerRunning = false;
+    var timerMode = 'box'; 
+    var currentRound = 1, hiitBase = 40, hiitSprint = 10, hiitRoundsTotal = 6;
+    var isWorkPhase = true;
+
+    function formatTime(s) { var m = Math.floor(s/60), sec = s%60; return `${m}:${sec<10?'0':''}${sec}`; }
+
+    function setTimerMode(mode) {
+        if (isTimerRunning) return;
+        timerMode = mode;
+        document.getElementById('btnModeBox').classList.toggle('active', mode === 'box');
+        document.getElementById('btnModeHiit').classList.toggle('active', mode === 'hiit');
+        document.getElementById('hiitSettings').style.display = mode === 'hiit' ? 'block' : 'none';
+        resetTimer();
+    }
+
+    function adjHiit(field, val) {
+        if (isTimerRunning) return;
+        var elId = field === 'base' ? 'inputHiitBase' : field === 'sprint' ? 'inputHiitSprint' : 'inputHiitRounds';
+        var el = document.getElementById(elId);
+        var current = parseInt(el.value) || 0;
+        var newVal = current + val;
+        if (newVal < 1) newVal = 1;
+        el.value = newVal;
+        updateHiitSettings();
+    }
+
+    function updateHiitSettings() {
+        if (isTimerRunning) return;
+        hiitBase = parseInt(document.getElementById('inputHiitBase').value) || 40;
+        hiitSprint = parseInt(document.getElementById('inputHiitSprint').value) || 10;
+        hiitRoundsTotal = parseInt(document.getElementById('inputHiitRounds').value) || 6;
+        resetTimer();
+    }
+    
+    function updateTimerUI() {
+        document.getElementById('timerDisplay').innerText = formatTime(timeLeft);
+        var box = document.getElementById('timerContentBox'), lbl = document.getElementById('timerStatusLabel'), dsp = document.getElementById('timerDisplay');
+        var roundDisp = document.getElementById('timerRoundDisplay');
+        
+        if (isTimerRunning) {
+            dsp.classList.remove('timer-paused');
+        } else {
+            dsp.classList.add('timer-paused');
+        }
+
+        if (timerMode === 'box') {
+            roundDisp.style.display = 'block';
+            roundDisp.innerText = `Kolo: ${currentRound}`;
+            if (isWorkPhase) {
+                box.style.borderColor = '#4CAF50'; lbl.innerText = 'BOXERSKÉ KOLO (3 MIN)'; lbl.style.color = '#4CAF50'; dsp.style.color = '#4CAF50';
+            } else {
+                box.style.borderColor = 'var(--accent-red)'; lbl.innerText = 'PAUZA (1 MIN)'; lbl.style.color = 'var(--accent-red)'; dsp.style.color = 'var(--accent-red)';
+            }
+        } else {
+            roundDisp.style.display = 'block';
+            roundDisp.innerText = `Kolo: ${currentRound} / ${hiitRoundsTotal}`;
+            if (isWorkPhase) {
+                box.style.borderColor = '#2196F3'; lbl.innerText = 'ZÁKLADNÍ TEMPO'; lbl.style.color = '#2196F3'; dsp.style.color = '#2196F3';
+            } else {
+                box.style.borderColor = 'var(--accent-red)'; lbl.innerText = 'MAX SPRINT!'; lbl.style.color = 'var(--accent-red)'; dsp.style.color = 'var(--accent-red)';
+            }
+        }
+    }
+
+    function startPauseTimer() {
+        var btn = document.getElementById('timerBtnAction');
+        forceAudioUnlock();
+        
+        if (isTimerRunning) {
+            clearInterval(timerInterval); isTimerRunning = false; btn.innerText = 'POKRAČOVAT';
+            updateTimerUI(); 
+        } else {
+            if (timerMode === 'hiit' && currentRound > hiitRoundsTotal) { resetTimer(); return; }
+
+            isTimerRunning = true; btn.innerText = 'PAUZA';
+            updateTimerUI(); 
+            
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimerUI();
+                    
+                    if (timeLeft === 0) {
+                        if (timerMode === 'box') {
+                           playSoundSignal('doubleBeep');
+                        } else {
+                           playSoundSignal(isWorkPhase ? 'doubleBeep' : 'singleBeep');
+                        }
+                        if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
+                    }
+                } else {
+                    isWorkPhase = !isWorkPhase;
+
+                    if (timerMode === 'box') {
+                        if (isWorkPhase) {
+                            currentRound++;
+                            timeLeft = 180;
+                            playSoundSignal('gong');
+                        } else {
+                             timeLeft = 60; 
+                        }
+                    } else {
+                        if (isWorkPhase) {
+                            currentRound++;
+                            if (currentRound > hiitRoundsTotal) {
+                                clearInterval(timerInterval); isTimerRunning = false;
+                                document.getElementById('timerStatusLabel').innerText = 'HOTOVO!';
+                                btn.innerText = 'ZNOVU';
+                                playSoundSignal('gong');
+                                document.getElementById('timerDisplay').classList.remove('timer-paused');
+                                return;
+                            }
+                            timeLeft = hiitBase;
+                        } else {
+                            timeLeft = hiitSprint;
+                        }
+                    }
+                    updateTimerUI();
+                }
+            }, 1000);
+        }
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval); isTimerRunning = false;
+        document.getElementById('timerBtnAction').innerText = 'START';
+        currentRound = 1; isWorkPhase = true;
+        if (timerMode === 'box') { timeLeft = 180; } else { timeLeft = hiitBase; }
+        updateTimerUI();
+        document.getElementById('timerDisplay').classList.remove('timer-paused');
+    }
+
+    function openTimerModal() { updateTimerUI(); document.getElementById('timerDisplay').classList.remove('timer-paused'); document.getElementById('timerModal').style.display = 'flex'; }
+
+    // Init
+    setGlobalDateToToday();
+
+</script>
+</body>
+</html>
