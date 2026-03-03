@@ -67,7 +67,7 @@
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
-        /* Header */
+        /* Hlavička */
         header { background-color: rgba(3,3,3,0.98); backdrop-filter: blur(10px); padding: 20px 20px 15px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 50; display: flex; flex-direction: column; gap: 5px;}
         #headerTitle { font-weight: 700; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 4px; color: var(--primary); text-align: center; width: 100%;}
         
@@ -87,14 +87,14 @@
         
         h2.section-title { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
 
-        /* Brutalist Buttons */
+        /* Tlačítka */
         .btn { display: block; width: 100%; padding: 18px; margin-bottom: 12px; background-color: var(--primary); color: var(--bg-color); border: none; font-size: 1rem; font-weight: 700; text-transform: uppercase; text-align: center; cursor: pointer; letter-spacing: 2px; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none;}
         .btn:active { transform: scale(0.98); background-color: #e0e0e0; }
         .btn-outline { background-color: transparent; border: 1px solid var(--border-color); color: var(--primary); }
         .btn-outline:active { background-color: #111; }
         .btn-small { padding: 10px 15px; font-size: 0.8rem; width: auto; display: inline-block; border-radius: 0; }
         
-        /* Cards */
+        /* Karty */
         .card { background-color: var(--card-bg); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); }
         
         /* Cviky & Série UI */
@@ -109,9 +109,11 @@
         .info-btn { color: var(--primary); background: transparent; border: 1px solid var(--border-color); width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: 0.2s; flex-shrink: 0; }
         .info-btn:active { background: var(--primary); color: #000; }
 
-        .ex-meta { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .ex-meta { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
         .meta-tag { background: #111; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 0.75rem; font-weight: 600; color: #aaa; letter-spacing: 1px; text-transform: uppercase;}
         .meta-tag i { color: var(--accent-red); font-style: normal; font-weight: 800;}
+        .iso-btn { background: var(--accent-blue); color: #000; border: none; padding: 4px 10px; font-size: 0.7rem; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s;}
+        .iso-btn:active { background: #fff; }
         
         .sets-container { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; width: 100%; }
         .set-box { width: 38px; height: 38px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; font-family: 'Oswald', sans-serif; color: var(--text-muted); cursor: pointer; transition: all 0.2s; background: transparent; user-select: none; -webkit-tap-highlight-color: transparent;}
@@ -326,10 +328,17 @@
                 <div style="width: 100%; height: 4px; background: #111; margin-bottom: 20px;">
                     <div id="waterProgressBar" style="height: 100%; width: 0%; background: var(--primary); transition: width 0.4s ease;"></div>
                 </div>
-                <div style="display: flex; gap: 10px;">
+                
+                <!-- Ovládání Vody -->
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
                     <button class="btn btn-outline" style="flex: 1; border-color: #333; color: white; margin: 0; padding: 10px 0; font-size: 0.8rem;" onclick="addWater(0.3)">+ 0.3 L</button>
                     <button class="btn btn-outline" style="flex: 1; border-color: #333; color: white; margin: 0; padding: 10px 0; font-size: 0.8rem;" onclick="addWater(0.5)">+ 0.5 L</button>
                     <button class="btn btn-outline" style="flex: 1; border-color: #333; color: white; margin: 0; padding: 10px 0; font-size: 0.8rem;" onclick="addWater(0.75)">+ 0.75 L</button>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-outline" style="flex: 1; border-color: transparent; color: #555; margin: 0; padding: 5px 0; font-size: 0.7rem;" onclick="addWater(-0.3)">- 0.3 L</button>
+                    <button class="btn btn-outline" style="flex: 1; border-color: transparent; color: #555; margin: 0; padding: 5px 0; font-size: 0.7rem;" onclick="addWater(-0.5)">- 0.5 L</button>
+                    <button class="btn btn-outline" style="flex: 1; border-color: transparent; color: #555; margin: 0; padding: 5px 0; font-size: 0.7rem;" onclick="addWater(-0.75)">- 0.75 L</button>
                 </div>
             </div>
 
@@ -406,10 +415,10 @@
 <div id="planDayModal" class="modal-overlay">
     <div class="modal-content" style="text-align: center;">
         <button class="modal-close-x" onclick="closePlanModal()">✕</button>
-        <h3 style="margin-bottom: 10px; color: white; letter-spacing: 2px;">PLÁN NA DEN</h3>
+        <h3 style="margin-bottom: 10px; color: white; letter-spacing: 2px;" id="planDayTitle">PLÁN NA DEN</h3>
         <p style="font-size: 0.8rem; color: #666; margin-bottom: 25px;">Zvol primární zaměření tréninku.</p>
         <button class="btn" style="background: var(--primary); color: #000;" onclick="setPlanForDay('gym')">FITKO (SÍLA + LAKTÁT)</button>
-        <button class="btn" style="background: transparent; border: 1px solid var(--primary); color: var(--primary);" onclick="setPlanForDay('box')">RANNÍ PRIMER + BOX</button>
+        <button class="btn" style="background: transparent; border: 1px solid var(--primary); color: var(--primary);" onclick="setPlanForDay('box')">RANNÍ PRIMER + VEČERNÍ BOX</button>
         <button class="btn" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);" onclick="setPlanForDay('cardio')">KARDIO (AEROBNÍ BÁZE)</button>
         <button class="btn" style="background: #111; color: #555; border: 1px solid #222;" onclick="setPlanForDay('rest')">VOLNO (REGE)</button>
         
@@ -439,8 +448,9 @@
         <input type="number" id="setAge" class="modal-input" placeholder="Např. 28">
         <button class="btn" style="background: var(--primary); color: black; margin-top: 10px;" onclick="saveSettings()">ULOŽIT</button>
         
-        <hr style="border-color: #222; margin: 30px 0;">
+        <hr style="border-color: #333; margin: 30px 0;">
         <h4 style="font-size: 0.8rem; color: #666; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">Zálohování dat</h4>
+        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 15px;">Aplikace na ploše iPhonu data nemaže. Pokud bys ale měnil telefon, udělej si zálohu.</p>
         <div style="display: flex; gap: 10px;">
             <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px; border-color: #333; color: #ccc;" onclick="exportData()">EXPORT</button>
             <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px; border-color: #333; color: #ccc;" onclick="document.getElementById('backupFileInput').click()">IMPORT</button>
@@ -515,6 +525,17 @@
     </div>
 </div>
 
+<!-- ISO TIMER MODAL (ASISTENT PRO STREČINK) -->
+<div id="isoTimerModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center; border-color: var(--accent-blue);">
+        <button class="modal-close-x" onclick="stopIsoTimer()">✕</button>
+        <h3 style="margin-bottom: 10px; color: var(--accent-blue); letter-spacing: 2px; text-transform: uppercase;">ASISTENT</h3>
+        <div id="isoTimerLabel" style="font-weight: 700; font-size: 1.2rem; color: #FF9800; letter-spacing: 2px; margin-top: 15px;">PŘÍPRAVA</div>
+        <div id="isoTimerDisplay" style="font-size: 6rem; font-weight: 700; font-family: 'Oswald'; margin: 10px 0; color: white;">10</div>
+        <button class="btn btn-outline" style="border-color: #333; color: #aaa; margin-top: 20px;" onclick="stopIsoTimer()">ZRUŠIT</button>
+    </div>
+</div>
+
 <!-- TIMER MODAL (PREMIUM UI) -->
 <div id="timerModal" class="modal-overlay">
     <div class="modal-content" id="timerContentBox" style="padding: 30px 20px; transition: border-color 0.3s; text-align: center;">
@@ -557,7 +578,7 @@
 
         <div id="timerStatusLabel" style="font-weight: 700; font-size: 1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 4px; color: #666;">PŘIPRAVEN</div>
         <div class="timer-display" id="timerDisplay" style="font-size: 6rem; font-weight: 700; margin: 10px 0; font-variant-numeric: tabular-nums; line-height: 1;">3:00</div>
-        <div id="timerRoundDisplay" style="font-size: 0.9rem; color: #888; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 2px;">Kolo: 1</div>
+        <div id="timerRoundDisplay" style="font-size: 0.9rem; color: #888; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 2px;">KOLO: 1</div>
 
         <div style="display: flex; gap: 15px;">
             <button class="btn" id="timerBtnAction" style="margin-bottom: 0;" onclick="startPauseTimer()">START</button>
@@ -570,7 +591,7 @@
     // --- STROJ ČASU A GLOBÁLNÍ PROMĚNNÉ ---
     window.audioUnlocked = window.audioUnlocked || false; 
 
-    // REÁLNÉ AUDIO SOUBORY Z GOOGLE SERVERS (Rychlé načítání)
+    // REÁLNÉ AUDIO SOUBORY Z GOOGLE SERVERS
     var gongSound = new Audio('https://actions.google.com/sounds/v1/alarms/boxing_bell.ogg');
     var beepSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
 
@@ -593,7 +614,6 @@
         }
     }
 
-    // PŘEHRÁVÁNÍ REÁLNÉHO ZVUKU
     function playSoundSignal(type) {
         if (type === 'gong') {
             gongSound.currentTime = 0;
@@ -622,7 +642,6 @@
         if (wakeLock !== null) { wakeLock.release(); wakeLock = null; }
     }
 
-    // ODEMČENÍ AUDIA PRO iOS (Musí proběhnout na kliknutí)
     function forceAudioUnlock() {
         if (!window.audioUnlocked) {
             gongSound.play().then(() => {
@@ -645,10 +664,9 @@
         }
     }
 
-    // Globální event listenery pro zavírání Modals a Dropdowns kliknutím mimo
     window.onclick = function(e) {
         if (e.target.classList.contains('modal-overlay')) {
-            if (e.target.id === 'timerModal') return; 
+            if (e.target.id === 'timerModal' || e.target.id === 'isoTimerModal') return; 
             e.target.style.display = 'none';
         }
         if (e.target.id !== 'foodSearchInput' && e.target.id !== 'recipeSearchInput') {
@@ -660,7 +678,11 @@
     };
 
     function getActiveDateStr() { 
-        return `${window.globalActiveDate.getFullYear()}-${String(window.globalActiveDate.getMonth()+1).padStart(2,'0')}-${String(window.globalActiveDate.getDate()).padStart(2,'0')}`; 
+        let d = window.globalActiveDate;
+        let y = d.getFullYear();
+        let m = String(d.getMonth() + 1).padStart(2, '0');
+        let day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
     }
     
     function removeDiacritics(str) { return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
@@ -692,7 +714,9 @@
     function setActiveDateFromCalendar(year, month, day) {
         window.globalActiveDate = new Date(year, month, day);
         updateGlobalDateUI();
-        setTimeout(refreshCurrentTab, 10);
+        
+        document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('active-view'));
+        setTimeout(refreshCurrentTab, 50); 
     }
 
     function refreshCurrentTab() {
@@ -718,8 +742,6 @@
         if (tabId === 'diet') renderMacroSummary();
         if (tabId === 'history') toggleStats('history');
         
-        var titles = { 'calendar': 'OPERAČNÍ PLÁN', 'workout': 'PROTOKOL', 'rege': 'ÚDRŽBA STROJE', 'history': 'DATA & DENÍK', 'diet': 'PALUBNÍ SYSTÉM' };
-        // document.getElementById('headerTitle').innerText = titles[tabId]; // Ponecháme tam "SOVIET COACH" natvrdo kvůli vizuálu
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
@@ -850,7 +872,9 @@
             if(plans[dateStr] === 'cardio') cell.classList.add('dot-cardio');
 
             cell.innerText = day;
-            cell.onclick = () => { 
+            cell.onclick = (e) => { 
+                e.stopPropagation();
+                // Fix: Set globalActiveDate correctly before updating UI.
                 setActiveDateFromCalendar(currentYear, currentMonth, day);
                 selectedDateForPlan = dateStr; 
                 document.getElementById('planDayTitle').innerText = `${day}. ${currentMonth+1}.`; 
@@ -885,7 +909,7 @@
                     { name: "Čelní dřepy", sets: 3, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 7", ytSearch: "Squat University front squat perfect form", benefit: "Buduje absolutní sílu nohou pro silný postoj." },
                     { name: "Shyby", sets: 3, desc: "S gumou pokud nedáš.", detail: "5-8 op.", intensity: "RPE 7.5", ytSearch: "Pull up perfect form Squat University", benefit: "Sval zádový stahuje ruku bleskově zpět do krytu." },
                     { name: "Explozivní kliky", sets: 3, desc: "Odraz z podlahy.", detail: "5 op.", intensity: "Výbušně", ytSearch: "Explosive plyometric pushups boxing", benefit: "Aktivuje rychlá svalová vlákna. Bleskový úder." },
-                    { name: "Horse Stance", sets: 3, desc: "Hluboký podřep na místě.", detail: "30s", intensity: "Výdrž", ytSearch: "Horse stance exercise legs", benefit: "Izometrie pro neúnavný Pendulum step." },
+                    { name: "Horse Stance", sets: 3, desc: "Hluboký podřep na místě.", detail: "30s", intensity: "Výdrž", isIso: 30, ytSearch: "Horse stance exercise legs", benefit: "Izometrie pro neúnavný Pendulum step." },
                     { name: "Airbike Laktát", sets: 4, desc: "30s práce / 15s volno.", detail: "Interval", intensity: "Laktát", ytSearch: "Airbike intervals workout", benefit: "Laktátová tolerance pro kondici v ringu." }
                 ]
             },
@@ -906,7 +930,7 @@
                     { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů před dnem bez hromadění únavy." },
                     { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu, kroužení pažemi.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu a připravuje klouby." },
                     { name: "Shadowboxing Flow", sets: 3, desc: "Žádná síla. Jen dýchání a technika na 30%.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Zlepšuje svalovou koordinaci a spojení mozku se svalem bez vyčerpání." },
-                    { name: "Lehká Izometrie Core", sets: 2, desc: "Plank nebo Bird-dog.", detail: "30s", intensity: "Aktivace", ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém, aby Tě večer nebolela záda." },
+                    { name: "Lehká Izometrie Core", sets: 2, desc: "Plank nebo Bird-dog.", detail: "30s", intensity: "Aktivace", isIso: 30, ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém, aby Tě večer nebolela záda." },
                     { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
                 ]
             },
@@ -927,7 +951,7 @@
                     { name: "Čelní dřepy", sets: 4, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 8", ytSearch: "Squat University front squat perfect form", benefit: "Absolutní síla nohou." },
                     { name: "Shyby se zátěží", sets: 4, desc: "Brzda pro tvé údery.", detail: "6-8 op.", intensity: "RPE 8", ytSearch: "Pull up perfect form Squat University", benefit: "Návrat ruky do krytu." },
                     { name: "Explozivní kliky", sets: 4, desc: "S tlesknutím.", detail: "6 op.", intensity: "Výbušně", ytSearch: "Explosive plyometric pushups boxing", benefit: "Reaktivní síla." },
-                    { name: "Horse Stance", sets: 3, desc: "Drž hluboký podřep.", detail: "45s", intensity: "Pálení", ytSearch: "Horse stance exercise legs", benefit: "Izometrická výdrž." },
+                    { name: "Horse Stance", sets: 3, desc: "Drž hluboký podřep.", detail: "45s", intensity: "Pálení", isIso: 45, ytSearch: "Horse stance exercise legs", benefit: "Izometrická výdrž." },
                     { name: "Airbike Laktát", sets: 6, desc: "40s práce / 10s pauza.", detail: "Interval", intensity: "Tvrdě", ytSearch: "Airbike intervals workout", benefit: "Laktátová tolerance." }
                 ]
             },
@@ -948,7 +972,7 @@
                     { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů před dnem bez hromadění únavy." },
                     { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu." },
                     { name: "Shadowboxing Flow", sets: 4, desc: "Žádná síla. Dýchání, volnost.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Zlepšuje svalovou koordinaci." },
-                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "40s", intensity: "Aktivace", ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
+                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "40s", intensity: "Aktivace", isIso: 40, ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
                     { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
                 ]
             },
@@ -969,7 +993,7 @@
                     { name: "Čelní dřepy", sets: 5, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 8.5", ytSearch: "Squat University front squat perfect form", benefit: "Absolutní výkon noh." },
                     { name: "Shyby se zátěží", sets: 5, desc: "Přidej váhu na pásek.", detail: "6-8 op.", intensity: "RPE 8.5", ytSearch: "Pull up perfect form Squat University", benefit: "Návrat úderu." },
                     { name: "Explozivní kliky", sets: 5, desc: "Odraz z podlahy (Plyo).", detail: "8 op.", intensity: "100% MAX", ytSearch: "Explosive plyometric pushups boxing", benefit: "Reaktivní výbušnost." },
-                    { name: "Izometrie: Horse Stance", sets: 4, desc: "Drž hluboký podřep.", detail: "60s", intensity: "Max Výdrž", ytSearch: "Horse stance exercise legs", benefit: "Nohy nesmí ztěžknout." },
+                    { name: "Izometrie: Horse Stance", sets: 4, desc: "Drž hluboký podřep.", detail: "60s", intensity: "Max Výdrž", isIso: 60, ytSearch: "Horse stance exercise legs", benefit: "Nohy nesmí ztěžknout." },
                     { name: "Airbike Laktát", sets: 8, desc: "40s volně / 10s MAX sprint.", detail: "Interval", intensity: "Peklo", ytSearch: "Airbike intervals workout", benefit: "Neomezená nádrž." }
                 ]
             },
@@ -990,7 +1014,7 @@
                     { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "15 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů." },
                     { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu." },
                     { name: "Shadowboxing Flow", sets: 5, desc: "Žádná síla. Jen dýchání a úhyby.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Neuro-svalová příprava na večer." },
-                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "60s", intensity: "Aktivace", ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
+                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "60s", intensity: "Aktivace", isIso: 60, ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
                     { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
                 ]
             },
@@ -1006,18 +1030,18 @@
         rege: {
             title: "Komplexní Údržba: Mobilita & Pre-hab",
             list: [
-                { name: "1. Krk: Půlkruhy a tah", sets: 1, desc: "Uvolnění trapézů po krytu.", detail: "2 min/str.", intensity: "Uvolnění", ytSearch: "Neck stretch for boxers", benefit: "Uvolňuje zatuhlost z neustálého balení brady do krytu." },
-                { name: "2. Hrudní páteř: Válec", sets: 1, desc: "Lehni na roller.", detail: "2 min", intensity: "Dýchat", ytSearch: "Thoracic spine foam rolling", benefit: "Odstraňuje 'kulatá boxerská záda' a otevírá hrudník." },
-                { name: "3. Hrudník: Pec Stretch", sets: 1, desc: "Ruka o zeď, vytočit se.", detail: "60s/str.", intensity: "Tah", ytSearch: "Pec stretch wall", benefit: "Prsa jsou z úderů permanentně zkrácená, tohle brání poranění ramene." },
-                { name: "4. Couch Stretch", sets: 1, desc: "Koleno vzadu u zdi.", detail: "60s/str.", intensity: "Silný tah", ytSearch: "Couch stretch perfect form", benefit: "Nuluje bolesti spodních zad. Uvolňuje sval (Psoas), zkrácený z boxerského postoje." },
-                { name: "5. 90/90 Kyčle", sets: 1, desc: "Rotace kyčlí na zemi.", detail: "60s/str.", intensity: "Tah z hýždí", ytSearch: "90/90 stretch hip mobility Squat University", benefit: "Odemknutí kyčlí. Bez volných kyčlí nemůžeš rotovat do úderu plynule." },
+                { name: "1. Krk: Půlkruhy a tah", sets: 1, desc: "Uvolnění trapézů po krytu.", detail: "2 min/str.", intensity: "Uvolnění", isIso: 120, ytSearch: "Neck stretch for boxers", benefit: "Uvolňuje zatuhlost z neustálého balení brady do krytu." },
+                { name: "2. Hrudní páteř: Válec", sets: 1, desc: "Lehni na roller.", detail: "2 min", intensity: "Dýchat", isIso: 120, ytSearch: "Thoracic spine foam rolling", benefit: "Odstraňuje 'kulatá boxerská záda' a otevírá hrudník." },
+                { name: "3. Hrudník: Pec Stretch", sets: 1, desc: "Ruka o zeď, vytočit se.", detail: "60s/str.", intensity: "Tah", isIso: 60, ytSearch: "Pec stretch wall", benefit: "Prsa jsou z úderů permanentně zkrácená, tohle brání poranění ramene." },
+                { name: "4. Couch Stretch", sets: 1, desc: "Koleno vzadu u zdi.", detail: "60s/str.", intensity: "Silný tah", isIso: 60, ytSearch: "Couch stretch perfect form", benefit: "Nuluje bolesti spodních zad. Uvolňuje sval (Psoas), zkrácený z boxerského postoje." },
+                { name: "5. 90/90 Kyčle", sets: 1, desc: "Rotace kyčlí na zemi.", detail: "60s/str.", intensity: "Tah z hýždí", isIso: 60, ytSearch: "90/90 stretch hip mobility Squat University", benefit: "Odemknutí kyčlí. Bez volných kyčlí nemůžeš rotovat do úderu plynule." },
                 { name: "6. Knee to Wall", sets: 1, desc: "Kotníky, pata na zemi.", detail: "15 op/noha", intensity: "Plynule", ytSearch: "Knee to wall ankle mobility", benefit: "Nutné pro zdravý pohyb a odraz na švihadle a při Pendulum stepu." },
                 { name: "7. Band Pull-Aparts", sets: 3, desc: "S gumou. Zadní ramena.", detail: "15 op.", intensity: "Pálení", ytSearch: "Band pull aparts form", benefit: "PRE-HAB: Kompenzace. Posiluje zadní delty, které trpí kvůli držení rukou vpředu." },
                 { name: "8. Y-T-W Raises", sets: 2, desc: "Leh na břiše. Zvedání paží.", detail: "10 op.", intensity: "Kontrola", ytSearch: "YTW raises exercise", benefit: "PRE-HAB: Fixuje spodní a střední trapézy (zabraňuje odstávajícím lopatkám)." },
-                { name: "9. Izometrie Krku", sets: 4, desc: "Tlak hlavy do dlaní.", detail: "10s/str.", intensity: "Pevný střed", ytSearch: "Isometric neck exercises boxer", benefit: "PRE-HAB: Hlavní chránič proti knockoutu (KO)." },
+                { name: "9. Izometrie Krku", sets: 4, desc: "Tlak hlavy do dlaní.", detail: "10s/str.", intensity: "Pevný střed", isIso: 10, ytSearch: "Isometric neck exercises boxer", benefit: "PRE-HAB: Hlavní chránič proti knockoutu (KO)." },
                 { name: "10. Clamshells s gumou", sets: 2, desc: "Leh na boku, otevírat kolena.", detail: "15 op/str.", intensity: "Pálení boků", ytSearch: "Clamshells exercise glutes", benefit: "PRE-HAB: Aktivuje Gluteus Medius. Stabilizuje celou nohu a koleno při úderu." },
                 { name: "11. Tibialis Raises", sets: 3, desc: "Zvedání špiček u zdi.", detail: "20 op.", intensity: "Pálení holení", ytSearch: "Tibialis wall raises knees over toes", benefit: "PRE-HAB: Posiluje holeň. Absolutní prevence zánětu okostice (Shin Splints) ze švihadla." },
-                { name: "12. Zápěstí flexe", sets: 1, desc: "V kleku protahovat zápěstí.", detail: "60s", intensity: "Tah", ytSearch: "Wrist stretch for boxing", benefit: "Udržuje zápěstí ohebné a brání zatuhnutí po tvrdém bandážování." }
+                { name: "12. Zápěstí flexe", sets: 1, desc: "V kleku protahovat zápěstí.", detail: "60s", intensity: "Tah", isIso: 60, ytSearch: "Wrist stretch for boxing", benefit: "Udržuje zápěstí ohebné a brání zatuhnutí po tvrdém bandážování." }
             ]
         }
     };
@@ -1083,6 +1107,7 @@
             item.className = 'exercise-item';
             
             var ytLink = ex.ytSearch ? `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex.ytSearch)}" target="_blank" class="yt-link-btn" onclick="event.stopPropagation();">🔍 Najít na YouTube</a>` : '';
+            var isoBtnHtml = ex.isIso ? `<button class="iso-btn" onclick="event.stopPropagation(); startIsoTimer(${ex.isIso})">▶ ${ex.isIso}s ASISTENT</button>` : '';
             
             var safeTitle = ex.name.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
             var safeBenefit = ex.benefit ? ex.benefit.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : '';
@@ -1103,6 +1128,7 @@
                         <div class="ex-meta">
                             <span class="meta-tag" style="color: ${isRege?'var(--accent-blue)':'var(--primary)'}"><i>${isRege?'🧘':'⚡'}</i> ${ex.intensity}</span> 
                             <span class="meta-tag"><i>⏱️</i> ${ex.detail}</span>
+                            ${isoBtnHtml}
                         </div>
                         ${setsHTML}
                         ${ytLink}
@@ -1169,11 +1195,78 @@
         localStorage.setItem('sovietCoachHistoryV2', JSON.stringify(history));
     }
 
+    // --- ISO TIMER ---
+    var isoInt = null;
+    var isIsoActive = false;
+
+    function startIsoTimer(durationSeconds) {
+        forceAudioUnlock();
+        document.getElementById('isoTimerModal').style.display = 'flex';
+        var phase = 'prep'; 
+        var t = 10;
+        
+        document.getElementById('isoTimerLabel').innerText = 'PŘÍPRAVA';
+        document.getElementById('isoTimerLabel').style.color = '#FF9800';
+        document.getElementById('isoTimerDisplay').innerText = t;
+        speakVoiceCoach("Připrav se do pozice.");
+        
+        isIsoActive = true;
+        if(isoInt) clearInterval(isoInt);
+        
+        isoInt = setInterval(() => {
+            t--;
+            document.getElementById('isoTimerDisplay').innerText = t;
+            
+            if(phase === 'prep') {
+                if(t === 3) speakVoiceCoach("Tři");
+                if(t === 2) speakVoiceCoach("Dva");
+                if(t === 1) speakVoiceCoach("Jedna");
+                if(t <= 0) {
+                    phase = 'work';
+                    t = durationSeconds;
+                    document.getElementById('isoTimerLabel').innerText = 'DRŽ POZICI';
+                    document.getElementById('isoTimerLabel').style.color = 'var(--accent-blue)';
+                    playSoundSignal('singleBeep');
+                    speakVoiceCoach("Začni.");
+                    document.getElementById('isoTimerDisplay').innerText = t;
+                }
+            } else if (phase === 'work') {
+                if (t === Math.floor(durationSeconds / 2) && durationSeconds >= 40) {
+                    speakVoiceCoach("Polovina času.");
+                }
+                if(t === 10) speakVoiceCoach("Deset vteřin do konce.");
+                if(t === 3) speakVoiceCoach("Tři");
+                if(t === 2) speakVoiceCoach("Dva");
+                if(t === 1) speakVoiceCoach("Jedna");
+                
+                if(t <= 0) {
+                    clearInterval(isoInt);
+                    isIsoActive = false;
+                    playSoundSignal('doubleBeep');
+                    speakVoiceCoach("Uvolni pozici. Skvělá práce.");
+                    document.getElementById('isoTimerLabel').innerText = 'HOTOVO';
+                    document.getElementById('isoTimerLabel').style.color = 'var(--accent-green)';
+                    setTimeout(() => { document.getElementById('isoTimerModal').style.display = 'none'; }, 2000);
+                }
+            }
+        }, 1000);
+    }
+
+    function stopIsoTimer() {
+        if(isoInt) clearInterval(isoInt);
+        isIsoActive = false;
+        document.getElementById('isoTimerModal').style.display = 'none';
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
     // --- JÍDLO A VODA ---
     function addWater(amount) {
         var log = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
         var dStr = getActiveDateStr();
-        log[dStr] = (log[dStr] || 0) + amount;
+        var current = log[dStr] || 0;
+        current += amount;
+        if(current < 0) current = 0; 
+        log[dStr] = current;
         localStorage.setItem('sovietCoachWaterLog', JSON.stringify(log));
         renderMacroSummary();
         showAutosave();
@@ -1181,33 +1274,33 @@
 
     // Mega DB vč. Restaurací
     var foodDB = [
-        { name: "Hovězí vývar s masem a nudlemi", kcal: 220, p: 15, c: 20, f: 8, unit: 'porce', baseAmount: 1 },
-        { name: "Svíčková na smetaně s knedlíkem", kcal: 800, p: 35, c: 90, f: 30, unit: 'porce', baseAmount: 1 },
-        { name: "Kuřecí řízek smažený", kcal: 250, p: 16, c: 15, f: 13, unit: 'g' },
-        { name: "Vepřový řízek smažený", kcal: 280, p: 15, c: 15, f: 17, unit: 'g' },
-        { name: "Šunkofleky (Zapečené těstoviny)", kcal: 190, p: 10, c: 20, f: 8, unit: 'g' },
-        { name: "Pad Thai s kuřecím masem", kcal: 180, p: 8, c: 25, f: 6, unit: 'g' },
-        { name: "Smažené nudle s kuřecím masem", kcal: 160, p: 7, c: 20, f: 5, unit: 'g' },
-        { name: "Bun Bo Nam Bo", kcal: 550, p: 25, c: 65, f: 20, unit: 'porce', baseAmount: 1 },
-        { name: "Boloňské špagety", kcal: 150, p: 7, c: 22, f: 4, unit: 'g' },
-        { name: "Kuře na paprice s těstovinami", kcal: 650, p: 40, c: 60, f: 25, unit: 'porce', baseAmount: 1 },
+        { name: "Hovězí vývar s masem a nudlemi (porce)", kcal: 220, p: 15, c: 20, f: 8, unit: 'porce', baseAmount: 1 },
+        { name: "Svíčková na smetaně s knedlíkem (porce)", kcal: 800, p: 35, c: 90, f: 30, unit: 'porce', baseAmount: 1 },
+        { name: "Kuřecí řízek smažený s bramborem (porce)", kcal: 750, p: 40, c: 60, f: 35, unit: 'porce', baseAmount: 1 },
+        { name: "Vepřový řízek smažený s bramborem (porce)", kcal: 850, p: 35, c: 60, f: 45, unit: 'porce', baseAmount: 1 },
+        { name: "Šunkofleky - Zapečené těstoviny (porce)", kcal: 600, p: 25, c: 65, f: 25, unit: 'porce', baseAmount: 1 },
+        { name: "Pad Thai s kuřecím masem (porce)", kcal: 700, p: 25, c: 85, f: 22, unit: 'porce', baseAmount: 1 },
+        { name: "Smažené nudle s kuřecím masem (porce)", kcal: 650, p: 25, c: 80, f: 20, unit: 'porce', baseAmount: 1 },
+        { name: "Bun Bo Nam Bo (porce)", kcal: 600, p: 30, c: 80, f: 20, unit: 'porce', baseAmount: 1 },
+        { name: "Boloňské špagety (porce)", kcal: 700, p: 25, c: 90, f: 20, unit: 'porce', baseAmount: 1 },
+        { name: "Kuře na paprice s těstovinami (porce)", kcal: 650, p: 40, c: 60, f: 25, unit: 'porce', baseAmount: 1 },
         { name: "Pizza Margherita (celá)", kcal: 1100, p: 45, c: 140, f: 35, unit: 'porce', baseAmount: 1 },
-        { name: "Pizza Šunková / Capricciosa", kcal: 1250, p: 55, c: 145, f: 45, unit: 'porce', baseAmount: 1 },
-        { name: "Smažený sýr s tatarkou", kcal: 700, p: 25, c: 25, f: 55, unit: 'porce', baseAmount: 1 },
-        { name: "Hovězí burger (celý)", kcal: 800, p: 40, c: 45, f: 45, unit: 'porce', baseAmount: 1 },
-        { name: "Smažené hranolky", kcal: 311, p: 3, c: 41, f: 15, unit: 'g' },
-        { name: "Gyros / Kebab v pitě", kcal: 750, p: 35, c: 60, f: 35, unit: 'porce', baseAmount: 1 },
-        { name: "Kuřecí tortilla (zelenina, dresink)", kcal: 550, p: 30, c: 50, f: 20, unit: 'porce', baseAmount: 1 },
-        { name: "Hovězí guláš s knedlíkem", kcal: 850, p: 35, c: 85, f: 35, unit: 'porce', baseAmount: 1 },
-        { name: "Vepřo knedlo zelo", kcal: 900, p: 40, c: 90, f: 40, unit: 'porce', baseAmount: 1 },
-        { name: "Pečené kuřecí stehno (s kůží)", kcal: 220, p: 18, c: 0, f: 15, unit: 'g' },
-        { name: "Kulajda", kcal: 250, p: 8, c: 20, f: 15, unit: 'porce', baseAmount: 1 },
-        { name: "Boršč", kcal: 300, p: 15, c: 30, f: 12, unit: 'porce', baseAmount: 1 },
-        { name: "Caesar salát s kuřecím masem", kcal: 450, p: 35, c: 15, f: 28, unit: 'porce', baseAmount: 1 },
+        { name: "Pizza Šunková / Capricciosa (celá)", kcal: 1250, p: 55, c: 145, f: 45, unit: 'porce', baseAmount: 1 },
+        { name: "Smažený sýr s hranolky a tatarkou (porce)", kcal: 1200, p: 30, c: 110, f: 70, unit: 'porce', baseAmount: 1 },
+        { name: "Hovězí burger s hranolky (porce)", kcal: 1100, p: 45, c: 90, f: 60, unit: 'porce', baseAmount: 1 },
+        { name: "Gyros / Kebab v pitě (fast-food porce)", kcal: 800, p: 35, c: 70, f: 40, unit: 'porce', baseAmount: 1 },
+        { name: "Kuřecí tortilla / Wrap (fast-food porce)", kcal: 550, p: 30, c: 50, f: 20, unit: 'porce', baseAmount: 1 },
+        { name: "Hovězí guláš s knedlíkem (porce)", kcal: 900, p: 35, c: 90, f: 40, unit: 'porce', baseAmount: 1 },
+        { name: "Vepřo knedlo zelo (porce)", kcal: 950, p: 40, c: 90, f: 45, unit: 'porce', baseAmount: 1 },
+        { name: "Pečené kuřecí stehno s rýží (porce)", kcal: 600, p: 35, c: 50, f: 25, unit: 'porce', baseAmount: 1 },
+        { name: "Kulajda (porce)", kcal: 250, p: 8, c: 20, f: 15, unit: 'porce', baseAmount: 1 },
+        { name: "Boršč (porce)", kcal: 300, p: 15, c: 30, f: 12, unit: 'porce', baseAmount: 1 },
+        { name: "Caesar salát s kuřecím masem (porce)", kcal: 450, p: 35, c: 15, f: 28, unit: 'porce', baseAmount: 1 },
         { name: "Chlebíček šunkový", kcal: 200, p: 8, c: 20, f: 9, unit: 'ks', baseAmount: 1 },
-        { name: "Míchaná vajíčka na cibulce", kcal: 350, p: 20, c: 5, f: 25, unit: 'porce', baseAmount: 1 },
-        { name: "Tom Yum polévka s krevetami", kcal: 180, p: 15, c: 10, f: 8, unit: 'porce', baseAmount: 1 },
+        { name: "Míchaná vajíčka na cibulce s chlebem (porce)", kcal: 450, p: 25, c: 30, f: 25, unit: 'porce', baseAmount: 1 },
+        { name: "Tom Yum polévka s krevetami (porce)", kcal: 180, p: 15, c: 10, f: 8, unit: 'porce', baseAmount: 1 },
         { name: "Sushi (Maki losos 6ks)", kcal: 180, p: 8, c: 30, f: 2, unit: 'porce', baseAmount: 1 },
+        { name: "Ovesná kaše (hotová porce)", kcal: 350, p: 15, c: 50, f: 8, unit: 'porce', baseAmount: 1 },
         { name: "Kečup", kcal: 110, p: 1, c: 26, f: 0.1, unit: 'g' },
         { name: "Tatarka", kcal: 450, p: 1, c: 5, f: 48, unit: 'g' },
         { name: "Hovězí vývar (čistý)", kcal: 15, p: 2, c: 1, f: 0.5, unit: 'ml' },
@@ -1269,7 +1362,6 @@
         { name: "Pšeničná tortilla (wrap)", kcal: 310, p: 8, c: 53, f: 7, unit: 'g' },
         { name: "Rýžové chlebíčky", kcal: 387, p: 8, c: 81, f: 3, unit: 'g' },
         { name: "Kukuřičné lupínky", kcal: 378, p: 8, c: 84, f: 1, unit: 'g' },
-        { name: "Ovesná kaše (hotová porce)", kcal: 350, p: 15, c: 50, f: 8, unit: 'porce', baseAmount: 1 },
         { name: "Vejce celá (M/L)", kcal: 155, p: 13, c: 1, f: 11, unit: 'ks', baseAmount: 55 },
         { name: "Vaječný bílek (tekutý)", kcal: 52, p: 11, c: 1, f: 0.2, unit: 'ml' },
         { name: "Mléko polotučné 1.5%", kcal: 47, p: 3.4, c: 4.8, f: 1.5, unit: 'ml' },
@@ -1397,7 +1489,7 @@
                     selectedFoodFromDB = food;
                     dropdown.style.display = 'none';
                     document.getElementById('foodUnitLabel').innerText = food.unit;
-                    document.getElementById('foodWeightInput').value = food.isRecipe ? 1 : '';
+                    document.getElementById('foodWeightInput').value = (food.isRecipe || food.unit === 'porce' || food.unit === 'ks') ? 1 : '';
                     document.getElementById('foodWeightInput').focus();
                 };
                 dropdown.appendChild(li);
@@ -1413,7 +1505,7 @@
         var weightInGrams = inputVal;
         if (selectedFoodFromDB.unit === 'ks' || selectedFoodFromDB.unit === 'porce') weightInGrams = inputVal * (selectedFoodFromDB.baseAmount || 100);
 
-        var multiplier = selectedFoodFromDB.isRecipe ? inputVal : (weightInGrams / 100);
+        var multiplier = (selectedFoodFromDB.isRecipe || selectedFoodFromDB.unit === 'porce' || selectedFoodFromDB.unit === 'ks') ? inputVal : (weightInGrams / 100);
         
         var entry = {
             id: Date.now(), date: getActiveDateStr(), name: selectedFoodFromDB.name, 
@@ -1492,9 +1584,10 @@
         if (!inputVal || inputVal <= 0) return;
 
         var weightInGrams = inputVal;
-        if (recipeSelectedFood.unit === 'ks') weightInGrams = inputVal * recipeSelectedFood.baseAmount;
+        if (recipeSelectedFood.unit === 'ks' || recipeSelectedFood.unit === 'porce') weightInGrams = inputVal * (recipeSelectedFood.baseAmount || 100);
 
-        var multiplier = weightInGrams / 100;
+        var multiplier = (recipeSelectedFood.unit === 'ks' || recipeSelectedFood.unit === 'porce') ? inputVal : (weightInGrams / 100);
+        
         tempRecipeIngredients.push({
             name: recipeSelectedFood.name, amount: inputVal, unit: recipeSelectedFood.unit,
             kcal: Math.round(recipeSelectedFood.kcal * multiplier),
@@ -1522,7 +1615,7 @@
 
     function saveCustomRecipe() {
         var name = document.getElementById('recipeNameInput').value.trim();
-        if(!name || tempRecipeIngredients.length === 0) { alert("Zadej název a přidej suroviny."); return; }
+        if(!name || tempRecipeIngredients.length === 0) { document.getElementById('modalTitle').innerText="Chyba"; document.getElementById('modalText').innerText="Zadej název a přidej suroviny."; document.getElementById('customModal').style.display='flex'; return; }
 
         var totKcal = 0, totP = 0, totC = 0, totF = 0;
         tempRecipeIngredients.forEach(ing => { totKcal += ing.kcal; totP += ing.p; totC += ing.c; totF += ing.f; });
@@ -1611,9 +1704,9 @@
         document.getElementById('macro-c-val').innerText = (sumC || '0') + 'g';
         document.getElementById('macro-f-val').innerText = (sumF || '0') + 'g';
 
-        var weight = parseFloat(localStorage.getItem('userWeight')) || 84.4;
-        var height = parseInt(localStorage.getItem('userHeight')) || 0;
-        var age = parseInt(localStorage.getItem('userAge')) || 0;
+        var weight = parseFloat(localStorage.getItem('userWeight')) || 80.0;
+        var height = parseInt(localStorage.getItem('userHeight')) || 180;
+        var age = parseInt(localStorage.getItem('userAge')) || 30;
         
         var profileComplete = false;
         var bmr = 0;
