@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SOVIET COACH">
     
     <!-- AUTORSKÁ PRÁVA A LICENCE -->
     <meta name="author" content="Ondřej Lacina">
@@ -12,187 +13,210 @@
     <!--
         ====================================================================
         AUTOR A VLASTNÍK PRÁV: Ondřej Lacina
-        
         Všechna práva vyhrazena. Tento software, jeho zdrojový kód, 
         uživatelské rozhraní, design a tréninková/výživová metodika jsou 
         výhradním duševním vlastnictvím autora (Ondřej Lacina).
-        
-        Jakékoliv kopírování, úpravy, distribuce nebo neoprávněné užívání 
-        tohoto kódu bez výslovného souhlasu autora je přísně zakázáno.
         ====================================================================
     -->
 
     <title>SOVIET COACH ELITE</title>
     <style>
-        /* --- AESTHETIC & RESPONSIVE DESIGN --- */
+        /* --- BOXRAW BRUTALIST AESTHETIC --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Oswald:wght@500;700&display=swap');
+
         :root {
-            --bg-color: #000000;
-            --card-bg: #111111;
+            --bg-color: #030303;
+            --card-bg: #0a0a0a;
             --primary: #ffffff;
-            --accent-red: #d32f2f;
+            --accent-red: #E31837; 
             --text-main: #ffffff;
-            --text-muted: #888888;
-            --border-color: #2a2a2a;
-            --desktop-bg: #050505;
+            --text-muted: #777777;
+            --border-color: #1f1f1f;
+            --desktop-bg: #000000;
             --accent-blue: #2196F3; 
             --accent-green: #4CAF50;
             --accent-gold: #FFC107;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background-color: var(--desktop-bg); color: var(--text-main); display: flex; justify-content: center; }
-        .app-container { width: 100%; max-width: 500px; background-color: var(--bg-color); min-height: 100vh; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.9); padding-bottom: 90px; overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
         
-        /* Odstranění nativních šipek u číselných políček pro čistý vzhled */
+        body { 
+            background-color: var(--desktop-bg); 
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: center; 
+            font-family: 'Inter', sans-serif; 
+        }
+        
+        .app-container { 
+            width: 100%; 
+            max-width: 500px; 
+            background-color: var(--bg-color); 
+            min-height: 100vh; 
+            position: relative; 
+            box-shadow: 0 0 40px rgba(0,0,0,1); 
+            padding-bottom: 90px; 
+            overflow-x: hidden; 
+        }
+        
+        h1, h2, h3, h4, .btn, .timer-display, .cal-day-name, .nav-item {
+            font-family: 'Oswald', sans-serif;
+        }
+
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
         /* Header */
-        header { background-color: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;}
-        #headerTitle { font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); }
-        .date-navigator { display: flex; align-items: center; gap: 10px; margin-top: 5px; width: 100%; justify-content: space-between;}
-        #globalDateDisplay { font-size: 0.9rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; }
-        .btn-today { background: #333; color: white; border: none; padding: 4px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none;}
-        .btn-today:active { transform: scale(0.95); }
+        header { background-color: rgba(3,3,3,0.98); backdrop-filter: blur(10px); padding: 20px 20px 15px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 50; display: flex; flex-direction: column; gap: 5px;}
+        #headerTitle { font-weight: 700; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 4px; color: var(--primary); text-align: center; width: 100%;}
+        
+        /* AUTHOR DISCLAIMER */
+        .author-disclaimer { font-size: 0.55rem; color: var(--accent-red); text-align: center; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; padding-bottom: 10px; opacity: 0.8;}
+        
+        .date-navigator { display: flex; align-items: center; width: 100%; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 10px;}
+        #globalDateDisplay { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .btn-today { background: transparent; color: var(--primary); border: 1px solid var(--border-color); padding: 6px 12px; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none; letter-spacing: 1px;}
+        .btn-today:active { background: var(--primary); color: #000; }
 
         .content-padding { padding: 20px; }
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        h2.section-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 15px; font-weight: 800; border-left: 3px solid var(--primary); padding-left: 8px;}
+        h2.section-title { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
 
-        .btn { display: block; width: 100%; padding: 16px; margin-bottom: 12px; background-color: var(--primary); color: var(--bg-color); border: none; font-size: 0.95rem; font-weight: 900; text-transform: uppercase; text-align: center; cursor: pointer; border-radius: 6px; letter-spacing: 1px; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none;}
-        .btn:active { transform: scale(0.98); opacity: 0.9; }
-        .btn-outline { background-color: transparent; border: 2px solid var(--border-color); color: var(--text-main); }
-        .btn-small { padding: 10px 15px; font-size: 0.8rem; width: auto; display: inline-block; }
+        /* Brutalist Buttons */
+        .btn { display: block; width: 100%; padding: 18px; margin-bottom: 12px; background-color: var(--primary); color: var(--bg-color); border: none; font-size: 1rem; font-weight: 700; text-transform: uppercase; text-align: center; cursor: pointer; letter-spacing: 2px; transition: 0.2s; appearance: none; -webkit-appearance: none; user-select: none; -webkit-user-select: none;}
+        .btn:active { transform: scale(0.98); background-color: #e0e0e0; }
+        .btn-outline { background-color: transparent; border: 1px solid var(--border-color); color: var(--primary); }
+        .btn-outline:active { background-color: #111; }
+        .btn-small { padding: 10px 15px; font-size: 0.8rem; width: auto; display: inline-block; border-radius: 0; }
         
-        .card { background-color: var(--card-bg); padding: 18px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; }
+        /* Cards */
+        .card { background-color: var(--card-bg); padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-color); }
         
         /* Cviky & Série UI */
-        .exercise-item { display: flex; flex-direction: column; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); transition: opacity 0.3s; }
+        .exercise-item { display: flex; flex-direction: column; margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid var(--border-color); transition: opacity 0.3s; }
         .exercise-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .ex-top-row { display: flex; align-items: flex-start; cursor: pointer; width: 100%; }
-        .checkbox-custom { min-width: 24px; height: 24px; border: 2px solid var(--text-muted); margin-right: 15px; display: flex; align-items: center; justify-content: center; border-radius: 4px; }
-        .exercise-item.done .checkbox-custom { background-color: var(--primary); border-color: var(--primary); }
-        .exercise-item.done .checkbox-custom::after { content: '✓'; color: var(--bg-color); font-weight: bold; font-size: 14px; }
-        .exercise-item.done .ex-text h3 { text-decoration: line-through; color: var(--text-muted); }
+        
         .ex-text { flex: 1; }
-        .ex-text h3 { font-size: 1.05rem; margin-bottom: 4px; font-weight: 800; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between;}
-        .ex-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;}
+        .ex-text h3 { font-family: 'Oswald', sans-serif; font-size: 1.2rem; margin-bottom: 6px; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase;}
+        .ex-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;}
         
-        .info-btn { color: var(--bg-color); background: var(--text-muted); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; cursor: pointer; font-weight: bold; font-family: serif; font-style: italic; transition: 0.2s; flex-shrink: 0; }
-        .info-btn:active { background: var(--primary); }
+        .info-btn { color: var(--primary); background: transparent; border: 1px solid var(--border-color); width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: 0.2s; flex-shrink: 0; }
+        .info-btn:active { background: var(--primary); color: #000; }
 
-        .ex-meta { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-        .meta-tag { background: #1a1a1a; border: 1px solid var(--border-color); padding: 4px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; color: #ccc; }
-        .meta-tag i { color: var(--accent-red); font-style: normal; }
+        .ex-meta { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .meta-tag { background: #111; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 0.75rem; font-weight: 600; color: #aaa; letter-spacing: 1px; text-transform: uppercase;}
+        .meta-tag i { color: var(--accent-red); font-style: normal; font-weight: 800;}
         
-        /* Odklikávání Sérií */
-        .sets-container { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; width: 100%; }
-        .set-box { width: 34px; height: 34px; border: 2px solid var(--border-color); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s; background: var(--bg-color); user-select: none; -webkit-tap-highlight-color: transparent;}
+        .sets-container { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; width: 100%; }
+        .set-box { width: 38px; height: 38px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; font-family: 'Oswald', sans-serif; color: var(--text-muted); cursor: pointer; transition: all 0.2s; background: transparent; user-select: none; -webkit-tap-highlight-color: transparent;}
         .set-box.active { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
         
-        .exercise-item.done { opacity: 0.5; }
+        .exercise-item.done { opacity: 0.4; }
         .exercise-item.done .ex-text h3 { text-decoration: line-through; color: var(--text-muted); }
-        .exercise-item.done .set-box.active { background: var(--primary); border-color: var(--primary); color: #000; }
+        .exercise-item.done .set-box.active { background: #333; border-color: #333; color: #888; }
 
-        .yt-link-btn { display: inline-flex; align-items: center; gap: 5px; background: transparent; color: #888; border: 1px solid #444; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-decoration: none; margin-top: 10px; text-transform: uppercase; transition: 0.2s; }
-        .yt-link-btn:active { background: #333; color: white; border-color: #555; }
+        .yt-link-btn { display: inline-flex; align-items: center; gap: 5px; background: transparent; color: #888; border: 1px solid #333; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-decoration: none; margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; font-family: 'Oswald', sans-serif;}
+        .yt-link-btn:active { background: #222; color: white; }
 
         /* Spodní menu */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; max-width: 500px; background-color: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 100;}
-        .nav-item { color: var(--text-muted); text-align: center; font-size: 0.65rem; flex: 1; cursor: pointer; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; user-select: none; -webkit-user-select: none;}
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; max-width: 500px; background-color: rgba(3,3,3,0.98); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 15px 0 calc(15px + env(safe-area-inset-bottom)); z-index: 100;}
+        .nav-item { color: #555; text-align: center; font-size: 0.65rem; flex: 1; cursor: pointer; font-weight: 700; letter-spacing: 1.5px; transition: color 0.2s; user-select: none; -webkit-user-select: none;}
         .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        .nav-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; filter: grayscale(100%); opacity: 0.5;}
+        .nav-item.active .nav-icon { filter: none; opacity: 1;}
         
         /* Kalendář UI */
-        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-        .cal-day-name { font-size: 0.7rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-        .cal-cell { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 0; cursor: pointer; position: relative; font-weight: bold; font-size: 0.9rem; transition: 0.2s; user-select: none; -webkit-tap-highlight-color: transparent;}
-        .cal-cell:active { background: #333; transform: scale(0.95); }
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
+        .cal-day-name { font-size: 0.75rem; color: #555; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; }
+        .cal-cell { background: transparent; border: 1px solid #111; padding: 12px 0; cursor: pointer; position: relative; font-weight: 600; font-size: 0.95rem; transition: 0.2s; user-select: none; -webkit-tap-highlight-color: transparent;}
+        .cal-cell:active { background: #222; }
         .cal-cell.today { border-color: var(--primary); color: var(--primary); }
-        .cal-cell.active-view { background: #333; border-color: var(--accent-gold); color: var(--accent-gold); }
-        .cal-cell.other-month { opacity: 0.3; }
+        .cal-cell.active-view { background: var(--primary); color: #000; font-weight: 800;}
+        .cal-cell.other-month { opacity: 0.2; }
         .dot-gym { border-bottom: 3px solid var(--primary); }
         .dot-box { border-bottom: 3px solid var(--accent-red); }
-        .dot-cardio { border-bottom: 3px solid var(--accent-blue); }
+        .dot-cardio { border-bottom: 3px solid var(--text-muted); }
 
         /* Jídelníček UI */
         .macro-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
-        .macro-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .macro-box { background: #1a1a1a; border-radius: 6px; padding: 12px; text-align: center; border: 1px solid var(--border-color); }
-        .macro-val { font-size: 1.3rem; font-weight: 900; margin-top: 5px; }
-        .macro-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold; }
-        .macro-target { font-size: 0.75rem; color: #888; margin-top: 4px; font-weight: bold; }
+        .macro-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .macro-box { background: transparent; padding: 15px; text-align: center; border: 1px solid var(--border-color); }
+        .macro-val { font-size: 1.6rem; font-weight: 700; font-family: 'Oswald', sans-serif; margin-top: 5px; letter-spacing: 1px;}
+        .macro-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 1px;}
+        .macro-target { font-size: 0.75rem; color: #555; margin-top: 4px; font-weight: 600; }
         .macro-target.error { color: var(--accent-red); cursor: pointer; }
         
         .food-search-wrapper { position: relative; margin-bottom: 15px; }
-        .food-search-input { width: 100%; background: var(--bg-color); border: 1px solid var(--primary); color: white; padding: 15px; font-size: 1rem; border-radius: 6px; font-weight: bold; outline: none; appearance: none; -webkit-appearance: none; }
-        .food-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); z-index: 20; max-height: 250px; overflow-y: auto; display: none; border-radius: 0 0 6px 6px; box-shadow: 0 5px 20px rgba(0,0,0,0.9); }
-        .food-dropdown li { padding: 12px 15px; border-bottom: 1px solid var(--border-color); cursor: pointer; font-size: 0.9rem; font-weight: bold; list-style: none; transition: background 0.2s; }
-        .food-dropdown li:hover, .food-dropdown li:active { background: #333; }
+        .food-search-input { width: 100%; background: transparent; border: 1px solid var(--border-color); color: white; padding: 18px; font-size: 1rem; font-weight: 600; outline: none; appearance: none; -webkit-appearance: none; border-radius: 0; transition: border-color 0.3s;}
+        .food-search-input:focus { border-color: var(--primary); }
         
-        .food-entry { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
-        .food-entry-macros { color: var(--text-muted); font-size: 0.75rem; margin-top: 3px; }
-        .btn-delete-food { background: transparent; border: none; color: var(--accent-red); font-weight: bold; font-size: 1.2rem; cursor: pointer; padding: 0 10px; transition: transform 0.2s; appearance: none; -webkit-appearance: none; }
-        .btn-delete-food:active { transform: scale(1.2); }
+        .food-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #0a0a0a; border: 1px solid var(--border-color); z-index: 20; max-height: 250px; overflow-y: auto; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.9); }
+        .food-dropdown li { padding: 15px; border-bottom: 1px solid #1a1a1a; cursor: pointer; font-size: 0.9rem; font-weight: 600; list-style: none; transition: background 0.2s; }
+        .food-dropdown li:hover, .food-dropdown li:active { background: #222; }
+        
+        .food-entry { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+        .food-entry-macros { color: var(--text-muted); font-size: 0.75rem; margin-top: 5px; letter-spacing: 0.5px;}
+        .btn-delete-food { background: transparent; border: none; color: var(--text-muted); font-weight: 400; font-size: 1.2rem; cursor: pointer; padding: 0 10px; transition: 0.2s; appearance: none; -webkit-appearance: none; }
+        .btn-delete-food:active { color: var(--accent-red); transform: scale(1.2); }
 
-        /* Modals & Vylepšení pro zavírání */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: var(--card-bg); padding: 25px; border: 1px solid var(--border-color); text-align: left; width: 100%; max-width: 350px; border-radius: 8px; position: relative; }
-        .modal-close-x { position: absolute; top: 10px; right: 15px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s; z-index: 10; }
+        /* Modals */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; backdrop-filter: blur(5px);}
+        .modal-content { background: #050505; padding: 30px; border: 1px solid var(--border-color); text-align: left; width: 100%; max-width: 380px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,1);}
+        .modal-close-x { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #555; font-size: 1.5rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s; z-index: 10; }
         .modal-close-x:active { color: white; }
-        .modal-input { width: 100%; background: var(--bg-color); border: 1px solid var(--border-color); color: white; padding: 12px; font-size: 1rem; margin-bottom: 15px; text-align: center; border-radius: 6px; outline: none; appearance: none; -webkit-appearance: none;}
-        
+        .modal-input { width: 100%; background: transparent; border: 1px solid var(--border-color); color: white; padding: 15px; font-size: 1rem; margin-bottom: 15px; text-align: center; outline: none; appearance: none; -webkit-appearance: none; border-radius: 0;}
+        .modal-input:focus { border-color: var(--primary); }
+
         /* Floating Timer */
-        .fab-timer { position: fixed; bottom: 90px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-red), #900000); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4); cursor: pointer; z-index: 90; border: 2px solid #ff4444; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;}
+        .fab-timer { position: fixed; bottom: 100px; right: 20px; width: 64px; height: 64px; background: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 10px 20px rgba(227, 24, 55, 0.3); cursor: pointer; z-index: 90; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; font-family: 'Oswald'; font-weight: 700;}
+        .fab-timer:active { transform: scale(0.9); }
         @media (min-width: 500px) { .fab-timer { right: calc(50% - 230px); } }
 
         /* Stats & Graphs UI */
-        .stats-toggle { display: flex; gap: 5px; margin-bottom: 15px; }
-        .stats-toggle-btn { flex: 1; padding: 10px; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); text-align: center; font-weight: bold; font-size: 0.8rem; cursor: pointer; border-radius: 4px; text-transform: uppercase; appearance: none; -webkit-appearance: none; user-select: none;}
-        .stats-toggle-btn.active { background: #333; color: white; border-color: var(--text-muted); }
-        .graph-container { width: 100%; height: 200px; background: var(--bg-color); border: 1px solid var(--border-color); padding: 15px 10px; position: relative; margin-bottom: 20px; border-radius: 6px; display: flex; align-items: flex-end;}
+        .stats-toggle { display: flex; gap: 10px; margin-bottom: 20px; }
+        .stats-toggle-btn { flex: 1; padding: 12px; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); text-align: center; font-weight: 700; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; appearance: none; -webkit-appearance: none; user-select: none; letter-spacing: 1px;}
+        .stats-toggle-btn.active { background: var(--primary); color: var(--bg-color); border-color: var(--primary); }
+        .graph-container { width: 100%; height: 220px; background: transparent; border: 1px solid var(--border-color); padding: 15px 10px; position: relative; margin-bottom: 25px; display: flex; align-items: flex-end;}
         .graph-svg { width: 100%; height: 100%; overflow: visible; }
         
-        /* Nové Stepper UI pro Timer (Uživatelsky mnohem příjemnější) */
-        .hiit-setup { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
-        .hiit-row { display: flex; justify-content: space-between; align-items: center; background: #151515; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .hiit-label { font-size: 0.8rem; color: #aaa; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
-        .stepper-ctrl { display: flex; align-items: center; background: #0a0a0a; border-radius: 6px; border: 1px solid #333; }
-        .stepper-btn { background: transparent; border: none; color: var(--accent-red); font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; appearance: none; -webkit-appearance: none; }
+        /* Stepper UI */
+        .hiit-setup { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+        .hiit-row { display: flex; justify-content: space-between; align-items: center; background: transparent; padding: 15px; border: 1px solid var(--border-color); }
+        .hiit-label { font-size: 0.85rem; color: #888; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        .stepper-ctrl { display: flex; align-items: center; background: transparent; border: 1px solid #333; }
+        .stepper-btn { background: transparent; border: none; color: var(--primary); font-size: 1.5rem; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; cursor: pointer; appearance: none; -webkit-appearance: none; }
         .stepper-btn:active { background: #222; }
-        .stepper-val { width: 50px; text-align: center; background: transparent; border: none; color: white; font-size: 1.2rem; font-weight: 900; -webkit-appearance: none; margin: 0; padding: 0; pointer-events: none;}
+        .stepper-val { width: 50px; text-align: center; background: transparent; border: none; color: white; font-size: 1.4rem; font-weight: 700; font-family: 'Oswald'; -webkit-appearance: none; margin: 0; padding: 0; pointer-events: none;}
         
-        .timer-mode-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px; flex: 1; cursor: pointer; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; transition: 0.2s; border-radius: 4px; appearance: none; -webkit-appearance: none;}
+        .timer-mode-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 15px; flex: 1; cursor: pointer; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.2s; appearance: none; -webkit-appearance: none;}
         .timer-mode-btn.active { background: var(--primary); color: var(--bg-color); border-color: var(--primary); }
         
-        .timer-paused { animation: blink 1.5s infinite; color: var(--text-muted) !important; }
-        @keyframes blink { 50% { opacity: 0.3; } }
-
-        /* Autosave Toast */
-        #autosaveToast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--accent-green); color: #000; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .timer-paused { opacity: 0.5; }
         
-        /* Copyright Footer */
-        .copyright-footer { margin-top: 25px; font-size: 0.65rem; color: #555; text-align: center; line-height: 1.4; border-top: 1px solid #222; padding-top: 15px;}
+        /* Autosave Toast */
+        #autosaveToast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #000; padding: 8px 20px; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        
+        .copyright-footer { margin-top: 35px; font-size: 0.65rem; color: #444; text-align: center; line-height: 1.6; border-top: 1px solid #111; padding-top: 20px; text-transform: uppercase; letter-spacing: 1px;}
     </style>
 </head>
 <body>
 
-<div id="autosaveToast">💾 Uloženo do paměti</div>
+<div id="autosaveToast">ULOŽENO</div>
 
 <div class="app-container">
     <header>
-        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-            <span id="headerTitle">PLÁN</span>
-            <button class="btn-today" onclick="setGlobalDateToToday()">Zpět na Dnešek</button>
-        </div>
+        <div id="headerTitle">S O V I E T // C O A C H</div>
+        <div class="author-disclaimer">APP BY ONDŘEJ LACINA &copy; 2026 | EXCLUSIVE RIGHTS</div>
         <div class="date-navigator">
-            <span style="font-size: 0.75rem; color: #888;">Zobrazený den:</span>
             <span id="globalDateDisplay">--</span>
+            <button class="btn-today" onclick="setGlobalDateToToday()">Dnes</button>
         </div>
     </header>
 
@@ -200,64 +224,65 @@
         
         <!-- KALENDÁŘ TAB -->
         <div id="tab-calendar" class="tab-content active">
-            <h2 class="section-title">Operační Kalendář</h2>
-            <div class="card" style="border-left-color: var(--accent-gold);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <strong style="color: var(--primary); font-size: 0.9rem;">Aktuální fáze:</strong><br>
-                        <span id="currentPhaseLabel" style="color: var(--text-muted); font-size: 0.8rem;">Načítám...</span>
-                    </div>
-                    <button class="btn-small btn-outline" style="border-color: var(--accent-gold); color: var(--accent-gold);" onclick="openSettingsModal()">Změnit</button>
+            <div class="card" style="border-left-color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;">Fáze kempu:</strong><br>
+                    <span id="currentPhaseLabel" style="color: var(--primary); font-size: 1rem; font-weight: 800; font-family: 'Oswald';">Načítám...</span>
                 </div>
+                <button class="btn-small btn-outline" onclick="openSettingsModal()">⚙️</button>
             </div>
             <div class="card">
                 <div class="cal-header">
-                    <button class="btn-small btn-outline" onclick="changeMonth(-1)">◀</button>
-                    <h3 id="calMonthYear" style="text-transform: uppercase; font-weight: 900; letter-spacing: 1px;">-</h3>
-                    <button class="btn-small btn-outline" onclick="changeMonth(1)">▶</button>
+                    <button class="btn-small btn-outline" style="border: none; font-size: 1.2rem;" onclick="changeMonth(-1)">◀</button>
+                    <h3 id="calMonthYear" style="text-transform: uppercase; font-weight: 700; letter-spacing: 2px; font-size: 1.1rem;">-</h3>
+                    <button class="btn-small btn-outline" style="border: none; font-size: 1.2rem;" onclick="changeMonth(1)">▶</button>
                 </div>
                 <div class="cal-grid" id="calendarGrid"></div>
             </div>
-            <div class="card" style="border:none; background: transparent; padding: 0;">
-                <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">LEGENDA: <span style="color:var(--primary);">Fitko</span> | <span style="color:var(--accent-red);">Dvoufázově (Box)</span> | <span style="color:var(--accent-blue);">Kardio</span> | <span style="color:var(--text-muted);">Volno</span></p>
+            <div style="margin-top: 20px;">
+                <p style="font-size: 0.7rem; color: #555; text-align: center; letter-spacing: 1px; font-weight: 600; text-transform: uppercase;">
+                    <span style="color:var(--primary);">S&C</span> &nbsp;|&nbsp; 
+                    <span style="color:var(--accent-red);">BOX</span> &nbsp;|&nbsp; 
+                    <span style="color:var(--text-muted);">ROADWORK</span>
+                </p>
             </div>
         </div>
 
         <!-- TRÉNINK (MISE) TAB -->
         <div id="tab-workout" class="tab-content">
-            <div id="workout-trigger-block" class="card" style="text-align: center; padding: 30px 20px;">
-                <h2 style="font-size: 1.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px;">Status pro <span class="activeDateText">dnes</span></h2>
-                <div id="todayStatusText" style="color: var(--accent-red); font-size: 1.1rem; font-weight: bold; margin-bottom: 25px;">Zkontroluj kalendář</div>
-                <button class="btn" id="btnStartWorkout" onclick="initWorkoutFromPlan()">ZOBRAZIT MISI</button>
-                <button class="btn btn-outline" style="border-color: #444; font-size: 0.8rem; margin-top: 10px;" onclick="switchTab('calendar', document.querySelector('.nav-item'))">Změnit plán v kalendáři</button>
+            <div id="workout-trigger-block" class="card" style="text-align: center; padding: 40px 20px;">
+                <h2 style="font-size: 1rem; font-weight: 700; color: #666; letter-spacing: 2px; margin-bottom: 10px;">MISE: <span class="activeDateText" style="color: white;">dnes</span></h2>
+                <div id="todayStatusText" style="font-size: 1.4rem; font-weight: 800; font-family: 'Oswald'; margin-bottom: 30px; letter-spacing: 1px;">Načítám...</div>
+                <button class="btn" id="btnStartWorkout" onclick="initWorkoutFromPlan()">ZOBRAZIT PROTOKOL</button>
+                <button class="btn btn-outline" style="border-color: #222; color: #555; font-size: 0.75rem; margin-top: 15px;" onclick="switchTab('calendar', document.querySelector('.nav-item'))">Změnit plán v kalendáři</button>
             </div>
             
             <div id="workout-block" style="display: none;">
-                <div style="margin-bottom: 20px;">
-                    <h2 id="workout-title" style="color: var(--primary); font-size: 1.4rem; font-weight: 900; text-transform: uppercase;"></h2>
-                    <span id="workout-subtitle" style="color: var(--accent-red); font-size: 0.8rem; font-weight: bold; text-transform: uppercase;"></span>
+                <div style="margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px;">
+                    <span id="workout-subtitle" style="color: var(--accent-red); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;"></span>
+                    <h2 id="workout-title" style="color: var(--primary); font-size: 1.8rem; font-weight: 700; text-transform: uppercase; font-family: 'Oswald'; margin-top: 5px;"></h2>
                 </div>
-                <div id="exercise-list" style="padding: 10px 0; background: transparent; border: none;"></div>
-                <div style="margin-top: 20px;">
-                    <button class="btn" style="background-color: var(--accent-green);" onclick="saveWorkout()">DOKONČIT A ULOŽIT</button>
-                    <button class="btn btn-outline" style="border-color: var(--border-color); color: var(--text-muted); font-size: 0.8rem;" onclick="resetWorkoutUI()">Zrušit / Zpět</button>
+                <div id="exercise-list" style="padding: 0; background: transparent; border: none;"></div>
+                <div style="margin-top: 40px;">
+                    <button class="btn" style="background-color: var(--primary); color: black;" onclick="saveWorkout()">POTVRDIT SPLNĚNÍ</button>
+                    <button class="btn btn-outline" style="border: none; color: #555; font-size: 0.8rem;" onclick="resetWorkoutUI()">Zpět</button>
                 </div>
             </div>
         </div>
 
         <!-- REGE & PRE-HAB TAB -->
         <div id="tab-rege" class="tab-content">
-            <h2 class="section-title" style="border-left-color: var(--accent-blue);">Údržba Stroje & Pre-hab</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Kombinace cílené mobility (protažení zkrácenin) a Pre-habu (posílení stabilizátorů proti zranění). Prováděj ve dny volna nebo večer.</p>
-            <div id="rege-list" style="padding: 10px 0; background: transparent; border: none;"></div>
-            <button class="btn" style="background-color: var(--accent-blue);" onclick="saveRege()">DOKONČIT ÚDRŽBU</button>
+            <h2 class="section-title">Údržba & Pre-hab</h2>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 25px; line-height: 1.6;">Protokol mobility a posílení stabilizátorů. Prováděj ve dny volna nebo večer pro prevenci zranění.</p>
+            <div id="rege-list" style="padding: 0; background: transparent; border: none;"></div>
+            <button class="btn" style="background-color: var(--primary); color: black; margin-top: 20px;" onclick="saveRege()">POTVRDIT ÚDRŽBU</button>
         </div>
 
         <!-- PALIVO (KALORIE) TAB -->
         <div id="tab-diet" class="tab-content">
             <div class="macro-header">
-                <h2 class="section-title" style="margin: 0; border-left-color: var(--accent-gold);">Příjem pro <span class="activeDateText">dnes</span></h2>
-                <button class="btn-small btn-outline" style="padding: 5px 10px; font-size: 0.7rem;" onclick="openSettingsModal()">⚙️ Tělo / BMR</button>
+                <h2 class="section-title" style="margin: 0; border: none; padding: 0;">PALIVO <span class="activeDateText" style="color:#555; font-size: 0.8rem;">dnes</span></h2>
+                <button class="btn-small btn-outline" style="padding: 6px 12px; font-size: 0.7rem; letter-spacing: 1px;" onclick="openSettingsModal()">NASTAVENÍ</button>
             </div>
             
             <div class="macro-boxes">
@@ -268,87 +293,97 @@
                 </div>
                 <div class="macro-box">
                     <div class="macro-label">Bílkoviny</div>
-                    <div class="macro-val" id="macro-p-val" style="color: var(--accent-blue);">0g</div>
+                    <div class="macro-val" id="macro-p-val">0g</div>
                     <div class="macro-target" id="macro-p-target">Cíl: 0g</div>
                 </div>
                 <div class="macro-box">
                     <div class="macro-label">Sacharidy</div>
-                    <div class="macro-val" id="macro-c-val" style="color: var(--accent-red);">0g</div>
+                    <div class="macro-val" id="macro-c-val">0g</div>
                     <div class="macro-target" id="macro-c-target">Cíl: 0g</div>
                 </div>
                 <div class="macro-box">
                     <div class="macro-label">Tuky</div>
-                    <div class="macro-val" id="macro-f-val" style="color: var(--accent-gold);">0g</div>
+                    <div class="macro-val" id="macro-f-val">0g</div>
                     <div class="macro-target" id="macro-f-target">Cíl: 0g</div>
                 </div>
             </div>
 
             <!-- Výdej z tréninku -->
-            <div id="trainingBurnDisplay" class="card" style="border-left-color: var(--accent-red); margin-bottom: 10px; padding: 12px; display: none;">
-                <strong style="color: var(--accent-red); font-size: 0.85rem; text-transform: uppercase;">🔥 Odhadovaný výdej tréninkem:</strong>
-                <span id="trainingBurnVal" style="float: right; font-weight: 900; color: white;">+0 kcal</span>
+            <div id="trainingBurnDisplay" class="card" style="border: 1px solid var(--accent-red); margin-bottom: 20px; padding: 15px; display: none; background: transparent;">
+                <strong style="color: var(--accent-red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Výdej aktivním tréninkem</strong>
+                <span id="trainingBurnVal" style="float: right; font-weight: 700; color: var(--accent-red); font-family: 'Oswald'; font-size: 1.1rem;">+0 kcal</span>
             </div>
 
             <!-- Vizuální upozornění na vodu -->
-            <div class="card" style="border-left-color: var(--accent-blue); display: flex; align-items: center; gap: 15px; padding: 12px;">
-                <div style="font-size: 1.8rem;">💧</div>
-                <div>
-                    <strong style="color: var(--accent-blue); display: block; margin-bottom: 2px;">Hydratace motoru</strong>
-                    <span id="waterTargetDisplay" style="color: var(--text-muted); font-size: 0.85rem;">Doporučen cíl: Načítám...</span>
+            <div class="card" style="border-left-color: var(--accent-blue); padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <strong style="color: var(--primary); display: block; font-size: 1rem; font-family: 'Oswald'; letter-spacing: 1px;">HYDRATACE</strong>
+                        <span id="waterTargetDisplay" style="color: #666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Cíl: Načítám...</span>
+                    </div>
+                    <div style="font-size: 1.8rem; font-family: 'Oswald'; font-weight: 700;" id="waterDrunkDisplay">0.0 L</div>
+                </div>
+                <div style="width: 100%; height: 4px; background: #111; margin-bottom: 20px;">
+                    <div id="waterProgressBar" style="height: 100%; width: 0%; background: var(--primary); transition: width 0.4s ease;"></div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline" style="flex: 1; border-color: #333; color: white; margin: 0; padding: 10px 0; font-size: 0.8rem;" onclick="addWater(0.3)">+ 0.3 L</button>
+                    <button class="btn btn-outline" style="flex: 1; border-color: #333; color: white; margin: 0; padding: 10px 0; font-size: 0.8rem;" onclick="addWater(0.5)">+ 0.5 L</button>
+                    <button class="btn btn-outline" style="flex: 1; border-color: #333; color: white; margin: 0; padding: 10px 0; font-size: 0.8rem;" onclick="addWater(0.75)">+ 0.75 L</button>
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; margin-top: 25px;">
-                <h2 class="section-title" style="margin: 0; border-left-color: var(--accent-gold);">Zapsat potravinu</h2>
-                <div style="display: flex; gap: 5px;">
-                    <button class="btn-small btn-outline" style="border-color: var(--accent-gold); color: var(--accent-gold); font-size: 0.7rem;" onclick="openRecipeModal()">+ Recept</button>
-                    <button class="btn-small btn-outline" style="border-color: #555; color: #ccc; font-size: 0.7rem;" onclick="openRecipeManager()">⚙️ Správa</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; margin-top: 30px;">
+                <h2 class="section-title" style="margin: 0; border: none; padding: 0;">ZÁZNAM JÍDLA</h2>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-small btn-outline" style="border-color: #333; color: #aaa; font-size: 0.7rem; letter-spacing: 1px;" onclick="openRecipeManager()">RECEPTY</button>
+                    <button class="btn-small btn-outline" style="border-color: var(--primary); color: var(--primary); font-size: 0.7rem; letter-spacing: 1px;" onclick="openRecipeModal()">+ NOVÝ</button>
                 </div>
             </div>
             
-            <div class="card" style="overflow: visible;">
+            <div class="card" style="overflow: visible; padding: 15px;">
                 <div class="food-search-wrapper">
-                    <input type="text" id="foodSearchInput" class="food-search-input" placeholder="Hledat (jídlo nebo tvůj recept)..." onkeyup="handleFoodSearch()" onfocus="handleFoodSearch()" autocomplete="off">
+                    <input type="text" id="foodSearchInput" class="food-search-input" placeholder="Vyhledat v databázi..." onkeyup="handleFoodSearch()" onfocus="handleFoodSearch()" autocomplete="off">
                     <ul id="foodDropdown" class="food-dropdown"></ul>
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <input type="number" id="foodWeightInput" class="modal-input" placeholder="Množství" style="margin-bottom: 0; flex: 1;">
-                    <span id="foodUnitLabel" style="color: var(--text-muted); font-size: 0.8rem; font-weight: bold; width: 45px; text-align: left;">jedn.</span>
-                    <button class="btn" style="width: auto; margin-bottom: 0; padding: 0 20px; background-color: var(--accent-gold); color: black;" onclick="addEatenFood()">PŘIDAT</button>
+                    <span id="foodUnitLabel" style="color: #666; font-size: 0.8rem; font-weight: 700; width: 45px; text-align: left; text-transform: uppercase;">JEDN.</span>
+                    <button class="btn" style="width: auto; margin-bottom: 0; padding: 0 25px;" onclick="addEatenFood()">PŘIDAT</button>
                 </div>
             </div>
 
-            <h2 class="section-title" style="border-left-color: var(--accent-gold);">Snědeno (pro vybraný den)</h2>
-            <div class="card" id="eatenFoodList" style="padding: 10px 20px;"></div>
+            <h2 class="section-title" style="border:none; padding:0; margin-top: 30px;">SNĚDENO DNES</h2>
+            <div class="card" id="eatenFoodList" style="padding: 5px 20px; background: transparent; border-color: transparent;"></div>
         </div>
 
         <!-- DENÍK & STATS TAB -->
         <div id="tab-history" class="tab-content">
             <div class="stats-toggle">
-                <button class="stats-toggle-btn active" id="btnTogHistory" onclick="toggleStats('history')">Deník Operací</button>
-                <button class="stats-toggle-btn" id="btnTogStats" onclick="toggleStats('stats')">Statistiky & Grafy</button>
+                <button class="stats-toggle-btn active" id="btnTogHistory" onclick="toggleStats('history')">DENÍK</button>
+                <button class="stats-toggle-btn" id="btnTogStats" onclick="toggleStats('stats')">GRAFY</button>
             </div>
 
             <!-- Historie Blok -->
             <div id="historyBlock">
-                <div id="history-list"></div>
-                <button class="btn btn-outline" style="margin-top: 20px; padding: 15px; font-size: 0.8rem; border-color: var(--border-color); color: var(--text-muted);" onclick="if(confirm('Opravdu smazat celou historii?')){localStorage.removeItem('sovietCoachHistoryV2'); loadHistory(); showAutosave();}">SMAZAT PROTOKOLY</button>
+                <div id="history-list" style="margin-bottom: 30px;"></div>
+                <button class="btn btn-outline" style="border-color: #222; color: #555; font-size: 0.75rem;" onclick="if(confirm('Opravdu smazat celou historii?')){localStorage.removeItem('sovietCoachHistoryV2'); loadHistory(); showAutosave();}">Vymazat celou historii</button>
             </div>
 
             <!-- Statistiky Blok -->
             <div id="statsBlock" style="display: none;">
-                <div class="card">
-                    <label style="display:block; text-align:left; font-size:0.75rem; color:var(--text-muted); margin-bottom:10px; text-transform: uppercase; font-weight: bold;">Zadat ranní váhu (KG) pro <span class="activeDateText">dnes</span></label>
+                <div class="card" style="padding: 20px;">
+                    <label style="display:block; text-align:left; font-size:0.75rem; color:#888; margin-bottom:10px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Zadat ranní váhu (KG) pro <span class="activeDateText">dnes</span></label>
                     <div style="display: flex; gap: 10px;">
-                        <input type="number" id="dailyWeightInput" class="modal-input" placeholder="Např. 84.5" step="0.1" style="margin-bottom: 0;">
-                        <button class="btn" style="width: auto; margin-bottom: 0;" onclick="saveDailyWeight()">Uložit</button>
+                        <input type="number" id="dailyWeightInput" class="modal-input" placeholder="0.0" step="0.1" style="margin-bottom: 0; font-family: 'Oswald'; font-size: 1.2rem;">
+                        <button class="btn" style="width: auto; margin-bottom: 0; padding: 0 25px;" onclick="saveDailyWeight()">ULOŽIT</button>
                     </div>
                 </div>
 
-                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; margin-top: 20px;">Vývoj Váhy (Posledních 14 dní)</h3>
+                <h3 style="font-size: 0.8rem; color: #666; text-transform: uppercase; margin-bottom: 10px; margin-top: 30px; letter-spacing: 2px; font-family: 'Inter';">Vývoj Váhy (14 dní)</h3>
                 <div class="graph-container" id="weightGraph"></div>
 
-                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px;">Příjem Kalorií (Posledních 14 dní)</h3>
+                <h3 style="font-size: 0.8rem; color: #666; text-transform: uppercase; margin-bottom: 10px; margin-top: 30px; letter-spacing: 2px; font-family: 'Inter';">Příjem Kalorií (14 dní)</h3>
                 <div class="graph-container" id="kcalGraph"></div>
             </div>
         </div>
@@ -360,26 +395,26 @@
         <div class="nav-item" onclick="switchTab('workout', this)"><span class="nav-icon">⚡</span>Mise</div>
         <div class="nav-item" onclick="switchTab('rege', this)"><span class="nav-icon">🧘‍♂️</span>Rege</div>
         <div class="nav-item" onclick="switchTab('diet', this)"><span class="nav-icon">🥩</span>Palivo</div>
-        <div class="nav-item" onclick="switchTab('history', this)"><span class="nav-icon">📈</span>Deník</div>
+        <div class="nav-item" onclick="switchTab('history', this)"><span class="nav-icon">📈</span>Data</div>
     </div>
     
     <!-- PLOVOUCÍ TLAČÍTKO - TIMER -->
-    <div class="fab-timer" onclick="openTimerModal()">⏱️</div>
+    <div class="fab-timer" onclick="openTimerModal()">⏱</div>
 </div>
 
 <!-- PLAN DAY MODAL -->
 <div id="planDayModal" class="modal-overlay">
     <div class="modal-content" style="text-align: center;">
         <button class="modal-close-x" onclick="closePlanModal()">✕</button>
-        <h3 style="margin-bottom: 5px; color: white;" id="planDayTitle">Plán na den</h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Nastav primární zaměření na tento den.</p>
-        <button class="btn" style="background: var(--primary); color: #000;" onclick="setPlanForDay('gym')">🏋️ FITKO (SÍLA + LAKTÁT)</button>
-        <button class="btn" style="background: var(--accent-red);" onclick="setPlanForDay('box')">🥊 RANNÍ PRIMER + VEČERNÍ BOX</button>
-        <button class="btn" style="background: var(--accent-blue);" onclick="setPlanForDay('cardio')">🏃 KARDIO (AEROBNÍ BÁZE)</button>
-        <button class="btn" style="background: #333;" onclick="setPlanForDay('rest')">🛌 VOLNO BEZ TRÉNINKU</button>
+        <h3 style="margin-bottom: 10px; color: white; letter-spacing: 2px;">PLÁN NA DEN</h3>
+        <p style="font-size: 0.8rem; color: #666; margin-bottom: 25px;">Zvol primární zaměření tréninku.</p>
+        <button class="btn" style="background: var(--primary); color: #000;" onclick="setPlanForDay('gym')">FITKO (SÍLA + LAKTÁT)</button>
+        <button class="btn" style="background: transparent; border: 1px solid var(--primary); color: var(--primary);" onclick="setPlanForDay('box')">RANNÍ PRIMER + BOX</button>
+        <button class="btn" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);" onclick="setPlanForDay('cardio')">KARDIO (AEROBNÍ BÁZE)</button>
+        <button class="btn" style="background: #111; color: #555; border: 1px solid #222;" onclick="setPlanForDay('rest')">VOLNO (REGE)</button>
         
-        <hr style="border-color: #333; margin: 20px 0;">
-        <button class="btn btn-outline" style="border-color: var(--accent-red); color: var(--accent-red); font-size: 0.8rem;" onclick="clearActiveDayData()">🗑️ Vymazat vše z tohoto dne</button>
+        <hr style="border-color: #222; margin: 25px 0;">
+        <button class="btn btn-outline" style="border-color: transparent; color: var(--accent-red); font-size: 0.75rem;" onclick="clearActiveDayData()">Vymazat záznamy z tohoto dne</button>
     </div>
 </div>
 
@@ -387,38 +422,34 @@
 <div id="settingsModal" class="modal-overlay">
     <div class="modal-content" style="text-align: center; max-height: 90vh; overflow-y: auto;">
         <button class="modal-close-x" onclick="document.getElementById('settingsModal').style.display='none'">✕</button>
-        <h3 style="margin-bottom: 10px; color: white;">Osobní Profil</h3>
-        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px;">Periodizace tréninku a výpočet BMR.</p>
+        <h3 style="margin-bottom: 15px; color: white; letter-spacing: 2px;">NASTAVENÍ</h3>
         
-        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Fáze Přípravy (Mění objem tréninku)</label>
-        <select id="setPhase" class="modal-input">
-            <option value="1">FÁZE 1: Adaptace (Základní objem)</option>
-            <option value="2">FÁZE 2: Motor (Střední objem)</option>
-            <option value="3">FÁZE 3: Elita (Lomachenko objem)</option>
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Fáze Přípravy</label>
+        <select id="setPhase" class="modal-input" style="font-weight: 600;">
+            <option value="1">FÁZE 1: Adaptace (Základ)</option>
+            <option value="2">FÁZE 2: Motor (Střední)</option>
+            <option value="3">FÁZE 3: Elita (Lomachenko)</option>
         </select>
 
-        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Váha (KG)</label>
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Váha (KG)</label>
         <input type="number" id="setWeight" class="modal-input" value="84.4" step="0.1">
-        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Výška (CM)</label>
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Výška (CM)</label>
         <input type="number" id="setHeight" class="modal-input" placeholder="Např. 180">
-        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px;">Věk (Roky)</label>
+        <label style="display:block; text-align:left; font-size:0.7rem; color:var(--text-muted); margin-bottom:6px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Věk (Roky)</label>
         <input type="number" id="setAge" class="modal-input" placeholder="Např. 28">
-        <button class="btn" style="background: var(--accent-gold); color: black;" onclick="saveSettings()">Uložit data</button>
+        <button class="btn" style="background: var(--primary); color: black; margin-top: 10px;" onclick="saveSettings()">ULOŽIT</button>
         
-        <hr style="border-color: #333; margin: 20px 0;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 10px;">Správa paměti a zálohování</h4>
-        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 15px;">Pokud by aplikace ztrácela data, stáhni si zálohu a otevři soubor v aplikaci "Documents by Readdle".</p>
+        <hr style="border-color: #222; margin: 30px 0;">
+        <h4 style="font-size: 0.8rem; color: #666; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">Zálohování dat</h4>
         <div style="display: flex; gap: 10px;">
-            <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px;" onclick="exportData()">📥 Export (Záloha)</button>
-            <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px;" onclick="document.getElementById('backupFileInput').click()">📤 Import Dat</button>
+            <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px; border-color: #333; color: #ccc;" onclick="exportData()">EXPORT</button>
+            <button class="btn btn-outline" style="flex:1; font-size: 0.75rem; padding: 12px; border-color: #333; color: #ccc;" onclick="document.getElementById('backupFileInput').click()">IMPORT</button>
             <input type="file" id="backupFileInput" style="display:none;" accept=".json" onchange="importData(event)">
         </div>
 
-        <button class="btn btn-outline" style="border: none; margin-top: 10px;" onclick="document.getElementById('settingsModal').style.display='none'">Zavřít panel</button>
-
         <div class="copyright-footer">
             &copy; 2026 Ondřej Lacina<br>
-            Všechna práva vyhrazena.<br>Výhradní autorská práva a práva na užívání.
+            Všechna práva vyhrazena.
         </div>
     </div>
 </div>
@@ -427,20 +458,20 @@
 <div id="infoModal" class="modal-overlay">
     <div class="modal-content">
         <button class="modal-close-x" onclick="document.getElementById('infoModal').style.display='none'">✕</button>
-        <h3 id="infoModalTitle" style="color: var(--primary); margin-bottom: 10px; font-weight: 900; text-transform: uppercase;">Info</h3>
-        <strong style="color: var(--accent-red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px;">Proč tohle děláš:</strong>
-        <p id="infoModalText" style="color: #ccc; font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px;"></p>
-        <button class="btn" onclick="document.getElementById('infoModal').style.display='none'">ROZUMÍM</button>
+        <h3 id="infoModalTitle" style="color: var(--primary); margin-bottom: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Info</h3>
+        <strong style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px;">Cíl cviku:</strong>
+        <p id="infoModalText" style="color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 25px;"></p>
+        <button class="btn" onclick="document.getElementById('infoModal').style.display='none'">ZAVŘÍT</button>
     </div>
 </div>
 
-<!-- OBYČEJNÝ CUSTOM MODAL (CHYBY) -->
+<!-- OBYČEJNÝ CUSTOM MODAL -->
 <div id="customModal" class="modal-overlay">
     <div class="modal-content" style="text-align: center;">
         <button class="modal-close-x" onclick="document.getElementById('customModal').style.display='none'">✕</button>
-        <h3 id="modalTitle" style="color: white; margin-bottom: 10px;">Info</h3>
-        <p id="modalText" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;"></p>
-        <button class="btn" onclick="document.getElementById('customModal').style.display='none'">ROZUMÍM</button>
+        <h3 id="modalTitle" style="color: white; margin-bottom: 15px; letter-spacing: 1px;">Info</h3>
+        <p id="modalText" style="color: #888; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;"></p>
+        <button class="btn" onclick="document.getElementById('customModal').style.display='none'">OK</button>
     </div>
 </div>
 
@@ -448,31 +479,30 @@
 <div id="recipeModal" class="modal-overlay">
     <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
         <button class="modal-close-x" onclick="closeRecipeModal()">✕</button>
-        <h3 style="color: var(--accent-gold); margin-bottom: 10px;">Vytvořit Recept</h3>
-        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px;">Slož si oblíbené jídlo. Uloží se jako jedna položka, kterou můžeš kdykoliv přidat z menu.</p>
+        <h3 style="color: var(--primary); margin-bottom: 15px; letter-spacing: 2px;">NOVÝ RECEPT</h3>
+        <p style="font-size: 0.75rem; color: #666; margin-bottom: 20px; line-height: 1.5;">Vytvoř si vlastní jídlo spojením surovin z databáze.</p>
         
-        <input type="text" id="recipeNameInput" class="modal-input" placeholder="Název jídla (např. Moje Kaše)" style="border-color: var(--accent-gold);">
+        <input type="text" id="recipeNameInput" class="modal-input" placeholder="Název (např. Ovesná kaše)">
         
-        <div style="background: #222; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: bold;">
-                <span>Ingredience v receptu:</span>
-                <span id="recipeTotalKcal">0 kcal</span>
+        <div style="background: #111; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #222;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #666; margin-bottom: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">
+                <span>Suroviny:</span>
+                <span id="recipeTotalKcal" style="color: var(--primary);">0 kcal</span>
             </div>
-            <div id="recipeIngredientList" style="font-size: 0.8rem; color: white; min-height: 20px;"></div>
+            <div id="recipeIngredientList" style="font-size: 0.85rem; color: #ccc; min-height: 20px;"></div>
         </div>
 
-        <div style="position: relative; margin-bottom: 10px;">
+        <div style="position: relative; margin-bottom: 15px;">
             <input type="text" id="recipeSearchInput" class="modal-input" placeholder="Najít surovinu..." onkeyup="handleRecipeSearch()" onfocus="handleRecipeSearch()" autocomplete="off" style="margin-bottom: 5px;">
-            <ul id="recipeDropdown" class="food-dropdown" style="top: 45px;"></ul>
+            <ul id="recipeDropdown" class="food-dropdown" style="top: 55px;"></ul>
         </div>
-        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;">
             <input type="number" id="recipeWeightInput" class="modal-input" placeholder="Množství" style="margin-bottom: 0; flex: 1;">
-            <span id="recipeUnitLabel" style="color: var(--text-muted); font-size: 0.8rem; font-weight: bold; width: 45px; align-self: center;">jedn.</span>
-            <button class="btn btn-outline" style="width: auto; margin-bottom: 0; padding: 0 15px;" onclick="addIngredientToRecipe()">+</button>
+            <span id="recipeUnitLabel" style="color: #666; font-size: 0.8rem; font-weight: 700; width: 45px; align-self: center; text-transform: uppercase;">Jedn.</span>
+            <button class="btn btn-outline" style="width: auto; margin-bottom: 0; padding: 0 20px;" onclick="addIngredientToRecipe()">+</button>
         </div>
 
-        <button class="btn" style="background: var(--accent-gold); color: #000; margin-bottom: 10px;" onclick="saveCustomRecipe()">Uložit Recept</button>
-        <button class="btn btn-outline" style="border: none;" onclick="closeRecipeModal()">Zpět / Zrušit</button>
+        <button class="btn" style="background: var(--primary); color: #000; margin-bottom: 10px;" onclick="saveCustomRecipe()">ULOŽIT RECEPT</button>
     </div>
 </div>
 
@@ -480,24 +510,23 @@
 <div id="recipeManagerModal" class="modal-overlay">
     <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
         <button class="modal-close-x" onclick="document.getElementById('recipeManagerModal').style.display='none'">✕</button>
-        <h3 style="color: var(--accent-gold); margin-bottom: 15px;">Moje Recepty</h3>
-        <div id="recipeManagerList" style="overflow-y: auto; margin-bottom: 15px; max-height: 50vh;"></div>
-        <button class="btn btn-outline" style="border: none; margin-top: 10px;" onclick="document.getElementById('recipeManagerModal').style.display='none'">Zavřít panel</button>
+        <h3 style="color: var(--primary); margin-bottom: 20px; letter-spacing: 2px;">MOJE RECEPTY</h3>
+        <div id="recipeManagerList" style="overflow-y: auto; margin-bottom: 20px; max-height: 50vh;"></div>
     </div>
 </div>
 
-<!-- TIMER MODAL -->
+<!-- TIMER MODAL (PREMIUM UI) -->
 <div id="timerModal" class="modal-overlay">
-    <div class="modal-content" id="timerContentBox" style="padding: 20px; transition: border-color 0.3s; text-align: center;">
-        <h3 style="margin-bottom: 15px; color: var(--primary); font-weight: 900; letter-spacing: 1px;">BOXING / HIIT TIMER</h3>
+    <div class="modal-content" id="timerContentBox" style="padding: 30px 20px; transition: border-color 0.3s; text-align: center;">
+        <button class="modal-close-x" onclick="document.getElementById('timerModal').style.display='none'">✕</button>
+        <h3 style="margin-bottom: 25px; color: var(--primary); letter-spacing: 4px;">T I M E R</h3>
         
-        <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;">
             <button class="timer-mode-btn active" id="btnModeBox" onclick="setTimerMode('box')">BOX KOLA</button>
-            <button class="timer-mode-btn" id="btnModeHiit" onclick="setTimerMode('hiit')">HIIT / TABATA</button>
+            <button class="timer-mode-btn" id="btnModeHiit" onclick="setTimerMode('hiit')">HIIT</button>
         </div>
 
-        <!-- PREMIUM HIIT STEPPER UI -->
-        <div id="hiitSettings" style="display: none; margin-bottom: 20px;">
+        <div id="hiitSettings" style="display: none; margin-bottom: 30px;">
             <div class="hiit-setup">
                 <div class="hiit-row">
                     <span class="hiit-label">Práce (s)</span>
@@ -516,7 +545,7 @@
                     </div>
                 </div>
                 <div class="hiit-row">
-                    <span class="hiit-label">Počet Kol</span>
+                    <span class="hiit-label">Kola</span>
                     <div class="stepper-ctrl">
                         <button class="stepper-btn" onclick="adjHiit('rounds', -1)">-</button>
                         <input type="number" id="inputHiitRounds" class="stepper-val" value="6" readonly>
@@ -526,21 +555,24 @@
             </div>
         </div>
 
-        <div class="timer-display" id="timerDisplay" style="font-size: 5rem; font-weight: 900; margin: 15px 0; font-variant-numeric: tabular-nums;">3:00</div>
-        <div id="timerStatusLabel" style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;">PŘIPRAVEN</div>
-        <div id="timerRoundDisplay" style="font-size: 0.85rem; color: var(--text-muted); font-weight: bold; margin-bottom: 25px; text-transform: uppercase;">Kolo: 1</div>
+        <div id="timerStatusLabel" style="font-weight: 700; font-size: 1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 4px; color: #666;">PŘIPRAVEN</div>
+        <div class="timer-display" id="timerDisplay" style="font-size: 6rem; font-weight: 700; margin: 10px 0; font-variant-numeric: tabular-nums; line-height: 1;">3:00</div>
+        <div id="timerRoundDisplay" style="font-size: 0.9rem; color: #888; font-weight: 700; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 2px;">Kolo: 1</div>
 
-        <div style="display: flex; gap: 10px;">
+        <div style="display: flex; gap: 15px;">
             <button class="btn" id="timerBtnAction" style="margin-bottom: 0;" onclick="startPauseTimer()">START</button>
-            <button class="btn btn-outline" style="margin-bottom: 0; padding: 18px;" onclick="resetTimer()">RESET</button>
+            <button class="btn btn-outline" style="margin-bottom: 0; padding: 18px; border-color: #333; color: #aaa;" onclick="resetTimer()">RESET</button>
         </div>
-        <button class="btn btn-outline" style="border: none; margin-top: 15px; color: var(--text-muted);" onclick="document.getElementById('timerModal').style.display='none'">Zavřít panel</button>
     </div>
 </div>
 
 <script>
     // --- STROJ ČASU A GLOBÁLNÍ PROMĚNNÉ ---
     window.audioUnlocked = window.audioUnlocked || false; 
+
+    // REÁLNÉ AUDIO SOUBORY Z GOOGLE SERVERS (Rychlé načítání)
+    var gongSound = new Audio('https://actions.google.com/sounds/v1/alarms/boxing_bell.ogg');
+    var beepSound = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
 
     function showAutosave() {
         var toast = document.getElementById('autosaveToast');
@@ -549,65 +581,66 @@
         setTimeout(() => { toast.style.opacity = '0'; }, 1500);
     }
 
-    // Web Audio API Gong Synthesizer (Opravený a spolehlivý pro iOS/Android)
-    var audioCtx = null;
-    function playSoundSignal(type) {
-        if (!audioCtx) {
-            var AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-        }
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        
-        var strike = (freqs, duration, timeOffset, typeSignal) => {
-            var t = audioCtx.currentTime + timeOffset;
-            freqs.forEach((freq, i) => {
-                var osc = audioCtx.createOscillator();
-                var gain = audioCtx.createGain();
-                
-                if(typeSignal === 'gong') {
-                    osc.type = 'sine';
-                    gain.gain.setValueAtTime(0, t);
-                    gain.gain.linearRampToValueAtTime(1 / freqs.length, t + 0.02);
-                    gain.gain.exponentialRampToValueAtTime(0.001, t + duration + (i * 0.2)); 
-                } else if(typeSignal === 'beep') {
-                    osc.type = 'square';
-                    gain.gain.setValueAtTime(0.5, t);
-                    gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
-                }
-                
-                osc.frequency.value = freq;
-                osc.connect(gain); 
-                gain.connect(audioCtx.destination);
-                osc.start(t); 
-                osc.stop(t + duration + 0.5);
-            });
-        };
-
-        if (type === 'gong') {
-            strike([392, 440, 523, 784], 2.5, 0, 'gong');
-        } else if (type === 'doubleBeep') {
-            strike([880], 0.2, 0, 'beep');
-            strike([880], 0.2, 0.4, 'beep');
-        } else if (type === 'singleBeep') {
-            strike([660], 0.3, 0, 'beep');
+    // HLASOVÝ TRENÉR (Web Speech API)
+    function speakVoiceCoach(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); 
+            var msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'cs-CZ';
+            msg.rate = 1.15; 
+            msg.pitch = 0.9; 
+            window.speechSynthesis.speak(msg);
         }
     }
 
-    // Force Audio Unlock on user interaction
+    // PŘEHRÁVÁNÍ REÁLNÉHO ZVUKU
+    function playSoundSignal(type) {
+        if (type === 'gong') {
+            gongSound.currentTime = 0;
+            gongSound.play().catch(e => console.log(e));
+        } else if (type === 'singleBeep') {
+            beepSound.currentTime = 0;
+            beepSound.play().catch(e => console.log(e));
+        } else if (type === 'doubleBeep') {
+            beepSound.currentTime = 0;
+            beepSound.play().catch(e => console.log(e));
+            setTimeout(() => {
+                beepSound.currentTime = 0;
+                beepSound.play().catch(e => console.log(e));
+            }, 400);
+        }
+    }
+
+    // Wake Lock API (NoSleep for HTTPS)
+    let wakeLock = null;
+    async function requestWakeLock() {
+        if ('wakeLock' in navigator) {
+            try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) { console.log(err); }
+        }
+    }
+    function releaseWakeLock() {
+        if (wakeLock !== null) { wakeLock.release(); wakeLock = null; }
+    }
+
+    // ODEMČENÍ AUDIA PRO iOS (Musí proběhnout na kliknutí)
     function forceAudioUnlock() {
         if (!window.audioUnlocked) {
-            if (!audioCtx) {
-                var AudioContext = window.AudioContext || window.webkitAudioContext;
-                audioCtx = new AudioContext();
+            gongSound.play().then(() => {
+                gongSound.pause();
+                gongSound.currentTime = 0;
+            }).catch(e => console.log(e));
+            
+            beepSound.play().then(() => {
+                beepSound.pause();
+                beepSound.currentTime = 0;
+            }).catch(e => console.log(e));
+            
+            if ('speechSynthesis' in window) {
+                var msg = new SpeechSynthesisUtterance('');
+                msg.volume = 0;
+                window.speechSynthesis.speak(msg);
             }
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            var osc = audioCtx.createOscillator();
-            var gain = audioCtx.createGain();
-            gain.gain.value = 0;
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(0);
-            osc.stop(0.001);
+            
             window.audioUnlocked = true;
         }
     }
@@ -615,7 +648,7 @@
     // Globální event listenery pro zavírání Modals a Dropdowns kliknutím mimo
     window.onclick = function(e) {
         if (e.target.classList.contains('modal-overlay')) {
-            if (e.target.id === 'timerModal') return; // Timer nezavírat omylem
+            if (e.target.id === 'timerModal') return; 
             e.target.style.display = 'none';
         }
         if (e.target.id !== 'foodSearchInput' && e.target.id !== 'recipeSearchInput') {
@@ -637,14 +670,14 @@
         var isToday = window.globalActiveDate.toDateString() === currentRealToday.toDateString();
         var dateString = window.globalActiveDate.toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
         document.getElementById('globalDateDisplay').innerText = isToday ? `DNES (${dateString})` : dateString;
-        document.getElementById('globalDateDisplay').style.color = isToday ? 'var(--accent-gold)' : 'var(--primary)';
+        document.getElementById('globalDateDisplay').style.color = isToday ? 'var(--accent-gold)' : 'var(--text-muted)';
         
         document.querySelectorAll('.activeDateText').forEach(el => {
             el.innerText = isToday ? "dnes" : window.globalActiveDate.toLocaleDateString('cs-CZ', {day: 'numeric', month: 'numeric'});
         });
         
         var phase = localStorage.getItem('userPhase') || "1";
-        var phaseNames = {"1": "FÁZE 1 (Základní objem)", "2": "FÁZE 2 (Střední objem)", "3": "FÁZE 3 (Elitní objem)"};
+        var phaseNames = {"1": "1: ADAPTACE", "2": "2: MOTOR", "3": "3: ELITA"};
         document.getElementById('currentPhaseLabel').innerText = phaseNames[phase];
     }
 
@@ -685,8 +718,8 @@
         if (tabId === 'diet') renderMacroSummary();
         if (tabId === 'history') toggleStats('history');
         
-        var titles = { 'calendar': 'OPERAČNÍ PLÁN', 'workout': 'MISSION BRIEF', 'rege': 'REGE & PRE-HAB', 'history': 'DATA & DENÍK', 'diet': 'PALUBNÍ SYSTÉM' };
-        document.getElementById('headerTitle').innerText = titles[tabId];
+        var titles = { 'calendar': 'OPERAČNÍ PLÁN', 'workout': 'PROTOKOL', 'rege': 'ÚDRŽBA STROJE', 'history': 'DATA & DENÍK', 'diet': 'PALUBNÍ SYSTÉM' };
+        // document.getElementById('headerTitle').innerText = titles[tabId]; // Ponecháme tam "SOVIET COACH" natvrdo kvůli vizuálu
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
@@ -698,6 +731,7 @@
             history: localStorage.getItem('sovietCoachHistoryV2'),
             weight: localStorage.getItem('sovietCoachWeightLog'),
             recipes: localStorage.getItem('sovietCoachRecipes'),
+            waterLog: localStorage.getItem('sovietCoachWaterLog'),
             settings: {
                 phase: localStorage.getItem('userPhase'),
                 weight: localStorage.getItem('userWeight'),
@@ -728,6 +762,7 @@
                 if (data.history) localStorage.setItem('sovietCoachHistoryV2', data.history);
                 if (data.weight) localStorage.setItem('sovietCoachWeightLog', data.weight);
                 if (data.recipes) localStorage.setItem('sovietCoachRecipes', data.recipes);
+                if (data.waterLog) localStorage.setItem('sovietCoachWaterLog', data.waterLog);
                 if (data.settings) {
                     if(data.settings.phase) localStorage.setItem('userPhase', data.settings.phase);
                     if(data.settings.weight) localStorage.setItem('userWeight', data.settings.weight);
@@ -748,7 +783,7 @@
     }
 
     function clearActiveDayData() {
-        if(confirm('Opravdu chceš smazat všechna data (tréninky, jídlo, váhu, plán) pro tento zobrazený den?')) {
+        if(confirm('Opravdu chceš smazat všechna data (tréninky, jídlo, váhu, vodu, plán) pro tento zobrazený den?')) {
             var dStr = getActiveDateStr();
             
             var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
@@ -762,6 +797,10 @@
             var weights = JSON.parse(localStorage.getItem('sovietCoachWeightLog')) || {};
             delete weights[dStr];
             localStorage.setItem('sovietCoachWeightLog', JSON.stringify(weights));
+
+            var water = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
+            delete water[dStr];
+            localStorage.setItem('sovietCoachWaterLog', JSON.stringify(water));
             
             var hist = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
             var startOfDay = new Date(window.globalActiveDate); startOfDay.setHours(0,0,0,0);
@@ -772,12 +811,8 @@
             showAutosave();
             closePlanModal();
             refreshCurrentTab();
-            document.getElementById('modalTitle').innerText="Vymazáno"; 
-            document.getElementById('modalText').innerText="Záznamy pro tento den byly smazány."; 
-            document.getElementById('customModal').style.display='flex';
         }
     }
-
 
     // --- KALENDÁŘ LOGIKA ---
     window.globalActiveDate = window.globalActiveDate || new Date();
@@ -803,11 +838,11 @@
         var currentRealToday = new Date();
 
         for(let day = 1; day <= daysInMonth; day++) {
-            var dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-            var isRealToday = (day === currentRealToday.getDate() && currentMonth === currentRealToday.getMonth() && currentYear === currentRealToday.getFullYear());
-            var isActiveView = (day === window.globalActiveDate.getDate() && currentMonth === window.globalActiveDate.getMonth() && currentYear === window.globalActiveDate.getFullYear());
+            let dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+            let isRealToday = (day === currentRealToday.getDate() && currentMonth === currentRealToday.getMonth() && currentYear === currentRealToday.getFullYear());
+            let isActiveView = (day === window.globalActiveDate.getDate() && currentMonth === window.globalActiveDate.getMonth() && currentYear === window.globalActiveDate.getFullYear());
             
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             cell.className = `cal-cell ${isRealToday ? 'today' : ''} ${isActiveView ? 'active-view' : ''}`;
             
             if(plans[dateStr] === 'gym') cell.classList.add('dot-gym');
@@ -818,7 +853,7 @@
             cell.onclick = () => { 
                 setActiveDateFromCalendar(currentYear, currentMonth, day);
                 selectedDateForPlan = dateStr; 
-                document.getElementById('planDayTitle').innerText = `Plán na ${day}. ${currentMonth+1}.`; 
+                document.getElementById('planDayTitle').innerText = `${day}. ${currentMonth+1}.`; 
                 document.getElementById('planDayModal').style.display = 'flex'; 
             };
             grid.appendChild(cell);
@@ -990,6 +1025,7 @@
     var currentWorkoutType = '';
 
     function checkTodayPlanForWorkout() {
+        resetWorkoutUI(); 
         var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
         var activePlan = plans[getActiveDateStr()];
         var statusTextEl = document.getElementById('todayStatusText');
@@ -999,10 +1035,11 @@
             statusTextEl.innerText = "Pro tento den máš VOLNO. Ideální udělat si mobilitu a Pre-hab v záložce 'Rege'.";
             statusTextEl.style.color = "var(--text-muted)";
             btnStart.style.display = "none";
+            document.getElementById('workout-block').style.display = 'none';
         } else {
             btnStart.style.display = "block";
             var labels = { 'gym': 'FITKO (Síla & Motor)', 'box': 'RANNÍ PRIMER + VEČERNÍ BOX', 'cardio': 'KARDIO (Roadwork)' };
-            var colors = { 'gym': 'var(--primary)', 'box': 'var(--accent-red)', 'cardio': 'var(--accent-blue)' };
+            var colors = { 'gym': 'var(--primary)', 'box': 'var(--accent-red)', 'cardio': 'var(--text-muted)' };
             statusTextEl.innerText = `Mise na tento den: ${labels[activePlan]}`;
             statusTextEl.style.color = colors[activePlan];
         }
@@ -1132,9 +1169,47 @@
         localStorage.setItem('sovietCoachHistoryV2', JSON.stringify(history));
     }
 
+    // --- JÍDLO A VODA ---
+    function addWater(amount) {
+        var log = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
+        var dStr = getActiveDateStr();
+        log[dStr] = (log[dStr] || 0) + amount;
+        localStorage.setItem('sovietCoachWaterLog', JSON.stringify(log));
+        renderMacroSummary();
+        showAutosave();
+    }
 
-    // --- JÍDLO A MAKRA ---
+    // Mega DB vč. Restaurací
     var foodDB = [
+        { name: "Hovězí vývar s masem a nudlemi", kcal: 220, p: 15, c: 20, f: 8, unit: 'porce', baseAmount: 1 },
+        { name: "Svíčková na smetaně s knedlíkem", kcal: 800, p: 35, c: 90, f: 30, unit: 'porce', baseAmount: 1 },
+        { name: "Kuřecí řízek smažený", kcal: 250, p: 16, c: 15, f: 13, unit: 'g' },
+        { name: "Vepřový řízek smažený", kcal: 280, p: 15, c: 15, f: 17, unit: 'g' },
+        { name: "Šunkofleky (Zapečené těstoviny)", kcal: 190, p: 10, c: 20, f: 8, unit: 'g' },
+        { name: "Pad Thai s kuřecím masem", kcal: 180, p: 8, c: 25, f: 6, unit: 'g' },
+        { name: "Smažené nudle s kuřecím masem", kcal: 160, p: 7, c: 20, f: 5, unit: 'g' },
+        { name: "Bun Bo Nam Bo", kcal: 550, p: 25, c: 65, f: 20, unit: 'porce', baseAmount: 1 },
+        { name: "Boloňské špagety", kcal: 150, p: 7, c: 22, f: 4, unit: 'g' },
+        { name: "Kuře na paprice s těstovinami", kcal: 650, p: 40, c: 60, f: 25, unit: 'porce', baseAmount: 1 },
+        { name: "Pizza Margherita (celá)", kcal: 1100, p: 45, c: 140, f: 35, unit: 'porce', baseAmount: 1 },
+        { name: "Pizza Šunková / Capricciosa", kcal: 1250, p: 55, c: 145, f: 45, unit: 'porce', baseAmount: 1 },
+        { name: "Smažený sýr s tatarkou", kcal: 700, p: 25, c: 25, f: 55, unit: 'porce', baseAmount: 1 },
+        { name: "Hovězí burger (celý)", kcal: 800, p: 40, c: 45, f: 45, unit: 'porce', baseAmount: 1 },
+        { name: "Smažené hranolky", kcal: 311, p: 3, c: 41, f: 15, unit: 'g' },
+        { name: "Gyros / Kebab v pitě", kcal: 750, p: 35, c: 60, f: 35, unit: 'porce', baseAmount: 1 },
+        { name: "Kuřecí tortilla (zelenina, dresink)", kcal: 550, p: 30, c: 50, f: 20, unit: 'porce', baseAmount: 1 },
+        { name: "Hovězí guláš s knedlíkem", kcal: 850, p: 35, c: 85, f: 35, unit: 'porce', baseAmount: 1 },
+        { name: "Vepřo knedlo zelo", kcal: 900, p: 40, c: 90, f: 40, unit: 'porce', baseAmount: 1 },
+        { name: "Pečené kuřecí stehno (s kůží)", kcal: 220, p: 18, c: 0, f: 15, unit: 'g' },
+        { name: "Kulajda", kcal: 250, p: 8, c: 20, f: 15, unit: 'porce', baseAmount: 1 },
+        { name: "Boršč", kcal: 300, p: 15, c: 30, f: 12, unit: 'porce', baseAmount: 1 },
+        { name: "Caesar salát s kuřecím masem", kcal: 450, p: 35, c: 15, f: 28, unit: 'porce', baseAmount: 1 },
+        { name: "Chlebíček šunkový", kcal: 200, p: 8, c: 20, f: 9, unit: 'ks', baseAmount: 1 },
+        { name: "Míchaná vajíčka na cibulce", kcal: 350, p: 20, c: 5, f: 25, unit: 'porce', baseAmount: 1 },
+        { name: "Tom Yum polévka s krevetami", kcal: 180, p: 15, c: 10, f: 8, unit: 'porce', baseAmount: 1 },
+        { name: "Sushi (Maki losos 6ks)", kcal: 180, p: 8, c: 30, f: 2, unit: 'porce', baseAmount: 1 },
+        { name: "Kečup", kcal: 110, p: 1, c: 26, f: 0.1, unit: 'g' },
+        { name: "Tatarka", kcal: 450, p: 1, c: 5, f: 48, unit: 'g' },
         { name: "Hovězí vývar (čistý)", kcal: 15, p: 2, c: 1, f: 0.5, unit: 'ml' },
         { name: "Kuřecí vývar (čistý)", kcal: 12, p: 1.5, c: 1, f: 0.3, unit: 'ml' },
         { name: "Zeleninový vývar (čistý)", kcal: 10, p: 0.5, c: 2, f: 0.1, unit: 'ml' },
@@ -1193,14 +1268,14 @@
         { name: "Kaiserka cereální", kcal: 270, p: 10, c: 45, f: 4, unit: 'ks', baseAmount: 60 },
         { name: "Pšeničná tortilla (wrap)", kcal: 310, p: 8, c: 53, f: 7, unit: 'g' },
         { name: "Rýžové chlebíčky", kcal: 387, p: 8, c: 81, f: 3, unit: 'g' },
-        { name: "Kukuřičné lupínky (Corn flakes)", kcal: 378, p: 8, c: 84, f: 1, unit: 'g' },
+        { name: "Kukuřičné lupínky", kcal: 378, p: 8, c: 84, f: 1, unit: 'g' },
         { name: "Ovesná kaše (hotová porce)", kcal: 350, p: 15, c: 50, f: 8, unit: 'porce', baseAmount: 1 },
         { name: "Vejce celá (M/L)", kcal: 155, p: 13, c: 1, f: 11, unit: 'ks', baseAmount: 55 },
         { name: "Vaječný bílek (tekutý)", kcal: 52, p: 11, c: 1, f: 0.2, unit: 'ml' },
         { name: "Mléko polotučné 1.5%", kcal: 47, p: 3.4, c: 4.8, f: 1.5, unit: 'ml' },
         { name: "Mléko plnotučné 3.5%", kcal: 62, p: 3.3, c: 4.8, f: 3.5, unit: 'ml' },
-        { name: "Mléko ovesné (bez cukru)", kcal: 42, p: 1, c: 7, f: 1, unit: 'ml' },
-        { name: "Mléko mandlové (bez cukru)", kcal: 13, p: 0.4, c: 0, f: 1.1, unit: 'ml' },
+        { name: "Mléko ovesné", kcal: 42, p: 1, c: 7, f: 1, unit: 'ml' },
+        { name: "Mléko mandlové", kcal: 13, p: 0.4, c: 0, f: 1.1, unit: 'ml' },
         { name: "Kefír neochucený", kcal: 43, p: 3.3, c: 4, f: 1.5, unit: 'ml' },
         { name: "Smetana 33%", kcal: 335, p: 2, c: 3, f: 33, unit: 'ml' },
         { name: "Skyr neochucený", kcal: 65, p: 11, c: 4, f: 0.2, unit: 'g' },
@@ -1220,7 +1295,7 @@
         { name: "Parmazán", kcal: 402, p: 35, c: 3, f: 28, unit: 'g' },
         { name: "Feta sýr", kcal: 264, p: 14, c: 4, f: 21, unit: 'g' },
         { name: "Balkánský sýr", kcal: 250, p: 13, c: 2, f: 20, unit: 'g' },
-        { name: "Hermelín / Camembert", kcal: 286, p: 21, c: 1, f: 22, unit: 'g' },
+        { name: "Hermelín", kcal: 286, p: 21, c: 1, f: 22, unit: 'g' },
         { name: "Ricotta", kcal: 156, p: 8, c: 4, f: 12, unit: 'g' },
         { name: "Mascarpone", kcal: 400, p: 5, c: 4, f: 40, unit: 'g' },
         { name: "Olivový olej", kcal: 884, p: 0, c: 0, f: 100, unit: 'ml' },
@@ -1234,7 +1309,7 @@
         { name: "Lískové ořechy", kcal: 628, p: 15, c: 17, f: 61, unit: 'g' },
         { name: "Mandle", kcal: 579, p: 21, c: 22, f: 50, unit: 'g' },
         { name: "Pistácie", kcal: 560, p: 20, c: 27, f: 45, unit: 'g' },
-        { name: "Para ořechy (Brazílie)", kcal: 659, p: 14, c: 12, f: 67, unit: 'g' },
+        { name: "Para ořechy", kcal: 659, p: 14, c: 12, f: 67, unit: 'g' },
         { name: "Makadamové ořechy", kcal: 718, p: 8, c: 14, f: 76, unit: 'g' },
         { name: "Slunečnicová semínka", kcal: 584, p: 21, c: 20, f: 51, unit: 'g' },
         { name: "Dýňová semínka", kcal: 559, p: 30, c: 10, f: 49, unit: 'g' },
@@ -1313,7 +1388,7 @@
         if (results.length > 0) {
             dropdown.style.display = 'block';
             results.forEach(food => {
-                var li = document.createElement('li');
+                let li = document.createElement('li');
                 li.innerText = `${food.name}`;
                 if(food.isRecipe) li.innerText = `🍲 ${food.name} (Recept)`;
                 
@@ -1397,7 +1472,7 @@
         if (results.length > 0) {
             dropdown.style.display = 'block';
             results.forEach(food => {
-                var li = document.createElement('li');
+                let li = document.createElement('li');
                 li.innerText = `${food.name}`;
                 li.onclick = () => {
                     document.getElementById('recipeSearchInput').value = food.name;
@@ -1440,7 +1515,7 @@
 
         tempRecipeIngredients.forEach((ing, index) => {
             totKcal += ing.kcal; totP += ing.p; totC += ing.c; totF += ing.f;
-            listDiv.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${ing.name} (${ing.amount}${ing.unit})</span> <span style="color:var(--accent-red); cursor:pointer;" onclick="tempRecipeIngredients.splice(${index},1); renderRecipeList();">✕</span></div>`;
+            listDiv.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding:5px 0;"><span>${ing.name} (${ing.amount}${ing.unit})</span> <span style="color:var(--accent-red); cursor:pointer; font-weight:bold;" onclick="tempRecipeIngredients.splice(${index},1); renderRecipeList();">✕</span></div>`;
         });
         document.getElementById('recipeTotalKcal').innerText = `${totKcal} kcal | B:${totP} S:${totC} T:${totF}`;
     }
@@ -1521,10 +1596,10 @@
                 var row = document.createElement('div'); row.className = 'food-entry';
                 row.innerHTML = `
                     <div style="flex:1;">
-                        <strong>${food.name}</strong> (${food.amount} ${food.unit})
+                        <strong>${food.name}</strong> <span style="color:#666;">(${food.amount} ${food.unit})</span>
                         <div class="food-entry-macros">B: ${food.p}g | S: ${food.c}g | T: ${food.f}g</div>
                     </div>
-                    <div style="font-weight:900; color:var(--primary); margin-right: 10px;">${food.kcal} kcal</div>
+                    <div style="font-weight:700; color:var(--primary); margin-right: 15px; font-family:'Oswald'; font-size: 1.1rem;">${food.kcal}</div>
                     <button class="btn-delete-food" onclick="removeEatenFood(${food.id})">✕</button>
                 `;
                 listDiv.appendChild(row);
@@ -1562,7 +1637,16 @@
         if (activePlan === 'box') waterAdd = 1.5;
         var trainWater = (weight * 0.035 + waterAdd).toFixed(1);
         
-        document.getElementById('waterTargetDisplay').innerText = activePlan ? `Dnes potíš: ${trainWater} L` : `Základ: ${baseWater} L`;
+        var waterLog = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
+        var waterDrunk = waterLog[activeDateStr] || 0;
+        
+        document.getElementById('waterTargetDisplay').innerText = activePlan ? `Cíl: ${trainWater} L` : `Cíl: ${baseWater} L`;
+        document.getElementById('waterDrunkDisplay').innerText = parseFloat(waterDrunk.toFixed(2)) + ' L';
+        
+        var waterTargetNum = activePlan ? parseFloat(trainWater) : parseFloat(baseWater);
+        var waterPercent = (waterDrunk / waterTargetNum) * 100;
+        if(waterPercent > 100) waterPercent = 100;
+        document.getElementById('waterProgressBar').style.width = waterPercent + '%';
 
         if(profileComplete) {
             var targetKcal = Math.round(bmr * multiplier) || 0;
@@ -1586,7 +1670,7 @@
                 document.getElementById('trainingBurnDisplay').style.display = 'none';
             }
         } else {
-            document.getElementById('macro-kcal-target').innerText = `Nenastaveno (Klikni na Tělo)`;
+            document.getElementById('macro-kcal-target').innerText = `Tělo`;
             document.getElementById('macro-kcal-target').classList.add('error');
             document.getElementById('macro-kcal-target').onclick = openSettingsModal;
             document.getElementById('macro-p-target').innerText = `Cíl: 0g`;
@@ -1655,7 +1739,7 @@
         var weightData = [];
         var kcalData = [];
         
-        var cToday = new Date(window.globalActiveDate); // Změna: Grafy respektují vybrané datum v kalendáři
+        var cToday = new Date(window.globalActiveDate); 
         for(let i=13; i>=0; i--) {
             let d = new Date(cToday);
             d.setDate(d.getDate() - i);
@@ -1676,7 +1760,7 @@
     function drawSVGGraph(container, dataPoints, dates, emptyMsg) {
         var validPoints = dataPoints.filter(v => v !== null);
         if(validPoints.length === 0) { 
-            container.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem; margin:auto;">${emptyMsg}</span>`; 
+            container.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem; margin:auto; text-transform: uppercase; letter-spacing: 1px;">${emptyMsg}</span>`; 
             return; 
         }
         
@@ -1699,8 +1783,8 @@
         for(let i=0; i<=steps; i++) {
             let val = minV + (range*1.2) * (i/steps);
             let y = getY(val);
-            svg += `<line x1="${padL}" y1="${y}" x2="${padL+w}" y2="${y}" stroke="#333" stroke-width="1" stroke-dasharray="4"/>`;
-            svg += `<text x="${padL-5}" y="${y+4}" text-anchor="end" fill="#888" font-size="10">${Math.round(val)}</text>`;
+            svg += `<line x1="${padL}" y1="${y}" x2="${padL+w}" y2="${y}" stroke="#222" stroke-width="1" stroke-dasharray="4"/>`;
+            svg += `<text x="${padL-5}" y="${y+4}" text-anchor="end" fill="#555" font-size="10" font-family="Oswald">${Math.round(val)}</text>`;
         }
 
         var path = "";
@@ -1709,17 +1793,17 @@
             if(val !== null) {
                 let x = getX(i), y = getY(val);
                 if(first) { path += `M ${x} ${y}`; first = false; } else { path += ` L ${x} ${y}`; }
-                svg += `<circle cx="${x}" cy="${y}" r="4" fill="var(--bg-color)" stroke="var(--primary)" stroke-width="2"/>`;
+                svg += `<circle cx="${x}" cy="${y}" r="3" fill="var(--primary)" stroke="var(--primary)" stroke-width="2"/>`;
                 
                 if (i % 3 === 0 || i === dataPoints.length - 1) {
                     let dObj = new Date(dates[i]);
-                    svg += `<text x="${x}" y="${padT+h+15}" text-anchor="middle" fill="#888" font-size="9">${dObj.getDate()}.${dObj.getMonth()+1}.</text>`;
+                    svg += `<text x="${x}" y="${padT+h+15}" text-anchor="middle" fill="#555" font-size="9" font-weight="600">${dObj.getDate()}.${dObj.getMonth()+1}.</text>`;
                 }
             }
         });
         
         if (validPoints.length > 1) {
-            svg += `<path d="${path}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linejoin="round" />`;
+            svg += `<path d="${path}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round" />`;
         }
         svg += `</svg>`;
         container.innerHTML = svg;
@@ -1729,12 +1813,15 @@
     function loadHistory() {
         var historyDiv = document.getElementById('history-list');
         var history = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
-        if (history.length === 0) { historyDiv.innerHTML = '<p style="color:var(--text-muted); text-align:center;">Zatím prázdno.</p>'; return; }
+        if (history.length === 0) { historyDiv.innerHTML = '<p style="color:var(--text-muted); text-align:center; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Zatím prázdno.</p>'; return; }
         historyDiv.innerHTML = '';
         history.forEach(record => {
             var item = document.createElement('div'); item.className = 'history-item';
             var color = record.type.includes('MOBILITA') ? 'var(--accent-blue)' : 'var(--primary)';
-            item.innerHTML = `<div class="hist-header"><div class="hist-date">${record.date}</div></div><div class="hist-type" style="color:${color};">${record.type} (${record.score})</div>`;
+            item.innerHTML = `<div class="hist-header" style="margin-bottom: 4px;"><div class="hist-date" style="font-size:0.7rem; color:#666;">${record.date}</div></div><div class="hist-type" style="color:${color}; font-family: 'Oswald'; font-size: 1.1rem; letter-spacing: 1px;">${record.type} <span style="color:#444; font-size:0.9rem;">(${record.score})</span></div>`;
+            item.style.borderBottom = "1px solid #111";
+            item.style.paddingBottom = "15px";
+            item.style.marginBottom = "15px";
             historyDiv.appendChild(item);
         });
     }
@@ -1744,6 +1831,8 @@
     var timerMode = 'box'; 
     var currentRound = 1, hiitBase = 40, hiitSprint = 10, hiitRoundsTotal = 6;
     var isWorkPhase = true;
+    var timerState = 'prep'; // 'prep', 'work', 'rest'
+    var prepTimeLeft = 10;
 
     function formatTime(s) { var m = Math.floor(s/60), sec = s%60; return `${m}:${sec<10?'0':''}${sec}`; }
 
@@ -1780,24 +1869,34 @@
         var box = document.getElementById('timerContentBox'), lbl = document.getElementById('timerStatusLabel'), dsp = document.getElementById('timerDisplay');
         var roundDisp = document.getElementById('timerRoundDisplay');
         
-        if (isTimerRunning) {
+        if (isTimerRunning && timerState !== 'prep') { dsp.classList.remove('timer-paused'); } 
+        else if (!isTimerRunning) { dsp.classList.add('timer-paused'); }
+        
+        roundDisp.style.display = 'block';
+
+        if (timerState === 'prep') {
+            dsp.innerText = formatTime(prepTimeLeft);
+            box.style.borderColor = '#FF9800'; 
+            lbl.innerText = 'PŘÍPRAVA'; 
+            lbl.style.color = '#FF9800'; 
+            dsp.style.color = '#FF9800';
             dsp.classList.remove('timer-paused');
-        } else {
-            dsp.classList.add('timer-paused');
+            roundDisp.innerText = timerMode === 'box' ? `KOLO: ${currentRound}` : `KOLO: ${currentRound} / ${hiitRoundsTotal}`;
+            return;
         }
 
+        dsp.innerText = formatTime(timeLeft);
+
         if (timerMode === 'box') {
-            roundDisp.style.display = 'block';
-            roundDisp.innerText = `Kolo: ${currentRound}`;
-            if (isWorkPhase) {
+            roundDisp.innerText = `KOLO: ${currentRound}`;
+            if (timerState === 'work') {
                 box.style.borderColor = '#4CAF50'; lbl.innerText = 'BOXERSKÉ KOLO (3 MIN)'; lbl.style.color = '#4CAF50'; dsp.style.color = '#4CAF50';
             } else {
                 box.style.borderColor = 'var(--accent-red)'; lbl.innerText = 'PAUZA (1 MIN)'; lbl.style.color = 'var(--accent-red)'; dsp.style.color = 'var(--accent-red)';
             }
         } else {
-            roundDisp.style.display = 'block';
-            roundDisp.innerText = `Kolo: ${currentRound} / ${hiitRoundsTotal}`;
-            if (isWorkPhase) {
+            roundDisp.innerText = `KOLO: ${currentRound} / ${hiitRoundsTotal}`;
+            if (timerState === 'work') {
                 box.style.borderColor = '#2196F3'; lbl.innerText = 'ZÁKLADNÍ TEMPO'; lbl.style.color = '#2196F3'; dsp.style.color = '#2196F3';
             } else {
                 box.style.borderColor = 'var(--accent-red)'; lbl.innerText = 'MAX SPRINT!'; lbl.style.color = 'var(--accent-red)'; dsp.style.color = 'var(--accent-red)';
@@ -1811,51 +1910,96 @@
         
         if (isTimerRunning) {
             clearInterval(timerInterval); isTimerRunning = false; btn.innerText = 'POKRAČOVAT';
+            releaseWakeLock(); 
             updateTimerUI(); 
         } else {
             if (timerMode === 'hiit' && currentRound > hiitRoundsTotal) { resetTimer(); return; }
 
             isTimerRunning = true; btn.innerText = 'PAUZA';
+            requestWakeLock(); 
+            
+            if (timerState === 'prep' && prepTimeLeft === 10) {
+                speakVoiceCoach('Připrav se.');
+            }
+
             updateTimerUI(); 
             
             timerInterval = setInterval(() => {
+                
+                // PREPARATION PHASE
+                if (timerState === 'prep') {
+                    if (prepTimeLeft > 0) {
+                        prepTimeLeft--;
+                        if (prepTimeLeft === 3) speakVoiceCoach('Tři.');
+                        if (prepTimeLeft === 2) speakVoiceCoach('Dva.');
+                        if (prepTimeLeft === 1) speakVoiceCoach('Jedna.');
+                        updateTimerUI();
+                    } else {
+                        timerState = 'work';
+                        if (timerMode === 'box') {
+                            playSoundSignal('gong');
+                            speakVoiceCoach('Kolo jedna.');
+                        } else {
+                            playSoundSignal('singleBeep');
+                            speakVoiceCoach('Základní tempo.');
+                        }
+                        if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
+                        updateTimerUI();
+                    }
+                    return;
+                }
+
+                // WORK OR REST PHASE
                 if (timeLeft > 0) {
                     timeLeft--;
+                    
+                    if (timeLeft === 10 && timerState === 'work' && timerMode === 'box') {
+                        speakVoiceCoach('Deset vteřin.');
+                    }
+                    
                     updateTimerUI();
                     
                     if (timeLeft === 0) {
                         if (timerMode === 'box') {
                            playSoundSignal('doubleBeep');
                         } else {
-                           playSoundSignal(isWorkPhase ? 'doubleBeep' : 'singleBeep');
+                           playSoundSignal(timerState === 'work' ? 'doubleBeep' : 'singleBeep');
                         }
                         if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
                     }
                 } else {
-                    isWorkPhase = !isWorkPhase;
-
                     if (timerMode === 'box') {
-                        if (isWorkPhase) {
+                        if (timerState === 'work') {
+                            timerState = 'rest';
+                            timeLeft = 60; 
+                            speakVoiceCoach('Pauza. Dýchej.');
+                        } else {
+                            timerState = 'work';
                             currentRound++;
                             timeLeft = 180;
                             playSoundSignal('gong');
-                        } else {
-                             timeLeft = 60; 
+                            speakVoiceCoach('Kolo ' + currentRound + '.');
                         }
                     } else {
-                        if (isWorkPhase) {
+                        if (timerState === 'work') {
+                            timerState = 'rest'; 
+                            timeLeft = hiitSprint;
+                            speakVoiceCoach('Sprint!');
+                        } else {
+                            timerState = 'work';
                             currentRound++;
                             if (currentRound > hiitRoundsTotal) {
                                 clearInterval(timerInterval); isTimerRunning = false;
+                                releaseWakeLock();
                                 document.getElementById('timerStatusLabel').innerText = 'HOTOVO!';
                                 btn.innerText = 'ZNOVU';
                                 playSoundSignal('gong');
+                                speakVoiceCoach('Výborně. Trénink dokončen.');
                                 document.getElementById('timerDisplay').classList.remove('timer-paused');
                                 return;
                             }
                             timeLeft = hiitBase;
-                        } else {
-                            timeLeft = hiitSprint;
+                            speakVoiceCoach('Základní tempo.');
                         }
                     }
                     updateTimerUI();
@@ -1866,8 +2010,9 @@
 
     function resetTimer() {
         clearInterval(timerInterval); isTimerRunning = false;
+        releaseWakeLock();
         document.getElementById('timerBtnAction').innerText = 'START';
-        currentRound = 1; isWorkPhase = true;
+        currentRound = 1; timerState = 'prep'; prepTimeLeft = 10;
         if (timerMode === 'box') { timeLeft = 180; } else { timeLeft = hiitBase; }
         updateTimerUI();
         document.getElementById('timerDisplay').classList.remove('timer-paused');
