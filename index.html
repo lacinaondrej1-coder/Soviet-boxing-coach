@@ -206,6 +206,119 @@
         #autosaveToast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #000; padding: 8px 20px; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         
         .copyright-footer { margin-top: 35px; font-size: 0.65rem; color: #444; text-align: center; line-height: 1.6; border-top: 1px solid #111; padding-top: 20px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        /* Weight input per exercise */
+        .ex-weight-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+        .ex-weight-input { width: 70px; background: transparent; border: 1px solid #333; color: white; padding: 8px; font-size: 0.9rem; font-weight: 700; font-family: 'Oswald'; text-align: center; outline: none; appearance: none; -webkit-appearance: none; border-radius: 0; }
+        .ex-weight-input:focus { border-color: var(--primary); }
+        .ex-weight-label { font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .ex-weight-last { font-size: 0.65rem; color: var(--accent-gold); font-weight: 600; letter-spacing: 0.5px; }
+        
+        /* Skip button */
+        .skip-btn { background: transparent; border: 1px solid #333; color: #555; padding: 6px 12px; font-size: 0.65rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; font-family: 'Oswald'; margin-left: auto; }
+        .skip-btn:active { background: #222; color: #aaa; }
+        .exercise-item.skipped { opacity: 0.25; }
+        .exercise-item.skipped .ex-text h3 { text-decoration: line-through; color: #555; }
+        .exercise-item.skipped .ex-text h3::after { content: ' [SKIP]'; color: var(--accent-gold); font-size: 0.7rem; }
+        
+        /* Food categories filter */
+        .food-cat-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .food-cat-bar::-webkit-scrollbar { display: none; }
+        .food-cat-btn { background: transparent; border: 1px solid #333; color: #666; padding: 5px 10px; font-size: 0.65rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; transition: 0.2s; flex-shrink: 0; }
+        .food-cat-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .food-cat-btn:active { background: #222; }
+        
+        /* Streak display */
+        .streak-badge { display: inline-flex; align-items: center; gap: 5px; background: transparent; border: 1px solid #333; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; font-family: 'Oswald'; color: var(--accent-gold); letter-spacing: 1px; }
+        
+        /* Timer presets */
+        .timer-presets { display: flex; gap: 6px; margin-bottom: 15px; flex-wrap: wrap; }
+        .timer-preset-btn { background: transparent; border: 1px solid #333; color: #888; padding: 6px 10px; font-size: 0.6rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; font-family: 'Oswald'; flex: 1; text-align: center; min-width: 80px; }
+        .timer-preset-btn:active { background: #222; color: white; }
+        
+        /* Weekly template */
+        .week-template { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 15px; }
+        .week-tpl-cell { text-align: center; padding: 8px 2px; border: 1px solid #222; cursor: pointer; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
+        .week-tpl-cell:active { background: #222; }
+        .week-tpl-cell .day-label { color: #666; display: block; margin-bottom: 3px; font-size: 0.55rem; }
+        
+        /* Copy food day */
+        .copy-day-btn { background: transparent; border: 1px solid #333; color: #888; padding: 8px 12px; font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; font-family: 'Oswald'; }
+        .copy-day-btn:active { background: #222; color: white; }
+        
+        /* Food entry editable */
+        .food-entry { cursor: pointer; }
+        .food-entry:active { background: #111; }
+        
+        /* Weekly summary */
+        .weekly-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .weekly-stat { background: transparent; border: 1px solid var(--border-color); padding: 12px; text-align: center; }
+        .weekly-stat-val { font-size: 1.3rem; font-weight: 700; font-family: 'Oswald'; color: var(--primary); }
+        .weekly-stat-label { font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 700; }
+        
+        /* Macro graph toggle */
+        .macro-graph-toggle { display: flex; gap: 6px; margin-bottom: 10px; }
+        .macro-graph-btn { background: transparent; border: 1px solid #333; color: #666; padding: 4px 8px; font-size: 0.6rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
+        .macro-graph-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        
+        /* Rest timer between sets */
+        .rest-countdown { display: none; text-align: center; margin-top: 8px; padding: 8px; border: 1px solid #333; background: #0a0a0a; }
+        .rest-countdown.active { display: block; animation: pulseGlow 1s infinite; }
+        .rest-countdown-val { font-size: 1.8rem; font-weight: 700; font-family: 'Oswald'; color: var(--accent-gold); }
+        .rest-countdown-label { font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        @keyframes pulseGlow { 0%,100% { border-color: #333; } 50% { border-color: var(--accent-gold); } }
+        
+        /* Exercise block separators */
+        .ex-block-separator { padding: 8px 0; margin: 15px 0 20px 0; border-top: 1px solid #222; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: #444; font-family: 'Oswald'; }
+        .ex-block-separator.warmup { color: #555; }
+        .ex-block-separator.plyo { color: var(--accent-blue); }
+        .ex-block-separator.strength { color: var(--primary); }
+        .ex-block-separator.core { color: var(--accent-gold); }
+        .ex-block-separator.kr { color: #E91E63; }
+        .ex-block-separator.conditioning { color: var(--accent-red); }
+        .ex-block-separator.mobility { color: #4CAF50; }
+        
+        /* Workout duration timer */
+        .workout-timer-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #0a0a0a; border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .workout-timer-val { font-size: 1.1rem; font-weight: 700; font-family: 'Oswald'; color: var(--accent-gold); letter-spacing: 1px; }
+        .workout-timer-label { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        
+        /* Daily check-in */
+        .checkin-bar { display: flex; gap: 8px; margin-bottom: 15px; }
+        .checkin-item { flex: 1; text-align: center; padding: 10px 5px; border: 1px solid var(--border-color); background: transparent; cursor: pointer; transition: 0.2s; }
+        .checkin-item:active { background: #222; }
+        .checkin-label { font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; display: block; margin-bottom: 4px; }
+        .checkin-val { font-size: 1.2rem; font-weight: 700; font-family: 'Oswald'; color: var(--primary); }
+        .checkin-item.filled { border-color: var(--accent-green); }
+        .checkin-item.filled .checkin-val { color: var(--accent-green); }
+        
+        /* Coach notes */
+        .coach-note-input { width: 100%; background: transparent; border: 1px solid #333; color: #ccc; padding: 12px; font-size: 0.85rem; font-family: 'Inter'; outline: none; resize: vertical; min-height: 60px; border-radius: 0; }
+        .coach-note-input:focus { border-color: var(--accent-gold); }
+        .coach-note-input::placeholder { color: #444; }
+        
+        /* Micro dashboard in header */
+        .micro-dash { display: flex; gap: 12px; justify-content: center; padding-top: 6px; }
+        .micro-dash-item { font-size: 0.6rem; color: #555; font-weight: 700; letter-spacing: 0.5px; }
+        .micro-dash-item span { color: var(--primary); }
+        
+        /* Pulse animation for completed exercises */
+        .exercise-item.just-done { animation: pulseDone 0.4s ease; }
+        @keyframes pulseDone { 0% { transform: scale(1); } 50% { transform: scale(1.01); background: rgba(255,255,255,0.03); } 100% { transform: scale(1); } }
+        
+        /* Gym A/B preview */
+        .gym-preview { font-size: 0.8rem; color: var(--accent-gold); font-weight: 700; font-family: 'Oswald'; letter-spacing: 1px; margin-top: 8px; }
+        
+        /* Tomorrow preview */
+        .tomorrow-preview { margin-top: 15px; padding: 12px; border: 1px solid #222; background: transparent; font-size: 0.75rem; color: #555; text-align: center; }
+        .tomorrow-preview strong { color: #888; }
+        
+        /* OLED toggle */
+        body.oled-mode { background-color: #000000 !important; }
+        body.oled-mode .app-container { background-color: #000000 !important; }
+        body.oled-mode .card { background-color: #000000 !important; }
+        body.oled-mode header { background-color: rgba(0,0,0,0.98) !important; }
+        body.oled-mode .nav-bottom { background-color: rgba(0,0,0,0.98) !important; }
     </style>
 </head>
 <body>
@@ -215,7 +328,11 @@
 <div class="app-container">
     <header>
         <div id="headerTitle">S O V I E T // C O A C H</div>
-        <div class="author-disclaimer">APP BY ONDŘEJ LACINA &copy; 2026 | EXCLUSIVE RIGHTS</div>
+        <div class="micro-dash" id="microDash">
+            <div class="micro-dash-item" id="mdStreak"></div>
+            <div class="micro-dash-item" id="mdKcal"></div>
+            <div class="micro-dash-item" id="mdWater"></div>
+        </div>
         <div class="date-navigator">
             <span id="globalDateDisplay">--</span>
             <button class="btn-today" onclick="setGlobalDateToToday()">Dnes</button>
@@ -242,32 +359,64 @@
                 <div class="cal-grid" id="calendarGrid"></div>
             </div>
             <div style="margin-top: 20px;">
-                <p style="font-size: 0.7rem; color: #555; text-align: center; letter-spacing: 1px; font-weight: 600; text-transform: uppercase;">
-                    <span style="color:var(--primary);">S&C</span> &nbsp;|&nbsp; 
-                    <span style="color:var(--accent-red);">BOX</span> &nbsp;|&nbsp; 
-                    <span style="color:var(--text-muted);">ROADWORK</span>
-                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p style="font-size: 0.7rem; color: #555; text-align: center; letter-spacing: 1px; font-weight: 600; text-transform: uppercase;">
+                        <span style="color:var(--primary);">S&C</span> &nbsp;|&nbsp; 
+                        <span style="color:var(--accent-red);">BOX</span> &nbsp;|&nbsp; 
+                        <span style="color:var(--text-muted);">ROADWORK</span>
+                    </p>
+                    <span class="streak-badge" id="streakBadge" style="display:none;">🔥 <span id="streakCount">0</span></span>
+                </div>
+                <button class="btn btn-outline" style="margin-top: 15px; border-color: #222; color: #666; font-size: 0.7rem; padding: 12px;" onclick="openWeekTemplateModal()">📋 TÝDENNÍ ŠABLONA</button>
             </div>
         </div>
 
         <!-- TRÉNINK (MISE) TAB -->
         <div id="tab-workout" class="tab-content">
+            <!-- Daily Check-in -->
+            <div class="checkin-bar" id="checkinBar">
+                <div class="checkin-item" id="checkinFeel" onclick="cycleCheckin('feel')">
+                    <span class="checkin-label">Pocit</span>
+                    <span class="checkin-val" id="checkinFeelVal">—</span>
+                </div>
+                <div class="checkin-item" id="checkinSleep" onclick="cycleCheckin('sleep')">
+                    <span class="checkin-label">Spánek</span>
+                    <span class="checkin-val" id="checkinSleepVal">—</span>
+                </div>
+                <div class="checkin-item" id="checkinSoreness" onclick="cycleCheckin('soreness')">
+                    <span class="checkin-label">Bolest</span>
+                    <span class="checkin-val" id="checkinSorenessVal">—</span>
+                </div>
+            </div>
+
             <div id="workout-trigger-block" class="card" style="text-align: center; padding: 40px 20px;">
                 <h2 style="font-size: 1rem; font-weight: 700; color: #666; letter-spacing: 2px; margin-bottom: 10px;">MISE: <span class="activeDateText" style="color: white;">dnes</span></h2>
-                <div id="todayStatusText" style="font-size: 1.4rem; font-weight: 800; font-family: 'Oswald'; margin-bottom: 30px; letter-spacing: 1px;">Načítám...</div>
-                <button class="btn" id="btnStartWorkout" onclick="initWorkoutFromPlan()">ZOBRAZIT PROTOKOL</button>
-                <button class="btn btn-outline" style="border-color: #222; color: #555; font-size: 0.75rem; margin-top: 15px;" onclick="switchTab('calendar', document.querySelector('.nav-item'))">Změnit plán v kalendáři</button>
+                <div id="todayStatusText" style="font-size: 1.4rem; font-weight: 800; font-family: 'Oswald'; margin-bottom: 10px; letter-spacing: 1px;">Načítám...</div>
+                <div class="gym-preview" id="gymPreview"></div>
+                <div style="margin-top: 20px;">
+                    <button class="btn" id="btnStartWorkout" onclick="initWorkoutFromPlan()">ZOBRAZIT PROTOKOL</button>
+                </div>
+                <button class="btn btn-outline" style="border-color: #222; color: #555; font-size: 0.75rem; margin-top: 10px;" onclick="switchTab('calendar', document.querySelector('.nav-item'))">Změnit plán v kalendáři</button>
+                <div class="tomorrow-preview" id="tomorrowPreview"></div>
             </div>
             
             <div id="workout-block" style="display: none;">
+                <div class="workout-timer-bar">
+                    <span class="workout-timer-label">TRVÁNÍ</span>
+                    <span class="workout-timer-val" id="workoutDurationDisplay">0:00</span>
+                </div>
                 <div style="margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px;">
                     <span id="workout-subtitle" style="color: var(--accent-red); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;"></span>
                     <h2 id="workout-title" style="color: var(--primary); font-size: 1.8rem; font-weight: 700; text-transform: uppercase; font-family: 'Oswald'; margin-top: 5px;"></h2>
                 </div>
                 <div id="exercise-list" style="padding: 0; background: transparent; border: none;"></div>
-                <div style="margin-top: 40px;">
+                <div style="margin-top: 30px;">
+                    <label style="display:block; font-size:0.7rem; color:#666; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:8px;">Poznámka od trenéra / vlastní</label>
+                    <textarea class="coach-note-input" id="workoutNoteInput" placeholder="Co říkal trenér? Co si chceš zapamatovat?"></textarea>
+                </div>
+                <div style="margin-top: 20px;">
                     <button class="btn" style="background-color: var(--primary); color: black;" onclick="saveWorkout()">POTVRDIT SPLNĚNÍ</button>
-                    <button class="btn btn-outline" style="border: none; color: #555; font-size: 0.8rem;" onclick="resetWorkoutUI()">Zpět</button>
+                    <button class="btn btn-outline" style="border: none; color: #555; font-size: 0.8rem;" onclick="confirmResetWorkout()">Zpět</button>
                 </div>
             </div>
         </div>
@@ -351,6 +500,17 @@
             </div>
             
             <div class="card" style="overflow: visible; padding: 15px;">
+                <div class="food-cat-bar" id="foodCatBar">
+                    <button class="food-cat-btn active" onclick="setFoodCategory('all', this)">Vše</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('maso', this)">Maso</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('mlecne', this)">Mléčné</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('obiloviny', this)">Obiloviny</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('ovoce', this)">Ovoce</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('zelenina', this)">Zelenina</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('orechy', this)">Ořechy</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('suplementy', this)">Supl.</button>
+                    <button class="food-cat-btn" onclick="setFoodCategory('ostatni', this)">Ostatní</button>
+                </div>
                 <div class="food-search-wrapper">
                     <input type="text" id="foodSearchInput" class="food-search-input" placeholder="Vyhledat v databázi..." onkeyup="handleFoodSearch()" onfocus="handleFoodSearch()" autocomplete="off">
                     <ul id="foodDropdown" class="food-dropdown"></ul>
@@ -362,7 +522,10 @@
                 </div>
             </div>
 
-            <h2 class="section-title" style="border:none; padding:0; margin-top: 30px;">SNĚDENO DNES</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 10px;">
+                <h2 class="section-title" style="border:none; padding:0; margin: 0;">SNĚDENO</h2>
+                <button class="copy-day-btn" onclick="openCopyDayModal()">📋 KOPÍROVAT DEN</button>
+            </div>
             <div class="card" id="eatenFoodList" style="padding: 5px 20px; background: transparent; border-color: transparent;"></div>
         </div>
 
@@ -381,6 +544,8 @@
 
             <!-- Statistiky Blok -->
             <div id="statsBlock" style="display: none;">
+                <div id="weeklySummaryBlock" class="weekly-summary" style="margin-bottom: 25px;"></div>
+                
                 <div class="card" style="padding: 20px;">
                     <label style="display:block; text-align:left; font-size:0.75rem; color:#888; margin-bottom:10px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Zadat ranní váhu (KG) pro <span class="activeDateText">dnes</span></label>
                     <div style="display: flex; gap: 10px;">
@@ -392,8 +557,16 @@
                 <h3 style="font-size: 0.8rem; color: #666; text-transform: uppercase; margin-bottom: 10px; margin-top: 30px; letter-spacing: 2px; font-family: 'Inter';">Vývoj Váhy (14 dní)</h3>
                 <div class="graph-container" id="weightGraph"></div>
 
-                <h3 style="font-size: 0.8rem; color: #666; text-transform: uppercase; margin-bottom: 10px; margin-top: 30px; letter-spacing: 2px; font-family: 'Inter';">Příjem Kalorií (14 dní)</h3>
+                <h3 style="font-size: 0.8rem; color: #666; text-transform: uppercase; margin-bottom: 10px; margin-top: 30px; letter-spacing: 2px; font-family: 'Inter';">Příjem (14 dní)</h3>
+                <div class="macro-graph-toggle">
+                    <button class="macro-graph-btn active" id="graphBtnKcal" onclick="setGraphMode('kcal')">KCAL</button>
+                    <button class="macro-graph-btn" id="graphBtnP" onclick="setGraphMode('p')">BÍLK.</button>
+                    <button class="macro-graph-btn" id="graphBtnC" onclick="setGraphMode('c')">SACH.</button>
+                    <button class="macro-graph-btn" id="graphBtnF" onclick="setGraphMode('f')">TUKY</button>
+                </div>
                 <div class="graph-container" id="kcalGraph"></div>
+                
+                <button class="btn btn-outline" style="border-color: #222; color: #555; font-size: 0.7rem; margin-top: 20px;" onclick="exportCSV()">📊 EXPORT CSV</button>
             </div>
         </div>
     </div>
@@ -417,7 +590,7 @@
         <button class="modal-close-x" onclick="closePlanModal()">✕</button>
         <h3 style="margin-bottom: 10px; color: white; letter-spacing: 2px;" id="planDayTitle">PLÁN NA DEN</h3>
         <p style="font-size: 0.8rem; color: #666; margin-bottom: 25px;">Zvol primární zaměření tréninku.</p>
-        <button class="btn" style="background: var(--primary); color: #000;" onclick="setPlanForDay('gym')">FITKO (SÍLA + LAKTÁT)</button>
+        <button class="btn" style="background: var(--primary); color: #000;" onclick="setPlanForDay('gym')">FITKO (SÍLA & VÝBUŠNOST)</button>
         <button class="btn" style="background: transparent; border: 1px solid var(--primary); color: var(--primary);" onclick="setPlanForDay('box')">RANNÍ PRIMER + VEČERNÍ BOX</button>
         <button class="btn" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);" onclick="setPlanForDay('cardio')">KARDIO (AEROBNÍ BÁZE)</button>
         <button class="btn" style="background: #111; color: #555; border: 1px solid #222;" onclick="setPlanForDay('rest')">VOLNO (REGE)</button>
@@ -458,6 +631,12 @@
         </div>
 
         <div class="copyright-footer">
+            <div style="margin-bottom: 15px;">
+                <label style="display:flex; align-items:center; justify-content:center; gap:10px; cursor:pointer;">
+                    <span style="font-size:0.65rem; color:#666; letter-spacing:1px;">OLED BLACK</span>
+                    <input type="checkbox" id="oledToggle" onchange="toggleOled()" style="width:18px; height:18px; accent-color: var(--primary);">
+                </label>
+            </div>
             &copy; 2026 Ondřej Lacina<br>
             Všechna práva vyhrazena.
         </div>
@@ -470,7 +649,8 @@
         <button class="modal-close-x" onclick="document.getElementById('infoModal').style.display='none'">✕</button>
         <h3 id="infoModalTitle" style="color: var(--primary); margin-bottom: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Info</h3>
         <strong style="color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px;">Cíl cviku:</strong>
-        <p id="infoModalText" style="color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 25px;"></p>
+        <p id="infoModalText" style="color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;"></p>
+        <div id="infoModalYt" style="display:none; margin-bottom: 15px;"></div>
         <button class="btn" onclick="document.getElementById('infoModal').style.display='none'">ZAVŘÍT</button>
     </div>
 </div>
@@ -547,7 +727,25 @@
             <button class="timer-mode-btn" id="btnModeHiit" onclick="setTimerMode('hiit')">HIIT</button>
         </div>
 
+        <!-- Box round count -->
+        <div id="boxSettings" style="margin-bottom: 20px;">
+            <div class="hiit-row">
+                <span class="hiit-label">Kola</span>
+                <div class="stepper-ctrl">
+                    <button class="stepper-btn" onclick="adjBox('rounds', -1)">-</button>
+                    <input type="number" id="inputBoxRounds" class="stepper-val" value="6" readonly>
+                    <button class="stepper-btn" onclick="adjBox('rounds', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
         <div id="hiitSettings" style="display: none; margin-bottom: 30px;">
+            <div class="timer-presets">
+                <button class="timer-preset-btn" onclick="setHiitPreset(20,10,8)">TABATA 20/10</button>
+                <button class="timer-preset-btn" onclick="setHiitPreset(20,10,9)">SOVĚTSKÝ 20/10×9</button>
+                <button class="timer-preset-btn" onclick="setHiitPreset(40,10,6)">AIRBIKE 40/10</button>
+                <button class="timer-preset-btn" onclick="setHiitPreset(30,30,8)">BILLAT 30/30</button>
+            </div>
             <div class="hiit-setup">
                 <div class="hiit-row">
                     <span class="hiit-label">Práce (s)</span>
@@ -584,6 +782,44 @@
             <button class="btn" id="timerBtnAction" style="margin-bottom: 0;" onclick="startPauseTimer()">START</button>
             <button class="btn btn-outline" style="margin-bottom: 0; padding: 18px; border-color: #333; color: #aaa;" onclick="resetTimer()">RESET</button>
         </div>
+    </div>
+</div>
+
+<!-- WEEK TEMPLATE MODAL -->
+<div id="weekTemplateModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center;">
+        <button class="modal-close-x" onclick="document.getElementById('weekTemplateModal').style.display='none'">✕</button>
+        <h3 style="color: white; margin-bottom: 10px; letter-spacing: 2px;">TÝDENNÍ ŠABLONA</h3>
+        <p style="font-size: 0.75rem; color: #666; margin-bottom: 20px;">Klikni na den pro změnu typu. Pak aplikuj na aktuální týden.</p>
+        <div class="week-template" id="weekTemplateGrid"></div>
+        <button class="btn" style="background: var(--primary); color: #000; margin-top: 15px;" onclick="applyWeekTemplate()">APLIKOVAT NA TENTO TÝDEN</button>
+        <button class="btn btn-outline" style="border-color: #333; color: #666; font-size: 0.75rem;" onclick="document.getElementById('weekTemplateModal').style.display='none'">ZRUŠIT</button>
+    </div>
+</div>
+
+<!-- COPY FOOD DAY MODAL -->
+<div id="copyDayModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center;">
+        <button class="modal-close-x" onclick="document.getElementById('copyDayModal').style.display='none'">✕</button>
+        <h3 style="color: white; margin-bottom: 10px; letter-spacing: 2px;">KOPÍROVAT JÍDLO</h3>
+        <p style="font-size: 0.75rem; color: #666; margin-bottom: 20px;">Zkopíruje všechna jídla z vybraného dne do aktuálního dne.</p>
+        <button class="btn btn-outline" style="border-color: #555;" onclick="copyFoodFromDay(-1)">VČERA</button>
+        <button class="btn btn-outline" style="border-color: #555;" onclick="copyFoodFromDay(-2)">PŘEDEVČÍREM</button>
+        <button class="btn btn-outline" style="border-color: #555;" onclick="copyFoodFromDay(-3)">PŘED 3 DNY</button>
+        <button class="btn btn-outline" style="border-color: #333; color: #555; font-size: 0.75rem; margin-top: 10px;" onclick="document.getElementById('copyDayModal').style.display='none'">ZRUŠIT</button>
+    </div>
+</div>
+
+<!-- EDIT FOOD ENTRY MODAL -->
+<div id="editFoodModal" class="modal-overlay">
+    <div class="modal-content" style="text-align: center;">
+        <button class="modal-close-x" onclick="document.getElementById('editFoodModal').style.display='none'">✕</button>
+        <h3 style="color: white; margin-bottom: 5px; letter-spacing: 2px;" id="editFoodTitle">UPRAVIT</h3>
+        <p style="font-size: 0.75rem; color: #666; margin-bottom: 20px;" id="editFoodName"></p>
+        <input type="number" id="editFoodAmount" class="modal-input" placeholder="Nové množství">
+        <span id="editFoodUnit" style="color: #666; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 15px; text-transform: uppercase;"></span>
+        <button class="btn" onclick="saveEditedFood()">ULOŽIT</button>
+        <button class="btn" style="background: var(--accent-red); color: white;" onclick="deleteEditedFood()">SMAZAT</button>
     </div>
 </div>
 
@@ -632,7 +868,7 @@
     }
 
     // Wake Lock API (NoSleep for HTTPS)
-    let wakeLock = null;
+    var wakeLock = null;
     async function requestWakeLock() {
         if ('wakeLock' in navigator) {
             try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) { console.log(err); }
@@ -728,6 +964,7 @@
             if (document.getElementById('btnTogStats').classList.contains('active')) renderStats();
             else loadHistory();
         }
+        updateMicroDash();
     }
 
     function switchTab(tabId, el) {
@@ -754,6 +991,8 @@
             weight: localStorage.getItem('sovietCoachWeightLog'),
             recipes: localStorage.getItem('sovietCoachRecipes'),
             waterLog: localStorage.getItem('sovietCoachWaterLog'),
+            notes: localStorage.getItem('sovietCoachNotes'),
+            checkin: localStorage.getItem('sovietCoachCheckin'),
             settings: {
                 phase: localStorage.getItem('userPhase'),
                 weight: localStorage.getItem('userWeight'),
@@ -785,6 +1024,8 @@
                 if (data.weight) localStorage.setItem('sovietCoachWeightLog', data.weight);
                 if (data.recipes) localStorage.setItem('sovietCoachRecipes', data.recipes);
                 if (data.waterLog) localStorage.setItem('sovietCoachWaterLog', data.waterLog);
+                if (data.notes) localStorage.setItem('sovietCoachNotes', data.notes);
+                if (data.checkin) localStorage.setItem('sovietCoachCheckin', data.checkin);
                 if (data.settings) {
                     if(data.settings.phase) localStorage.setItem('userPhase', data.settings.phase);
                     if(data.settings.weight) localStorage.setItem('userWeight', data.settings.weight);
@@ -903,145 +1144,160 @@
     var workoutsDB = {
         "1": {
             gymA: { 
-                title: "Fáze 1: Hardware (Spodek + Motor)",
+                title: "Fáze 1: Síla + Kinetický Řetězec",
                 list: [
-                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Lehké skákání.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Zahřeje nohy a prevence zranění Achillovky." },
-                    { name: "Čelní dřepy", sets: 3, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 7", ytSearch: "Squat University front squat perfect form", benefit: "Buduje absolutní sílu nohou pro silný postoj." },
-                    { name: "Shyby", sets: 3, desc: "S gumou pokud nedáš.", detail: "5-8 op.", intensity: "RPE 7.5", ytSearch: "Pull up perfect form Squat University", benefit: "Sval zádový stahuje ruku bleskově zpět do krytu." },
-                    { name: "Explozivní kliky", sets: 3, desc: "Odraz z podlahy.", detail: "5 op.", intensity: "Výbušně", ytSearch: "Explosive plyometric pushups boxing", benefit: "Aktivuje rychlá svalová vlákna. Bleskový úder." },
-                    { name: "Horse Stance", sets: 3, desc: "Hluboký podřep na místě.", detail: "30s", intensity: "Výdrž", isIso: 30, ytSearch: "Horse stance exercise legs", benefit: "Izometrie pro neúnavný Pendulum step." },
-                    { name: "Airbike Laktát", sets: 4, desc: "30s práce / 15s volno.", detail: "Interval", intensity: "Laktát", ytSearch: "Airbike intervals workout", benefit: "Laktátová tolerance pro kondici v ringu." }
+                    { name: "Švihadlo (Flow)", sets: 1, desc: "Uvolněné kotníky, dýchej nosem. Ali shuffle pokud jde.", detail: "5 min", intensity: "Warmup", ytSearch: "Jump rope Ali shuffle relaxed boxing", benefit: "CNS aktivace + reaktivní síla kotníků pro pendulum step." },
+                    { name: "Dynamická mobilita", sets: 1, desc: "Hip CARs → Thoracic rotace → Spiderman s rotací → Inchworm.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic mobility hip thoracic boxing", benefit: "Otevírá centra rotace — kyčle a hrudní páteř. Bez mobility = tahání úderů z ramene." },
+                    { name: "Pogos → Box Jump", sets: 3, desc: "5× Pogos (tuhé kotníky, min kontakt) → 3× Box Jump (měkký dopad, drž 2s).", detail: "Komplex", intensity: "CNS aktivace", ytSearch: "Pogos box jump complex plyometric", benefit: "Reaktivní CNS aktivace na čerstvou CNS." },
+                    { name: "Čelní dřep", sets: 4, desc: "Kontrola dolů (2s), EXPLOZE nahoru. Vzpřímený trup!", detail: "5 op.", intensity: "RPE 7", ytSearch: "Front squat explosive concentric form", benefit: "Se silovým fondem rovnou čelní dřep. Vzpřímený trup = přenos do boxerského postoje." },
+                    { name: "Shyby se zátěží", sets: 4, desc: "+5-10kg. Stáhni lopatky, plný rozsah.", detail: "5 op.", intensity: "RPE 7.5", ytSearch: "Weighted pull ups scapula retraction", benefit: "Lats = návrat do krytu + snap na konci úderu." },
+                    { name: "KB Swing (střední)", sets: 4, desc: "Hip hinge → EXPLOZE boků → ruce MRTVÉ LANO. Nic nedělají!", detail: "10 op.", intensity: "Výbušně", ytSearch: "Kettlebell swing dead arms hip drive", benefit: "KLÍČOVÝ CVIK. Generuje sílu z boků, ruce volně cestují. Bivolův vzorec." },
+                    { name: "Pallof Press", sets: 3, desc: "Guma/kabel. Tlač od hrudi, drž 2s v extenzi.", detail: "10 op/str.", intensity: "Kontrola", ytSearch: "Pallof press anti rotation core boxing", benefit: "Anti-rotace: core PŘENÁŠÍ sílu z nohou do úderu bez leaku." },
+                    { name: "Steady State Conditioning", sets: 1, desc: "Bike nebo veslo. Klidný, UVOLNĚNÝ rytmus. Ramena dole!", detail: "12 min", intensity: "HR 130-140", ytSearch: "Zone 2 conditioning bike rowing", benefit: "Aerobní báze. BEZ ní se sovětský styl zhroutí. V této fázi žádný laktát." }
                 ]
             },
             gymB: {
-                title: "Fáze 1: Hardware (Torze + Motor)",
+                title: "Fáze 1: Výbušnost + Kontrakce-Relaxace",
                 list: [
-                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Lehké skákání.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Příprava CNS." },
-                    { name: "Landmine Press", sets: 3, desc: "Výbušnost kříže (Cross).", detail: "6 op/ruka", intensity: "RPE 7", ytSearch: "Landmine press boxing power", benefit: "Nejlepší cvik na torzní sílu pro zadní direkt." },
-                    { name: "Hip Thrust", sets: 3, desc: "Generátor síly.", detail: "8 op.", intensity: "RPE 7", ytSearch: "Barbell hip thrust perfect form", benefit: "Zadek je hlavním motorem pro rotaci." },
-                    { name: "Tlaky na ramena (OHP)", sets: 3, desc: "Osa ve stoje.", detail: "6 op.", intensity: "RPE 7.5", ytSearch: "Overhead press Squat University", benefit: "Silná ramena udrží kryt po celý zápas." },
-                    { name: "Ruský twist / Medball", sets: 3, desc: "Rotace těla.", detail: "15 op.", intensity: "Plynule", ytSearch: "Russian twist medicine ball boxing", benefit: "Zpevnění šikmých břišních svalů." },
-                    { name: "Veslo Laktát", sets: 4, desc: "30s práce / 15s volno.", detail: "Interval", intensity: "Laktát", ytSearch: "Rowing machine intervals", benefit: "Budování anaerobní báze." }
+                    { name: "Švihadlo (Variace)", sets: 1, desc: "Střídej nohy, cross-overs, double unders.", detail: "5 min", intensity: "Warmup", ytSearch: "Jump rope footwork variations boxing", benefit: "Koordinace + uvolněná ramena." },
+                    { name: "Dynamická mobilita", sets: 1, desc: "World's Greatest Stretch → Cat/Cow → Scorpion → Hip 90/90 flow.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic stretching thoracic spine hips flow", benefit: "Hrudní páteř + kyčle = centra rotace." },
+                    { name: "Altitude Landing → Ice Skater", sets: 3, desc: "3× seskok (měkký dopad, drž 2s) → 4× Ice Skater.", detail: "Komplex", intensity: "Kontrola → Výbušně", ytSearch: "Altitude landing ice skater plyometric complex", benefit: "Absorpce síly + laterální výbušnost pro pendulum." },
+                    { name: "Hang Power Clean", sets: 4, desc: "Z kolen EXPLOZE → rack. Lehčí váha, MAX rychlost!", detail: "3 op.", intensity: "Výbušně", ytSearch: "Hang power clean explosive technique", benefit: "Se vzpěračským fondem gold. Triple extenze = pattern generování síly úderu." },
+                    { name: "Landmine Press (rotační)", sets: 3, desc: "Z podřepu → EXPLOZE z nohy → rotace → press. Celý řetězec!", detail: "6 op/ruka", intensity: "RPE 7", ytSearch: "Landmine press rotational explosive boxing", benefit: "Nejblíže cross úderu. Síla z podlahy přes boky — ruka je bič." },
+                    { name: "Plank Row (Renegade)", sets: 3, desc: "Táhni jednoručku. Core NESMÍ rotovat!", detail: "8 op/str.", intensity: "Anti-rotace", ytSearch: "Renegade row anti rotation core", benefit: "Anti-rotace pod zátěží." },
+                    { name: "K-R: Band Snap Punch", sets: 3, desc: "Guma za zády: EXPLOZE vpřed → OKAMŽITĚ uvolni → guma vrátí.", detail: "10 op/ruka", intensity: "Snap!", ytSearch: "Resistance band punch snap relaxation boxing", benefit: "SOVĚTSKÝ DRILL: učí svaly okamžitě relaxovat po kontrakci. To co ti chybí." },
+                    { name: "K-R: KB Swing → Dead Hang", sets: 3, desc: "6× KB Swing MAX → polož → hrazda → 15s mrtvý vis. ÚPLNĚ uvolni.", detail: "Kontrast", intensity: "100% → 0%", ytSearch: "Kettlebell swing dead hang contrast relaxation", benefit: "MAX napětí → KOMPLETNÍ relaxace. Sovětský princip ostrého přechodu." },
+                    { name: "Mobility Cooldown", sets: 1, desc: "90/90, Couch Stretch, Pec Stretch — 60s/str.", detail: "5 min", intensity: "Uvolnění", ytSearch: "Hip mobility cooldown boxers stretching", benefit: "KAŽDÝ trénink končí mobilitou." }
                 ]
             },
             boxPrimer: {
-                title: "Ranní Primer + Večerní Box",
+                title: "Box Day: Ranní Primer + Večerní Soukromá",
                 list: [
-                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů před dnem bez hromadění únavy." },
-                    { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu, kroužení pažemi.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu a připravuje klouby." },
-                    { name: "Shadowboxing Flow", sets: 3, desc: "Žádná síla. Jen dýchání a technika na 30%.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Zlepšuje svalovou koordinaci a spojení mozku se svalem bez vyčerpání." },
-                    { name: "Lehká Izometrie Core", sets: 2, desc: "Plank nebo Bird-dog.", detail: "30s", intensity: "Aktivace", isIso: 30, ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém, aby Tě večer nebolela záda." },
-                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
+                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Probuzení.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin zone 1", benefit: "Prokrvení bez únavy." },
+                    { name: "Mobilita: Hrudník + Kyčle", sets: 1, desc: "Thoracic rotace, Hip CARs, Spiderman, Pec stretch.", detail: "7 min", intensity: "Plynule", ytSearch: "Dynamic warmup thoracic hip boxing", benefit: "Otevřít rotační centra." },
+                    { name: "Shadowboxing SLOW MOTION", sets: 3, desc: "30% rychlost. Noha → bok → ruka? Ramena DOLŮ. Výdech jen při impaktu.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing slow motion kinetic chain", benefit: "Záměrné pomalé shadow boxing pro neurologickou kontrolu řetězce." },
+                    { name: "Core: Bird-Dog", sets: 2, desc: "Protilehlá ruka+noha, drž 5s.", detail: "8 op/str.", intensity: "Kontrola", ytSearch: "Bird dog core activation", benefit: "Stabilizace bez únavy." },
+                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1. CÍLE: uvolněnost, řetězec, dýchání. Ať trenér zastavuje když taháš!", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní jednotka. Uvolněnost > síla." }
                 ]
             },
             cardio: {
-                title: "Fáze 1: Aerobní Báze (LISS)",
+                title: "Fáze 1: Aerobní Báze + Mobilita",
                 list: [
-                    { name: "Švihadlo (Zahřátí)", sets: 1, desc: "Příprava lýtek.", detail: "5 min", intensity: "Lehce", ytSearch: "Jump rope warmup boxing", benefit: "Adaptace úponů." },
-                    { name: "Roadwork (LISS)", sets: 1, desc: "Pomalý běh (Zone 2). Nezastavuj.", detail: "20-30 min", intensity: "HR 130", ytSearch: "Zone 2 running explained", benefit: "Buduje síť vlásečnic." },
-                    { name: "Kliky na zápěstí", sets: 2, desc: "Na kloubech.", detail: "10 op.", intensity: "Stabilita", ytSearch: "Knuckle pushups conditioning", benefit: "Zpevňuje pěsti proti zlomeninám." }
+                    { name: "Švihadlo (Flow)", sets: 1, desc: "Uvolněný rytmus.", detail: "5 min", intensity: "Warmup", ytSearch: "Jump rope warmup relaxed boxing", benefit: "Zahřátí." },
+                    { name: "Roadwork (LISS)", sets: 1, desc: "Zone 2. UVOLNĚNÁ ramena! NOSEM!", detail: "25-35 min", intensity: "HR 130", ytSearch: "Zone 2 running nasal breathing", benefit: "Kapilární síť. Nosní dýchání = vynucená nižší intenzita." },
+                    { name: "Mobilita po běhu", sets: 1, desc: "Couch Stretch, 90/90, Pec Stretch, Thoracic rotace, Knee-to-Wall — 60s/str.", detail: "12 min", intensity: "Uvolnění", ytSearch: "Post run mobility hips shoulders", benefit: "Kardio den = hlavní nástroj proti ztuhlosti." }
                 ]
             }
         },
         "2": {
             gymA: { 
-                title: "Fáze 2: Hardware (Spodek)",
+                title: "Fáze 2: Max Síla + CNS Reaktivita",
                 list: [
-                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Rychlejší tempo.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Zahřátí CNS." },
-                    { name: "Čelní dřepy", sets: 4, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 8", ytSearch: "Squat University front squat perfect form", benefit: "Absolutní síla nohou." },
-                    { name: "Shyby se zátěží", sets: 4, desc: "Brzda pro tvé údery.", detail: "6-8 op.", intensity: "RPE 8", ytSearch: "Pull up perfect form Squat University", benefit: "Návrat ruky do krytu." },
-                    { name: "Explozivní kliky", sets: 4, desc: "S tlesknutím.", detail: "6 op.", intensity: "Výbušně", ytSearch: "Explosive plyometric pushups boxing", benefit: "Reaktivní síla." },
-                    { name: "Horse Stance", sets: 3, desc: "Drž hluboký podřep.", detail: "45s", intensity: "Pálení", isIso: 45, ytSearch: "Horse stance exercise legs", benefit: "Izometrická výdrž." },
-                    { name: "Airbike Laktát", sets: 6, desc: "40s práce / 10s pauza.", detail: "Interval", intensity: "Tvrdě", ytSearch: "Airbike intervals workout", benefit: "Laktátová tolerance." }
+                    { name: "Švihadlo (Komplexní)", sets: 1, desc: "Double unders, Ali shuffle, cross-overs.", detail: "5 min", intensity: "Warmup", ytSearch: "Jump rope advanced Ali shuffle", benefit: "CNS aktivace." },
+                    { name: "Dynamická mobilita", sets: 1, desc: "Deep squat hold → thoracic rotace → Spiderman → inchworm.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic mobility flow warmup", benefit: "Otevření řetězce." },
+                    { name: "Depth Jump → Box Jump", sets: 3, desc: "Seskok 40cm → OKAMŽITÝ výskok. MIN kontakt!", detail: "4 op.", intensity: "MAX CNS", ytSearch: "Depth jump box jump reactive plyometric", benefit: "Vrchol CNS reaktivity." },
+                    { name: "Čelní dřep (tempo)", sets: 4, desc: "3s eccentric → 1s pauza → EXPLOZE nahoru.", detail: "4 op.", intensity: "RPE 8", ytSearch: "Front squat tempo eccentric explosive", benefit: "Tempo = kontrola. Exploze = CNS se učí střílet." },
+                    { name: "Shyby se zátěží", sets: 4, desc: "+10-20kg. Výbušný tah.", detail: "4 op.", intensity: "RPE 8.5", ytSearch: "Heavy weighted pull ups explosive", benefit: "Silné lats pro snap a kryt." },
+                    { name: "DB Bench (neutrální grip)", sets: 4, desc: "1s pauza na hrudi → EXPLOZE.", detail: "6 op.", intensity: "RPE 8", ytSearch: "Dumbbell bench press neutral grip pause", benefit: "Stiffening při impaktu. Neutrální grip chrání ramena." },
+                    { name: "KB Swing (těžký)", sets: 5, desc: "Nejtěžší KB. MAX exploze boků. Ruce = MRTVÉ LANO!", detail: "8 op.", intensity: "Výbušně", ytSearch: "Heavy kettlebell swing hip drive power", benefit: "Těžší KB = větší hip drive. Ruce volné." },
+                    { name: "HIIT: Bike/Veslo", sets: 4, desc: "3min @ 85-90% HR / 2min rest. Ramena UVOLNĚNÁ!", detail: "3 min práce", intensity: "Red Zone", ytSearch: "HIIT 3 minute intervals boxing", benefit: "Red Zone s uvolněností horní poloviny." }
                 ]
             },
             gymB: {
-                title: "Fáze 2: Hardware (Torze)",
+                title: "Fáze 2: Výbušnost + Sovětský Circuit",
                 list: [
-                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Rychlejší tempo.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "Zahřátí." },
-                    { name: "Landmine Press", sets: 4, desc: "Rotace z nohy.", detail: "6 op/ruka", intensity: "RPE 8", ytSearch: "Landmine press boxing power", benefit: "Torzní síla pro zadní úder." },
-                    { name: "Hip Thrust", sets: 4, desc: "S osou.", detail: "8 op.", intensity: "RPE 8", ytSearch: "Barbell hip thrust perfect form", benefit: "Motor rotace pánve." },
-                    { name: "Tlaky na ramena (OHP)", sets: 4, desc: "Osa ve stoje.", detail: "6 op.", intensity: "RPE 8", ytSearch: "Overhead press Squat University", benefit: "Síla ramen pro kryt." },
-                    { name: "Ruský twist / Medball", sets: 4, desc: "Dynamická rotace.", detail: "20 op.", intensity: "Výbušně", ytSearch: "Russian twist medicine ball boxing", benefit: "Stabilizace trupu." },
-                    { name: "Veslo Laktát", sets: 6, desc: "40s práce / 10s pauza.", detail: "Interval", intensity: "Tvrdě", ytSearch: "Rowing machine intervals", benefit: "Laktát." }
+                    { name: "Švihadlo (Tabata)", sets: 1, desc: "20s MAX / 10s pomalé × 8.", detail: "4 min", intensity: "Tabata", ytSearch: "Jump rope tabata intervals boxing", benefit: "CNS rychlost + conditioning." },
+                    { name: "Dynamická mobilita", sets: 1, desc: "World's Greatest Stretch → Cat/Cow → Hip CARs → Thoracic rotace.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic mobility boxing warmup", benefit: "Otevření rotačních center." },
+                    { name: "Split Jump (reaktivní)", sets: 3, desc: "Výpad → výskok → výměna nohou. MIN kontakt!", detail: "6 op.", intensity: "Výbušně", ytSearch: "Split jump reactive plyometric boxing", benefit: "Výbušný pendulum step." },
+                    { name: "Hang Power Clean (rychlý)", sets: 4, desc: "Lehčí, MAX rychlost. Triple extenze!", detail: "3 op.", intensity: "MAX RYCHLOST", ytSearch: "Hang power clean speed explosive", benefit: "Rychlost > váha. Triple extenze = pattern úderu." },
+                    { name: "Landmine Press (výbušný)", sets: 4, desc: "Z podřepu → EXPLOZE → rotace → press. CELÝ ŘETĚZEC!", detail: "5 op/ruka", intensity: "100% VÝBUŠNĚ", ytSearch: "Landmine press explosive rotational boxing", benefit: "Noha → bok → core → ruka." },
+                    { name: "K-R: Band Snap Punch", sets: 4, desc: "Guma. EXPLOZE → OKAMŽITĚ uvolni. Snap-relax!", detail: "10 op/ruka", intensity: "Snap!", ytSearch: "Resistance band punch snap relaxation", benefit: "Ostrý přechod napětí → relaxace." },
+                    { name: "K-R: Contrast Tempo Hip Thrust", sets: 3, desc: "1s EXPLOZE → 2s MAX kontrakce → 5s ULTRA POMALU dolů. Kontrast!", detail: "6 op.", intensity: "Kontrast", ytSearch: "Contrast tempo hip thrust relaxation", benefit: "Extrémní kontrast napětí → relaxace. CNS se učí přepínat." },
+                    { name: "Sovětský Circuit 20/10 × 3", sets: 1, desc: "9 stanic × (20s/10s) = 3min. 1min pauza. 3×. Burpee, Výpad, Klik, Mt.Climber, Shadow, Squat jump, Plank tah, Ice skater, Dřep.", detail: "15 min", intensity: "Simulace zápasu", ytSearch: "Soviet boxing circuit training 20 10", benefit: "Autentický sovětský model z 1981. 3×3min = simulace zápasu." },
+                    { name: "Mobility Cooldown", sets: 1, desc: "90/90, Couch Stretch, Pec Stretch, Thoracic rotace.", detail: "5 min", intensity: "Uvolnění", ytSearch: "Cooldown mobility boxing", benefit: "Každý trénink končí mobilitou." }
                 ]
             },
             boxPrimer: {
-                title: "Ranní Primer + Večerní Box",
+                title: "Box Day: Ranní Primer + Večerní Soukromá",
                 list: [
-                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů před dnem bez hromadění únavy." },
-                    { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu." },
-                    { name: "Shadowboxing Flow", sets: 4, desc: "Žádná síla. Dýchání, volnost.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Zlepšuje svalovou koordinaci." },
-                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "40s", intensity: "Aktivace", isIso: 40, ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
-                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
+                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení." },
+                    { name: "Mobilita: Hrudník + Kyčle", sets: 1, desc: "Hip CARs, Thoracic rotace, Spiderman, Pec stretch, Shoulder CARs.", detail: "7 min", intensity: "Plynule", ytSearch: "Dynamic warmup thoracic hip boxing", benefit: "Otevřít rotační centra." },
+                    { name: "Shadowboxing: Slow → Fast", sets: 4, desc: "K1-2: slow motion. K3-4: 70% UVOLNĚNĚ. Tuhneš? → ZPOMAL.", detail: "3 min", intensity: "Kontrola → Flow", ytSearch: "Shadow boxing progressive speed relaxation", benefit: "Progresivní. Výdech jen při impaktu." },
+                    { name: "Core: Bird-Dog Flow", sets: 2, desc: "Plynulé přechody, drž 3s.", detail: "8 op/str.", intensity: "Kontrola", ytSearch: "Bird dog flow core activation", benefit: "Stabilizace bez únavy." },
+                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1. Uvolněnost + řetězec.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Uvolněnost > síla." }
                 ]
             },
             cardio: {
-                title: "Fáze 2: Aerobní Báze",
+                title: "Fáze 2: Aerobní Báze (delší)",
                 list: [
-                    { name: "Švihadlo (Zahřátí)", sets: 1, desc: "Práce jen v kotnících.", detail: "5 min", intensity: "Lehce", ytSearch: "Jump rope warmup boxing", benefit: "Reaktivní síla." },
-                    { name: "Roadwork (LISS)", sets: 1, desc: "Pomalý běh (Zone 2).", detail: "35-45 min", intensity: "HR 135", ytSearch: "Zone 2 running explained", benefit: "Budování kapilární sítě." },
-                    { name: "Kliky na zápěstí", sets: 3, desc: "Na kloubech.", detail: "10 op.", intensity: "Stabilita", ytSearch: "Knuckle pushups conditioning", benefit: "Zápěstí ze železa." }
+                    { name: "Švihadlo (Flow + Speed)", sets: 1, desc: "3min uvolněně → 2min rychle.", detail: "5 min", intensity: "Warmup", ytSearch: "Jump rope flow speed boxing", benefit: "Přepínání intenzit." },
+                    { name: "Roadwork (LISS)", sets: 1, desc: "Zone 2. Nosní dýchání! Ramena DOLŮ.", detail: "35-45 min", intensity: "HR 130-140", ytSearch: "Zone 2 running nasal breathing", benefit: "Kapilární síť + mitochondrie." },
+                    { name: "Mobilita po běhu", sets: 1, desc: "Couch Stretch, 90/90, Pec Stretch, Thoracic rotace, Knee-to-Wall.", detail: "12 min", intensity: "Uvolnění", ytSearch: "Post run mobility routine", benefit: "Dvojnásobná mobilita." }
                 ]
             }
         },
         "3": {
             gymA: { 
-                title: "Elita A: Síla nohou + Motor",
+                title: "Elita: MAX CNS + Transfer",
                 list: [
-                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Dvojšvihy, pohyb.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "CNS aktivace." },
-                    { name: "Čelní dřepy", sets: 5, desc: "Základ pro rovný trup.", detail: "5 op.", intensity: "RPE 8.5", ytSearch: "Squat University front squat perfect form", benefit: "Absolutní výkon noh." },
-                    { name: "Shyby se zátěží", sets: 5, desc: "Přidej váhu na pásek.", detail: "6-8 op.", intensity: "RPE 8.5", ytSearch: "Pull up perfect form Squat University", benefit: "Návrat úderu." },
-                    { name: "Explozivní kliky", sets: 5, desc: "Odraz z podlahy (Plyo).", detail: "8 op.", intensity: "100% MAX", ytSearch: "Explosive plyometric pushups boxing", benefit: "Reaktivní výbušnost." },
-                    { name: "Izometrie: Horse Stance", sets: 4, desc: "Drž hluboký podřep.", detail: "60s", intensity: "Max Výdrž", isIso: 60, ytSearch: "Horse stance exercise legs", benefit: "Nohy nesmí ztěžknout." },
-                    { name: "Airbike Laktát", sets: 8, desc: "40s volně / 10s MAX sprint.", detail: "Interval", intensity: "Peklo", ytSearch: "Airbike intervals workout", benefit: "Neomezená nádrž." }
+                    { name: "Švihadlo (Komplexní)", sets: 1, desc: "Double unders, Ali shuffle, 10s sprint bursts.", detail: "5 min", intensity: "Warmup", ytSearch: "Jump rope advanced Ali shuffle speed", benefit: "CNS max." },
+                    { name: "Dynamická mobilita", sets: 1, desc: "Deep squat → thoracic rotace → Spiderman → inchworm → hip CARs.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic flow warmup advanced", benefit: "Příprava řetězce." },
+                    { name: "Depth Jump → Broad Jump", sets: 3, desc: "Seskok 50cm → OKAMŽITÝ skok vpřed MAX. MIN kontakt!", detail: "3 op.", intensity: "MAX CNS", ytSearch: "Depth jump broad jump reactive", benefit: "Absolutní CNS reaktivita. Triple extenze do výbušnosti nohou." },
+                    { name: "Čelní dřep (těžký)", sets: 5, desc: "3 op. @ RPE 8.5. 5×3 @ 80-85% = sovětský sweet spot.", detail: "3 op.", intensity: "RPE 8.5", ytSearch: "Heavy front squat low reps explosive", benefit: "MAX síla bez hypertrofie. Sovětský submaximální princip." },
+                    { name: "Shyby se zátěží", sets: 5, desc: "+15-25kg. Výbušný tah.", detail: "3 op.", intensity: "RPE 8.5", ytSearch: "Heavy weighted pull ups explosive", benefit: "Silné lats pro snap a kryt." },
+                    { name: "KB Swing (nejtěžší)", sets: 5, desc: "Nejtěžší KB. 6 op MAX exploze. Ruce = volné lano!", detail: "6 op.", intensity: "MAX EXPLOZE", ytSearch: "Heavy kettlebell swing maximum power", benefit: "Vrchol: MAX hip drive + volné paže." },
+                    { name: "Pallof Walkout", sets: 3, desc: "Tlač + 3 kroky od kotvy → drž 3s → zpět.", detail: "6 op/str.", intensity: "Pokročilé", ytSearch: "Pallof press walkout advanced", benefit: "Pokročilá anti-rotace pro MAX přenos síly." },
+                    { name: "Sprint Intervaly", sets: 4, desc: "30s ALL-OUT → 120s KOMPLETNÍ relaxace. Dýchej nosem.", detail: "30s sprint", intensity: "100% → 0%", ytSearch: "Sprint interval 30 120 boxing", benefit: "Simulace rundového výkonu. Kontrast napětí-relaxace." }
                 ]
             },
             gymB: {
-                title: "Elita B: Torze + Motor",
+                title: "Elita: Rychlost + Sovětský Zápas",
                 list: [
-                    { name: "Zahřátí (Švihadlo)", sets: 1, desc: "Dvojšvihy, pohyb.", detail: "3 min", intensity: "Warmup", ytSearch: "Jump rope warmup boxing", benefit: "CNS." },
-                    { name: "Landmine Press", sets: 5, desc: "Rotace z nohy.", detail: "6 op/ruka", intensity: "100% MAX", ytSearch: "Landmine press boxing power", benefit: "Ultimátní cross rána." },
-                    { name: "Hip Thrust", sets: 5, desc: "Generátor rotace.", detail: "8 op.", intensity: "RPE 8.5", ytSearch: "Barbell hip thrust perfect form", benefit: "Síla boků." },
-                    { name: "Tlaky na ramena (OHP)", sets: 5, desc: "Osa ve stoje.", detail: "6 op.", intensity: "RPE 8.5", ytSearch: "Overhead press Squat University", benefit: "Neúnavná ramena." },
-                    { name: "Ruský twist s váhou", sets: 5, desc: "Výbušná rotace.", detail: "20 op.", intensity: "Výbušně", ytSearch: "Russian twist medicine ball boxing", benefit: "Ochrana těla." },
-                    { name: "Veslo Laktát", sets: 8, desc: "40s volně / 10s MAX tahy.", detail: "Interval", intensity: "Peklo", ytSearch: "Rowing machine intervals", benefit: "Nekonečný motor." }
+                    { name: "Švihadlo (Speed Rounds)", sets: 1, desc: "20s MAX / 10s pomalé × 8. Tabata.", detail: "4 min", intensity: "Tabata", ytSearch: "Jump rope tabata speed boxing", benefit: "CNS rychlost." },
+                    { name: "Dynamická mobilita", sets: 1, desc: "Thoracic rotace, Hip CARs, Spiderman, Scorpion.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic mobility flow advanced", benefit: "Rotační centra." },
+                    { name: "Plyo Komplex", sets: 3, desc: "3× Split Jump → 3× Ice Skater → 3× Tuck Jump. Bez pauzy!", detail: "Komplex", intensity: "Výbušně", ytSearch: "Plyometric complex split ice tuck", benefit: "Komplexní reaktivní výbušnost." },
+                    { name: "Hang Power Clean (MAX rychlost)", sets: 4, desc: "60% max. MAX rychlost! Čistý CNS trénink.", detail: "3 op.", intensity: "MAX RYCHLOST", ytSearch: "Hang power clean speed light", benefit: "Rychlost > váha. Triple extenze = údery." },
+                    { name: "Landmine Press (MAX rychlost)", sets: 3, desc: "Lehčí, MAX rychlost. Noha → bok → ruka jako BIČ.", detail: "3 op/ruka", intensity: "MAX RYCHLOST", ytSearch: "Landmine press speed rotational", benefit: "Nízké op. + max rychlost = přenos do ringu." },
+                    { name: "K-R: Band Snap Combo", sets: 4, desc: "Jab-Cross-Hook s gumou. SNAP → uvolni. 3 údery = 3× napni-uvolni.", detail: "8 kombin.", intensity: "Snap-relax!", ytSearch: "Resistance band combo punch snap", benefit: "Sekvenční kontrakce-relaxace v kombinaci." },
+                    { name: "K-R: Plyo Pushup → Dead Hang", sets: 3, desc: "3× plyo klik MAX → hrazda → 20s mrtvý vis. KOMPLETNĚ uvolni.", detail: "Kontrast", intensity: "100% → 0%", ytSearch: "Plyometric pushup dead hang contrast", benefit: "Nejextrémnější kontrast. CNS se učí vypnout okamžitě." },
+                    { name: "Sovětský Circuit 20/10 × 3", sets: 1, desc: "9 stanic × (20s/10s). 1min pauza. 3×. Burpee, Jump Lunge, Plyo Klik, Mt.Climber, Shadow, Squat Jump, Renegade Row, Ice Skater, Sprawl.", detail: "15 min", intensity: "Simulace zápasu", ytSearch: "Soviet boxing circuit advanced", benefit: "Autentický model. 3×3min. Pokročilé stanice." },
+                    { name: "Mobility Cooldown", sets: 1, desc: "90/90, Couch Stretch, Pec Stretch, Thoracic rotace, Dead Hang 30s.", detail: "5 min", intensity: "Uvolnění", ytSearch: "Cooldown mobility dead hang", benefit: "Dead hang = dekomprese páteře a ramen." }
                 ]
             },
             boxPrimer: {
-                title: "Elita: Ranní Primer + Večerní Box",
+                title: "Elita: Ranní Primer + Večerní Soukromá",
                 list: [
-                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1. Jen probuzení krve.", detail: "15 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení celého těla a svalů." },
-                    { name: "Dynamický Strečink", sets: 1, desc: "Výpady, rotace trupu.", detail: "5 min", intensity: "Plynule", ytSearch: "Dynamic warmup for boxing", benefit: "Zvyšuje rozsah pohybu." },
-                    { name: "Shadowboxing Flow", sets: 5, desc: "Žádná síla. Jen dýchání a úhyby.", detail: "3 min", intensity: "Uvolněnost", ytSearch: "Shadow boxing flow breathing", benefit: "Neuro-svalová příprava na večer." },
-                    { name: "Lehká Izometrie Core", sets: 3, desc: "Plank nebo Bird-dog.", detail: "60s", intensity: "Aktivace", isIso: 60, ytSearch: "Plank form perfect", benefit: "Zapne hluboký stabilizační systém." },
-                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1 s trenérem. Lapy, technika, sparing.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Hlavní tréninková jednotka dne. Aplikace s tímto počítá do masivního kalorického výdeje!" }
+                    { name: "Lehký Spin Bike / Veslo", sets: 1, desc: "Zóna 1.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Light recovery spin", benefit: "Prokrvení." },
+                    { name: "Mobilita: Komplex", sets: 1, desc: "Hip CARs, Thoracic rotace, Spiderman, Pec stretch, Shoulder CARs.", detail: "7 min", intensity: "Plynule", ytSearch: "Dynamic warmup complex boxing", benefit: "MAX otevření rotačních center." },
+                    { name: "Shadowboxing: Progressive", sets: 5, desc: "K1: 30%. K2: 50%. K3: 70%. K4-5: 85% UVOLNĚNĚ. Tuhneš? → ZPOMAL!", detail: "3 min", intensity: "30% → 85%", ytSearch: "Shadow boxing progressive speed", benefit: "Ramena dole? Nosem? Rotace z boků?" },
+                    { name: "Core: Dead Bug", sets: 3, desc: "Záda přitisknuté! Protilehlá ruka+noha.", detail: "8 op/str.", intensity: "Kontrola", ytSearch: "Dead bug core anti extension", benefit: "Anti-extenze." },
+                    { name: "Večerní Soukromý Trénink", sets: 1, desc: "1-on-1. Trenér by měl vidět rozdíl v uvolněnosti.", detail: "60-90 min", intensity: "MAX", ytSearch: "Boxing pad work routine", benefit: "Uvolněnost + řetězec automatické. Taktika + timing." }
                 ]
             },
             cardio: {
-                title: "Elita: Roadwork Zóna 2",
+                title: "Elita: Roadwork + Komplex mobilita",
                 list: [
-                    { name: "Švihadlo (Zahřátí)", sets: 1, desc: "Stiff ankles.", detail: "10 min", intensity: "Zahřátí", ytSearch: "Jump rope warmup boxing", benefit: "Reaktivní síla." },
-                    { name: "Roadwork (LISS)", sets: 1, desc: "Pomalý běh.", detail: "50-60 min", intensity: "HR 130-140", ytSearch: "Zone 2 running explained", benefit: "Totální budování laktátové clearance." },
-                    { name: "Kliky na zápěstí", sets: 4, desc: "Na kloubech a prstech.", detail: "10 op.", intensity: "Stabilita", ytSearch: "Knuckle pushups conditioning", benefit: "Nezničitelné pěsti." }
+                    { name: "Švihadlo (Speed + Flow)", sets: 1, desc: "Ali shuffle, double unders, cross-overs. Mix.", detail: "10 min", intensity: "Warmup", ytSearch: "Jump rope advanced Ali shuffle", benefit: "Reaktivní síla + koordinace." },
+                    { name: "Roadwork (LISS)", sets: 1, desc: "Zone 2. NOSNÍ DÝCHÁNÍ! Ramena UVOLNĚNÁ!", detail: "50-60 min", intensity: "HR 130-140", ytSearch: "Zone 2 long run nasal breathing", benefit: "Totální aerobní báze. Bivol běhá hory." },
+                    { name: "Mobilita po běhu", sets: 1, desc: "Couch Stretch, 90/90, Pec Stretch, Thoracic rotace, Knee-to-Wall, Shoulder CARs, Dead Hang 30s.", detail: "15 min", intensity: "Uvolnění", ytSearch: "Comprehensive mobility hips shoulders thoracic", benefit: "Ve Fázi 3 mobilita 15min. Čím víc boxuješ, tím víc mobility." }
                 ]
             }
         },
         rege: {
             title: "Komplexní Údržba: Mobilita & Pre-hab",
             list: [
-                { name: "1. Krk: Půlkruhy a tah", sets: 1, desc: "Uvolnění trapézů po krytu.", detail: "2 min/str.", intensity: "Uvolnění", isIso: 120, ytSearch: "Neck stretch for boxers", benefit: "Uvolňuje zatuhlost z neustálého balení brady do krytu." },
-                { name: "2. Hrudní páteř: Válec", sets: 1, desc: "Lehni na roller.", detail: "2 min", intensity: "Dýchat", isIso: 120, ytSearch: "Thoracic spine foam rolling", benefit: "Odstraňuje 'kulatá boxerská záda' a otevírá hrudník." },
-                { name: "3. Hrudník: Pec Stretch", sets: 1, desc: "Ruka o zeď, vytočit se.", detail: "60s/str.", intensity: "Tah", isIso: 60, ytSearch: "Pec stretch wall", benefit: "Prsa jsou z úderů permanentně zkrácená, tohle brání poranění ramene." },
-                { name: "4. Couch Stretch", sets: 1, desc: "Koleno vzadu u zdi.", detail: "60s/str.", intensity: "Silný tah", isIso: 60, ytSearch: "Couch stretch perfect form", benefit: "Nuluje bolesti spodních zad. Uvolňuje sval (Psoas), zkrácený z boxerského postoje." },
-                { name: "5. 90/90 Kyčle", sets: 1, desc: "Rotace kyčlí na zemi.", detail: "60s/str.", intensity: "Tah z hýždí", isIso: 60, ytSearch: "90/90 stretch hip mobility Squat University", benefit: "Odemknutí kyčlí. Bez volných kyčlí nemůžeš rotovat do úderu plynule." },
-                { name: "6. Knee to Wall", sets: 1, desc: "Kotníky, pata na zemi.", detail: "15 op/noha", intensity: "Plynule", ytSearch: "Knee to wall ankle mobility", benefit: "Nutné pro zdravý pohyb a odraz na švihadle a při Pendulum stepu." },
-                { name: "7. Band Pull-Aparts", sets: 3, desc: "S gumou. Zadní ramena.", detail: "15 op.", intensity: "Pálení", ytSearch: "Band pull aparts form", benefit: "PRE-HAB: Kompenzace. Posiluje zadní delty, které trpí kvůli držení rukou vpředu." },
-                { name: "8. Y-T-W Raises", sets: 2, desc: "Leh na břiše. Zvedání paží.", detail: "10 op.", intensity: "Kontrola", ytSearch: "YTW raises exercise", benefit: "PRE-HAB: Fixuje spodní a střední trapézy (zabraňuje odstávajícím lopatkám)." },
-                { name: "9. Izometrie Krku", sets: 4, desc: "Tlak hlavy do dlaní.", detail: "10s/str.", intensity: "Pevný střed", isIso: 10, ytSearch: "Isometric neck exercises boxer", benefit: "PRE-HAB: Hlavní chránič proti knockoutu (KO)." },
-                { name: "10. Clamshells s gumou", sets: 2, desc: "Leh na boku, otevírat kolena.", detail: "15 op/str.", intensity: "Pálení boků", ytSearch: "Clamshells exercise glutes", benefit: "PRE-HAB: Aktivuje Gluteus Medius. Stabilizuje celou nohu a koleno při úderu." },
-                { name: "11. Tibialis Raises", sets: 3, desc: "Zvedání špiček u zdi.", detail: "20 op.", intensity: "Pálení holení", ytSearch: "Tibialis wall raises knees over toes", benefit: "PRE-HAB: Posiluje holeň. Absolutní prevence zánětu okostice (Shin Splints) ze švihadla." },
-                { name: "12. Zápěstí flexe", sets: 1, desc: "V kleku protahovat zápěstí.", detail: "60s", intensity: "Tah", isIso: 60, ytSearch: "Wrist stretch for boxing", benefit: "Udržuje zápěstí ohebné a brání zatuhnutí po tvrdém bandážování." }
+                { name: "1. Krk: Půlkruhy a tah", sets: 1, desc: "Uvolnění trapézů. Pomalu, s dýcháním.", detail: "2 min/str.", intensity: "Uvolnění", isIso: 120, ytSearch: "Neck stretch for boxers slow", benefit: "Uvolňuje zatuhlost z krytu." },
+                { name: "2. Hrudní páteř: Válec", sets: 1, desc: "Foam roller, ruce za hlavu. Extenzi!", detail: "2 min", intensity: "Dýchat", isIso: 120, ytSearch: "Thoracic spine foam rolling extension", benefit: "Kulatá záda → otevřený hrudník pro rotaci." },
+                { name: "3. Pec Stretch", sets: 1, desc: "Ruka o zeď, vytočit se. Dýchej.", detail: "60s/str.", intensity: "Tah", isIso: 60, ytSearch: "Pec stretch wall doorway", benefit: "Zkrácená prsa brání volnému pohybu ramen." },
+                { name: "4. Couch Stretch", sets: 1, desc: "Koleno u zdi, trup vzpřímeně.", detail: "60s/str.", intensity: "Silný tah", isIso: 60, ytSearch: "Couch stretch hip flexor psoas", benefit: "Psoas = viník ztuhlého postoje a bolesti zad." },
+                { name: "5. 90/90 Kyčle", sets: 1, desc: "Rotace kyčlí. Přední i zadní 90°.", detail: "60s/str.", intensity: "Tah", isIso: 60, ytSearch: "90/90 stretch hip mobility rotation", benefit: "Bez volných kyčlí = proto taháš z ramene." },
+                { name: "6. Knee to Wall", sets: 1, desc: "Pata na zemi, koleno k zdi.", detail: "15 op/noha", intensity: "Plynule", ytSearch: "Knee to wall ankle dorsiflexion", benefit: "Dorsiflexe pro pendulum a švihadlo." },
+                { name: "7. Band Pull-Aparts", sets: 3, desc: "Stáhni lopatky, otevři hrudník.", detail: "15 op.", intensity: "Pálení", ytSearch: "Band pull aparts scapula", benefit: "Kompenzace zkrácených prsních svalů." },
+                { name: "8. Y-T-W Raises", sets: 2, desc: "Leh na břiše. Y, T, W.", detail: "10 op.", intensity: "Kontrola", ytSearch: "YTW raises exercise scapula", benefit: "Fixuje lopatky. Prevence impingementu." },
+                { name: "9. Izometrie Krku", sets: 4, desc: "Tlak hlavy do dlaní — 4 směry, 10s.", detail: "10s/str.", intensity: "Pevný střed", isIso: 10, ytSearch: "Isometric neck exercises boxer", benefit: "Prevence KO. Silný krk = absorbuje impakt." },
+                { name: "10. Clamshells", sets: 2, desc: "Guma nad koleny.", detail: "15 op/str.", intensity: "Pálení", ytSearch: "Clamshells resistance band glute medius", benefit: "Gluteus Medius pro stabilitu." },
+                { name: "11. Tibialis Raises", sets: 3, desc: "Zády ke zdi, zvedej špičky.", detail: "20 op.", intensity: "Pálení", ytSearch: "Tibialis wall raises", benefit: "Prevence Shin Splints." },
+                { name: "12. Zápěstí", sets: 1, desc: "V kleku, dlaně na zemi — flexe i extenze.", detail: "60s", intensity: "Tah", isIso: 60, ytSearch: "Wrist stretch flexion extension", benefit: "Ohebné zápěstí po bandážování." }
             ]
         }
     };
@@ -1050,6 +1306,7 @@
 
     function checkTodayPlanForWorkout() {
         resetWorkoutUI(); 
+        loadCheckin();
         var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
         var activePlan = plans[getActiveDateStr()];
         var statusTextEl = document.getElementById('todayStatusText');
@@ -1062,11 +1319,13 @@
             document.getElementById('workout-block').style.display = 'none';
         } else {
             btnStart.style.display = "block";
-            var labels = { 'gym': 'FITKO (Síla & Motor)', 'box': 'RANNÍ PRIMER + VEČERNÍ BOX', 'cardio': 'KARDIO (Roadwork)' };
+            var labels = { 'gym': 'FITKO (Síla & Výbušnost)', 'box': 'RANNÍ PRIMER + VEČERNÍ BOX', 'cardio': 'KARDIO (Roadwork)' };
             var colors = { 'gym': 'var(--primary)', 'box': 'var(--accent-red)', 'cardio': 'var(--text-muted)' };
             statusTextEl.innerText = `Mise na tento den: ${labels[activePlan]}`;
             statusTextEl.style.color = colors[activePlan];
         }
+        updateGymPreview();
+        updateTomorrowPreview();
     }
 
     function initWorkoutFromPlan() {
@@ -1098,26 +1357,62 @@
             document.getElementById(showBlockId).style.display = 'block';
             document.getElementById('workout-title').innerText = data.title;
             document.getElementById('workout-subtitle').innerText = currentWorkoutType;
+            startWorkoutTimer();
         }
         
         var listDiv = document.getElementById(listId);
         listDiv.innerHTML = '';
+        var lastBlock = '';
+        
         data.list.forEach((ex) => {
+            // Exercise block separator
+            if (!isRege) {
+                var block = getExerciseBlock(ex.name, ex.intensity);
+                if (block.label !== lastBlock) {
+                    lastBlock = block.label;
+                    var sep = document.createElement('div');
+                    sep.className = 'ex-block-separator ' + block.cls;
+                    sep.innerText = '── ' + block.label + ' ──';
+                    listDiv.appendChild(sep);
+                }
+            }
+            
             var item = document.createElement('div');
             item.className = 'exercise-item';
             
-            var ytLink = ex.ytSearch ? `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex.ytSearch)}" target="_blank" class="yt-link-btn" onclick="event.stopPropagation();">🔍 Najít na YouTube</a>` : '';
+            // YT link now goes into info modal data, not inline
             var isoBtnHtml = ex.isIso ? `<button class="iso-btn" onclick="event.stopPropagation(); startIsoTimer(${ex.isIso})">▶ ${ex.isIso}s ASISTENT</button>` : '';
             
             var safeTitle = ex.name.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
             var safeBenefit = ex.benefit ? ex.benefit.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : '';
-            var infoBtn = ex.benefit ? `<span class="info-btn" data-title="${safeTitle}" data-benefit="${safeBenefit}" onclick="showInfoModal(this, event)">i</span>` : '';
+            var safeYt = ex.ytSearch ? ex.ytSearch.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : '';
+            var infoBtn = ex.benefit ? `<span class="info-btn" data-title="${safeTitle}" data-benefit="${safeBenefit}" data-yt="${safeYt}" onclick="showInfoModal(this, event)">i</span>` : '';
+
+            // Weight tracking
+            var weightHtml = '';
+            var showWeight = !isRege && ex.sets > 1 && !ex.isIso && !/Warmup|Zahřátí|Plynule|Uvolnění|Uvolněnost/i.test(ex.intensity) && !/Švihadlo|Roadwork|Steady|HIIT|Circuit|Večer|Spin|Shadow|Mobilita|Cooldown|Bird|Dead Bug/i.test(ex.name);
+            if (showWeight) {
+                var lastW = getLastWeight(ex.name);
+                var todayW = getTodayWeight(ex.name);
+                var lastHtml = lastW ? `<span class="ex-weight-last">Minule: ${lastW.weight}kg</span>` : '';
+                var safeExName = ex.name.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                var reps = parseInt(ex.detail) || 0;
+                var tonnageHtml = (todayW && reps) ? `<span class="ex-weight-last" style="color:#666;"> | Vol: ${calcTonnage(todayW, reps, ex.sets)}kg</span>` : '';
+                weightHtml = `<div class="ex-weight-row"><input type="number" class="ex-weight-input" placeholder="kg" step="0.5" value="${todayW}" onchange="saveExWeight(this, '${safeExName}')" onclick="event.stopPropagation();"><span class="ex-weight-label">KG</span>${lastHtml}${tonnageHtml}</div>`;
+            }
+
+            var skipHtml = !isRege ? `<button class="skip-btn" onclick="event.stopPropagation(); skipExercise(this)">SKIP</button>` : '';
+
+            // Rest timer
+            var restTime = getRestTime(ex.name, ex.intensity);
+            var restHtml = restTime > 0 ? `<div class="rest-countdown"><span class="rest-countdown-label">ODPOČINEK</span><br><span class="rest-countdown-val">${restTime}</span><span class="rest-countdown-label">s</span></div>` : '';
 
             var setsHTML = `<div class="sets-container">`;
             var setsCount = ex.sets || 1;
             for(let i=1; i<=setsCount; i++) {
-                setsHTML += `<div class="set-box" onclick="toggleSet(this, ${setsCount}, event)">${i}</div>`;
+                setsHTML += `<div class="set-box" data-rest="${restTime}" onclick="toggleSet(this, ${setsCount}, event)">${i}</div>`;
             }
+            setsHTML += skipHtml;
             setsHTML += `</div>`;
 
             item.innerHTML = `
@@ -1131,7 +1426,8 @@
                             ${isoBtnHtml}
                         </div>
                         ${setsHTML}
-                        ${ytLink}
+                        ${weightHtml}
+                        ${restHtml}
                     </div>
                 </div>
             `;
@@ -1146,17 +1442,35 @@
         var activeSets = parentEx.querySelectorAll('.set-box.active').length;
         if(activeSets === totalSets) {
             parentEx.classList.add('done');
+            parentEx.classList.add('just-done');
+            setTimeout(function() { parentEx.classList.remove('just-done'); }, 400);
             if(navigator.vibrate) navigator.vibrate([30, 30, 30]);
         } else {
             parentEx.classList.remove('done');
             if(navigator.vibrate) navigator.vibrate(10);
+        }
+        // Start rest timer if set was activated (not deactivated) and rest time > 0
+        if (el.classList.contains('active') && activeSets < totalSets) {
+            var restTime = parseInt(el.dataset.rest) || 0;
+            if (restTime > 0) startRestTimer(restTime, parentEx);
         }
     }
 
     function showInfoModal(el, e) {
         e.stopPropagation();
         document.getElementById('infoModalTitle').innerText = el.dataset.title;
-        document.getElementById('infoModalText').innerText = el.dataset.benefit;
+        var text = el.dataset.benefit || '';
+        var yt = el.dataset.yt || '';
+        document.getElementById('infoModalText').innerText = text;
+        var ytContainer = document.getElementById('infoModalYt');
+        if (ytContainer) {
+            if (yt) {
+                ytContainer.innerHTML = '<a href="https://www.youtube.com/results?search_query=' + encodeURIComponent(yt) + '" target="_blank" class="yt-link-btn" style="margin-top:5px;">🔍 Najít na YouTube</a>';
+                ytContainer.style.display = 'block';
+            } else {
+                ytContainer.style.display = 'none';
+            }
+        }
         document.getElementById('infoModal').style.display = 'flex';
     }
 
@@ -1165,13 +1479,32 @@
     function saveWorkout() {
         var items = document.querySelectorAll('#workout-block .exercise-item');
         var doneItems = document.querySelectorAll('#workout-block .exercise-item.done');
-        if (doneItems.length === 0) { document.getElementById('modalTitle').innerText="Chyba"; document.getElementById('modalText').innerText="Odklikej si alespoň nějaké série, ať je vidět progres."; document.getElementById('customModal').style.display='flex'; return; }
+        var skippedItems = document.querySelectorAll('#workout-block .exercise-item.skipped');
+        var activeItems = items.length - skippedItems.length;
+        
+        if (doneItems.length === 0 && skippedItems.length < items.length) { document.getElementById('modalTitle').innerText="Chyba"; document.getElementById('modalText').innerText="Odklikej si alespoň nějaké série, ať je vidět progres."; document.getElementById('customModal').style.display='flex'; return; }
 
         if (currentWorkoutType.includes("FITKO")) localStorage.setItem('lastGymType', currentWorkoutType.split(" ")[1]);
         
-        saveRecordToHistory(currentWorkoutType, `${doneItems.length}/${items.length}`);
-        document.getElementById('modalTitle').innerText="Skvělá práce"; document.getElementById('modalText').innerText="Záznam pro tento den uložen."; document.getElementById('customModal').style.display='flex';
+        var duration = stopWorkoutTimer();
+        var scoreText = doneItems.length + '/' + activeItems;
+        if (skippedItems.length > 0) scoreText += ' (' + skippedItems.length + ' skip)';
+        scoreText += ' | ' + duration;
+        var status = (doneItems.length >= activeItems && activeItems > 0) ? '✅ ' : '⚠️ ';
+        
+        // Save coach note
+        var note = document.getElementById('workoutNoteInput').value.trim();
+        if (note) {
+            var notes = JSON.parse(localStorage.getItem('sovietCoachNotes')) || {};
+            notes[getActiveDateStr()] = note;
+            localStorage.setItem('sovietCoachNotes', JSON.stringify(notes));
+        }
+        
+        saveRecordToHistory(status + currentWorkoutType, scoreText);
+        document.getElementById('modalTitle').innerText="Skvělá práce"; document.getElementById('modalText').innerText="Záznam uložen. " + duration + "."; document.getElementById('customModal').style.display='flex';
         showAutosave();
+        updateStreak();
+        updateMicroDash();
         resetWorkoutUI();
     }
 
@@ -1269,6 +1602,7 @@
         log[dStr] = current;
         localStorage.setItem('sovietCoachWaterLog', JSON.stringify(log));
         renderMacroSummary();
+        updateMicroDash();
         showAutosave();
     }
 
@@ -1470,16 +1804,20 @@
         selectedFoodFromDB = null;
         document.getElementById('foodUnitLabel').innerText = "jedn."; 
 
-        if (query.length < 2) { dropdown.style.display = 'none'; return; }
+        if (query.length < 1 && activeFoodCategory === 'all') { dropdown.style.display = 'none'; return; }
 
         var customRecipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
         var combinedDB = [...foodDB, ...customRecipes];
-
-        var results = combinedDB.filter(food => removeDiacritics(food.name).includes(query));
+        
+        var results = combinedDB.filter(function(food) {
+            var matchesQuery = query.length < 2 || removeDiacritics(food.name).includes(query);
+            var matchesCat = activeFoodCategory === 'all' || getFoodCategory(food.name) === activeFoodCategory || (food.isRecipe && activeFoodCategory === 'ostatni');
+            return matchesQuery && matchesCat;
+        });
         
         if (results.length > 0) {
             dropdown.style.display = 'block';
-            results.forEach(food => {
+            results.slice(0, 20).forEach(food => {
                 let li = document.createElement('li');
                 li.innerText = `${food.name}`;
                 if(food.isRecipe) li.innerText = `🍲 ${food.name} (Recept)`;
@@ -1538,6 +1876,7 @@
     var recipeSelectedFood = null;
 
     function openRecipeModal() {
+        editingRecipeIndex = -1;
         tempRecipeIngredients = [];
         document.getElementById('recipeNameInput').value = '';
         document.getElementById('recipeSearchInput').value = '';
@@ -1622,15 +1961,23 @@
 
         var newRecipe = {
             name: name, isRecipe: true, unit: 'porce', baseAmount: 100,
-            kcal: totKcal, p: totP, c: totC, f: totF
+            kcal: totKcal, p: totP, c: totC, f: totF,
+            ingredients: JSON.parse(JSON.stringify(tempRecipeIngredients))
         };
 
         var recipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
-        recipes.push(newRecipe);
+        
+        if (editingRecipeIndex >= 0 && editingRecipeIndex < recipes.length) {
+            recipes[editingRecipeIndex] = newRecipe;
+            editingRecipeIndex = -1;
+        } else {
+            recipes.push(newRecipe);
+        }
+        
         localStorage.setItem('sovietCoachRecipes', JSON.stringify(recipes));
 
         closeRecipeModal();
-        document.getElementById('modalTitle').innerText="Uloženo"; document.getElementById('modalText').innerText=`Recept ${name} byl přidán do databáze.`; document.getElementById('customModal').style.display='flex';
+        document.getElementById('modalTitle').innerText="Uloženo"; document.getElementById('modalText').innerText=`Recept ${name} byl uložen do databáze.`; document.getElementById('customModal').style.display='flex';
         showAutosave();
     }
 
@@ -1651,11 +1998,12 @@
         recipes.forEach((r, idx) => {
             list.innerHTML += `
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding: 10px 0;">
-                    <div>
+                    <div style="flex: 1;">
                         <strong style="color: white;">${r.name}</strong><br>
                         <span style="font-size:0.7rem; color:var(--primary); font-weight:bold;">${r.kcal} kcal</span>
                         <span style="font-size:0.7rem; color:#888;"> | B:${r.p} S:${r.c} T:${r.f}</span>
                     </div>
+                    <button class="btn-delete-food" style="margin: 0; padding: 10px; color: var(--accent-blue);" onclick="openRecipeForEdit(${idx})">✏️</button>
                     <button class="btn-delete-food" style="margin: 0; padding: 10px;" onclick="deleteCustomRecipe(${idx})">✕</button>
                 </div>
             `;
@@ -1687,13 +2035,15 @@
             activeDayFood.forEach(food => {
                 sumKcal += food.kcal; sumP += food.p; sumC += food.c; sumF += food.f;
                 var row = document.createElement('div'); row.className = 'food-entry';
+                row.onclick = function() { openEditFood(food.id); };
                 row.innerHTML = `
                     <div style="flex:1;">
                         <strong>${food.name}</strong> <span style="color:#666;">(${food.amount} ${food.unit})</span>
                         <div class="food-entry-macros">B: ${food.p}g | S: ${food.c}g | T: ${food.f}g</div>
                     </div>
-                    <div style="font-weight:700; color:var(--primary); margin-right: 15px; font-family:'Oswald'; font-size: 1.1rem;">${food.kcal}</div>
-                    <button class="btn-delete-food" onclick="removeEatenFood(${food.id})">✕</button>
+                    <div style="font-weight:700; color:var(--primary); margin-right: 5px; font-family:'Oswald'; font-size: 1.1rem;">${food.kcal}</div>
+                    <button class="btn-delete-food" style="font-size:0.9rem; color: var(--accent-green); padding: 0 8px;" onclick="repeatFood(${food.id}, event)" title="Přidat znovu">+</button>
+                    <button class="btn-delete-food" onclick="event.stopPropagation(); removeEatenFood(${food.id})">✕</button>
                 `;
                 listDiv.appendChild(row);
             });
@@ -1821,6 +2171,8 @@
     }
 
     function renderStats() {
+        renderWeeklySummary();
+        
         var weightContainer = document.getElementById('weightGraph');
         var kcalContainer = document.getElementById('kcalGraph');
         weightContainer.innerHTML = ''; kcalContainer.innerHTML = '';
@@ -1830,7 +2182,7 @@
         
         var dates = [];
         var weightData = [];
-        var kcalData = [];
+        var macroData = [];
         
         var cToday = new Date(window.globalActiveDate); 
         for(let i=13; i>=0; i--) {
@@ -1842,12 +2194,23 @@
             weightData.push(wHist[dStr] || null);
             
             let dayDiet = dietHist.filter(f => f.date === dStr);
-            let dKcal = dayDiet.reduce((sum, f) => sum + f.kcal, 0);
-            kcalData.push(dKcal > 0 ? dKcal : null);
+            if (currentGraphMode === 'kcal') {
+                let dVal = dayDiet.reduce((sum, f) => sum + f.kcal, 0);
+                macroData.push(dVal > 0 ? dVal : null);
+            } else if (currentGraphMode === 'p') {
+                let dVal = dayDiet.reduce((sum, f) => sum + f.p, 0);
+                macroData.push(dVal > 0 ? dVal : null);
+            } else if (currentGraphMode === 'c') {
+                let dVal = dayDiet.reduce((sum, f) => sum + f.c, 0);
+                macroData.push(dVal > 0 ? dVal : null);
+            } else if (currentGraphMode === 'f') {
+                let dVal = dayDiet.reduce((sum, f) => sum + f.f, 0);
+                macroData.push(dVal > 0 ? dVal : null);
+            }
         }
 
         drawSVGGraph(weightContainer, weightData, dates, 'Zatím málo dat');
-        drawSVGGraph(kcalContainer, kcalData, dates, 'Zatím málo dat');
+        drawSVGGraph(kcalContainer, macroData, dates, 'Zatím málo dat');
     }
 
     function drawSVGGraph(container, dataPoints, dates, emptyMsg) {
@@ -1906,12 +2269,22 @@
     function loadHistory() {
         var historyDiv = document.getElementById('history-list');
         var history = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
+        var notes = JSON.parse(localStorage.getItem('sovietCoachNotes')) || {};
         if (history.length === 0) { historyDiv.innerHTML = '<p style="color:var(--text-muted); text-align:center; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Zatím prázdno.</p>'; return; }
         historyDiv.innerHTML = '';
         history.forEach(record => {
             var item = document.createElement('div'); item.className = 'history-item';
             var color = record.type.includes('MOBILITA') ? 'var(--accent-blue)' : 'var(--primary)';
-            item.innerHTML = `<div class="hist-header" style="margin-bottom: 4px;"><div class="hist-date" style="font-size:0.7rem; color:#666;">${record.date}</div></div><div class="hist-type" style="color:${color}; font-family: 'Oswald'; font-size: 1.1rem; letter-spacing: 1px;">${record.type} <span style="color:#444; font-size:0.9rem;">(${record.score})</span></div>`;
+            
+            // Find note for this date
+            var noteHtml = '';
+            var dateFromTimestamp = new Date(record.timestamp);
+            var dStr = dateFromTimestamp.getFullYear() + '-' + String(dateFromTimestamp.getMonth()+1).padStart(2,'0') + '-' + String(dateFromTimestamp.getDate()).padStart(2,'0');
+            if (notes[dStr]) {
+                noteHtml = '<div style="font-size:0.75rem; color:var(--accent-gold); margin-top:6px; font-style:italic;">📝 ' + notes[dStr] + '</div>';
+            }
+            
+            item.innerHTML = `<div class="hist-header" style="margin-bottom: 4px;"><div class="hist-date" style="font-size:0.7rem; color:#666;">${record.date}</div></div><div class="hist-type" style="color:${color}; font-family: 'Oswald'; font-size: 1.1rem; letter-spacing: 1px;">${record.type} <span style="color:#444; font-size:0.9rem;">(${record.score})</span></div>${noteHtml}`;
             item.style.borderBottom = "1px solid #111";
             item.style.paddingBottom = "15px";
             item.style.marginBottom = "15px";
@@ -1935,6 +2308,7 @@
         document.getElementById('btnModeBox').classList.toggle('active', mode === 'box');
         document.getElementById('btnModeHiit').classList.toggle('active', mode === 'hiit');
         document.getElementById('hiitSettings').style.display = mode === 'hiit' ? 'block' : 'none';
+        document.getElementById('boxSettings').style.display = mode === 'box' ? 'block' : 'none';
         resetTimer();
     }
 
@@ -1974,14 +2348,14 @@
             lbl.style.color = '#FF9800'; 
             dsp.style.color = '#FF9800';
             dsp.classList.remove('timer-paused');
-            roundDisp.innerText = timerMode === 'box' ? `KOLO: ${currentRound}` : `KOLO: ${currentRound} / ${hiitRoundsTotal}`;
+            roundDisp.innerText = timerMode === 'box' ? `KOLO: ${currentRound} / ${boxRoundsTotal}` : `KOLO: ${currentRound} / ${hiitRoundsTotal}`;
             return;
         }
 
         dsp.innerText = formatTime(timeLeft);
 
         if (timerMode === 'box') {
-            roundDisp.innerText = `KOLO: ${currentRound}`;
+            roundDisp.innerText = `KOLO: ${currentRound} / ${boxRoundsTotal}`;
             if (timerState === 'work') {
                 box.style.borderColor = '#4CAF50'; lbl.innerText = 'BOXERSKÉ KOLO (3 MIN)'; lbl.style.color = '#4CAF50'; dsp.style.color = '#4CAF50';
             } else {
@@ -1990,9 +2364,9 @@
         } else {
             roundDisp.innerText = `KOLO: ${currentRound} / ${hiitRoundsTotal}`;
             if (timerState === 'work') {
-                box.style.borderColor = '#2196F3'; lbl.innerText = 'ZÁKLADNÍ TEMPO'; lbl.style.color = '#2196F3'; dsp.style.color = '#2196F3';
+                box.style.borderColor = '#2196F3'; lbl.innerText = 'PRÁCE (' + hiitBase + 's)'; lbl.style.color = '#2196F3'; dsp.style.color = '#2196F3';
             } else {
-                box.style.borderColor = 'var(--accent-red)'; lbl.innerText = 'MAX SPRINT!'; lbl.style.color = 'var(--accent-red)'; dsp.style.color = 'var(--accent-red)';
+                box.style.borderColor = 'var(--accent-red)'; lbl.innerText = 'ODPOČINEK (' + hiitSprint + 's)'; lbl.style.color = 'var(--accent-red)'; dsp.style.color = 'var(--accent-red)';
             }
         }
     }
@@ -2069,6 +2443,16 @@
                         } else {
                             timerState = 'work';
                             currentRound++;
+                            if (currentRound > boxRoundsTotal) {
+                                clearInterval(timerInterval); isTimerRunning = false;
+                                releaseWakeLock();
+                                document.getElementById('timerStatusLabel').innerText = 'HOTOVO!';
+                                btn.innerText = 'ZNOVU';
+                                playSoundSignal('gong');
+                                speakVoiceCoach('Výborně. Trénink dokončen.');
+                                document.getElementById('timerDisplay').classList.remove('timer-paused');
+                                return;
+                            }
                             timeLeft = 180;
                             playSoundSignal('gong');
                             speakVoiceCoach('Kolo ' + currentRound + '.');
@@ -2113,8 +2497,624 @@
 
     function openTimerModal() { updateTimerUI(); document.getElementById('timerDisplay').classList.remove('timer-paused'); document.getElementById('timerModal').style.display = 'flex'; }
 
+    // --- FOOD CATEGORIES (auto-mapped) ---
+    var activeFoodCategory = 'all';
+    
+    function getFoodCategory(name) {
+        var n = name.toLowerCase();
+        if (/kuřec|hovězí|vepřo|telecí|krůtí|losos|tuňák|treska|krevety|šunka|slanina|řízek|steak|maso|svíčková|guláš|pad thai|burger|kebab|gyros|pizza/.test(n)) return 'maso';
+        if (/mléko|jogurt|tvaroh|cottage|sýr|mozzarella|eidam|parmazán|ricotta|mascarpone|whey|protein/.test(n)) return 'mlecne';
+        if (/rýže|ovesn|těstovin|chléb|rohlík|knedlík|pečivo|bageta|tortill|quinoa|bulgur|pohanka|kuskus|brambor|batát|gainer|maltodextrin/.test(n)) return 'obiloviny';
+        if (/banán|jablko|hruška|pomeranč|mandarink|grapefruit|citron|kiwi|mango|ananas|broskev|švestk|meloun|hrozn|borůvk|malin|jahod/.test(n)) return 'ovoce';
+        if (/brokolie|špenát|rajče|okurk|paprik|salát|rukola|cibule|česnek|květák|cuket|lilek|zelí|mrkev|celer|petržel|pórek|žampion|chřest/.test(n)) return 'zelenina';
+        if (/ořech|mandle|pistáci|para |makadamov|semínk|arašíd|lněn|chia|sezam/.test(n)) return 'orechy';
+        if (/kreatin|bcaa|eaa|gainer|whey|protein.*tyčin|maltodextrin/.test(n)) return 'suplementy';
+        return 'ostatni';
+    }
+    
+    function setFoodCategory(cat, btn) {
+        activeFoodCategory = cat;
+        document.querySelectorAll('.food-cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        handleFoodSearch();
+    }
+
+    // --- EXERCISE WEIGHT TRACKING ---
+    function getWeightKey(exName) {
+        return 'sovietCoachWeights_' + exName.replace(/[^a-zA-Z0-9áčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/g, '_');
+    }
+    
+    function saveExWeight(input, exName) {
+        var val = parseFloat(input.value);
+        if (!val || val <= 0) return;
+        var key = getWeightKey(exName);
+        var log = JSON.parse(localStorage.getItem(key)) || {};
+        log[getActiveDateStr()] = val;
+        localStorage.setItem(key, JSON.stringify(log));
+        showAutosave();
+    }
+    
+    function getLastWeight(exName) {
+        var key = getWeightKey(exName);
+        var log = JSON.parse(localStorage.getItem(key)) || {};
+        var dates = Object.keys(log).sort().reverse();
+        var today = getActiveDateStr();
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i] !== today) return { date: dates[i], weight: log[dates[i]] };
+        }
+        if (log[today]) return { date: today, weight: log[today] };
+        return null;
+    }
+    
+    function getTodayWeight(exName) {
+        var key = getWeightKey(exName);
+        var log = JSON.parse(localStorage.getItem(key)) || {};
+        return log[getActiveDateStr()] || '';
+    }
+
+    // --- SKIP EXERCISE ---
+    function skipExercise(btn) {
+        var parentEx = btn.closest('.exercise-item');
+        parentEx.classList.toggle('skipped');
+        if (parentEx.classList.contains('skipped')) {
+            parentEx.classList.remove('done');
+            parentEx.querySelectorAll('.set-box.active').forEach(b => b.classList.remove('active'));
+        }
+        if(navigator.vibrate) navigator.vibrate(15);
+    }
+
+    // --- RECIPE EDIT ---
+    var editingRecipeIndex = -1;
+    
+    function openRecipeForEdit(idx) {
+        var recipes = JSON.parse(localStorage.getItem('sovietCoachRecipes')) || [];
+        var r = recipes[idx];
+        if (!r) return;
+        editingRecipeIndex = idx;
+        document.getElementById('recipeNameInput').value = r.name;
+        tempRecipeIngredients = r.ingredients ? JSON.parse(JSON.stringify(r.ingredients)) : [];
+        renderRecipeList();
+        document.getElementById('recipeManagerModal').style.display = 'none';
+        document.getElementById('recipeModal').style.display = 'flex';
+    }
+
+    // --- COPY FOOD FROM DAY ---
+    function openCopyDayModal() {
+        document.getElementById('copyDayModal').style.display = 'flex';
+    }
+    
+    function copyFoodFromDay(offset) {
+        var sourceDate = new Date(window.globalActiveDate);
+        sourceDate.setDate(sourceDate.getDate() + offset);
+        var srcStr = sourceDate.getFullYear() + '-' + String(sourceDate.getMonth()+1).padStart(2,'0') + '-' + String(sourceDate.getDate()).padStart(2,'0');
+        
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var srcFood = dietHistory.filter(f => f.date === srcStr);
+        
+        if (srcFood.length === 0) {
+            document.getElementById('modalTitle').innerText = "Prázdno";
+            document.getElementById('modalText').innerText = "V ten den nemáš žádné záznamy.";
+            document.getElementById('customModal').style.display = 'flex';
+            return;
+        }
+        
+        var targetStr = getActiveDateStr();
+        srcFood.forEach(f => {
+            dietHistory.push({
+                id: Date.now() + Math.random() * 1000,
+                date: targetStr,
+                name: f.name, amount: f.amount, unit: f.unit,
+                kcal: f.kcal, p: f.p, c: f.c, f: f.f
+            });
+        });
+        
+        localStorage.setItem('sovietCoachDiet', JSON.stringify(dietHistory));
+        document.getElementById('copyDayModal').style.display = 'none';
+        renderMacroSummary();
+        showAutosave();
+    }
+
+    // --- EDIT FOOD ENTRY ---
+    var editingFoodId = null;
+    
+    function openEditFood(id) {
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var entry = dietHistory.find(f => f.id === id);
+        if (!entry) return;
+        editingFoodId = id;
+        document.getElementById('editFoodName').innerText = entry.name;
+        document.getElementById('editFoodAmount').value = entry.amount;
+        document.getElementById('editFoodUnit').innerText = entry.unit;
+        document.getElementById('editFoodModal').style.display = 'flex';
+    }
+    
+    function saveEditedFood() {
+        var newAmount = parseFloat(document.getElementById('editFoodAmount').value);
+        if (!newAmount || newAmount <= 0) return;
+        
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var idx = dietHistory.findIndex(f => f.id === editingFoodId);
+        if (idx === -1) return;
+        
+        var entry = dietHistory[idx];
+        var ratio = newAmount / entry.amount;
+        entry.amount = newAmount;
+        entry.kcal = Math.round(entry.kcal * ratio);
+        entry.p = Math.round(entry.p * ratio);
+        entry.c = Math.round(entry.c * ratio);
+        entry.f = Math.round(entry.f * ratio);
+        
+        localStorage.setItem('sovietCoachDiet', JSON.stringify(dietHistory));
+        document.getElementById('editFoodModal').style.display = 'none';
+        renderMacroSummary();
+        showAutosave();
+    }
+    
+    function deleteEditedFood() {
+        removeEatenFood(editingFoodId);
+        document.getElementById('editFoodModal').style.display = 'none';
+    }
+
+    // --- REPEAT FOOD (quick add same again) ---
+    function repeatFood(id, e) {
+        e.stopPropagation();
+        var dietHistory = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var orig = dietHistory.find(f => f.id === id);
+        if (!orig) return;
+        dietHistory.push({
+            id: Date.now() + Math.random() * 1000,
+            date: getActiveDateStr(),
+            name: orig.name, amount: orig.amount, unit: orig.unit,
+            kcal: orig.kcal, p: orig.p, c: orig.c, f: orig.f
+        });
+        localStorage.setItem('sovietCoachDiet', JSON.stringify(dietHistory));
+        renderMacroSummary();
+        showAutosave();
+    }
+
+    // --- WEEK TEMPLATE ---
+    var weekTemplate = ['gym', 'box', 'cardio', 'box', 'gym', 'cardio', 'rest'];
+    var weekTypeOrder = ['gym', 'box', 'cardio', 'rest'];
+    var weekTypeLabels = { gym: 'S&C', box: 'BOX', cardio: 'ROAD', rest: 'OFF' };
+    var weekTypeColors = { gym: 'var(--primary)', box: 'var(--accent-red)', cardio: '#777', rest: '#333' };
+    
+    function openWeekTemplateModal() {
+        renderWeekTemplate();
+        document.getElementById('weekTemplateModal').style.display = 'flex';
+    }
+    
+    function renderWeekTemplate() {
+        var grid = document.getElementById('weekTemplateGrid');
+        var dayNames = ['PO', 'ÚT', 'ST', 'ČT', 'PÁ', 'SO', 'NE'];
+        grid.innerHTML = '';
+        weekTemplate.forEach(function(type, i) {
+            var cell = document.createElement('div');
+            cell.className = 'week-tpl-cell';
+            cell.style.borderColor = weekTypeColors[type];
+            cell.style.color = weekTypeColors[type];
+            cell.innerHTML = '<span class="day-label">' + dayNames[i] + '</span>' + weekTypeLabels[type];
+            cell.onclick = function() {
+                var currentIdx = weekTypeOrder.indexOf(weekTemplate[i]);
+                weekTemplate[i] = weekTypeOrder[(currentIdx + 1) % weekTypeOrder.length];
+                renderWeekTemplate();
+            };
+            grid.appendChild(cell);
+        });
+    }
+    
+    function applyWeekTemplate() {
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var today = new Date(window.globalActiveDate);
+        var dayOfWeek = today.getDay();
+        var monday = new Date(today);
+        monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+        
+        for (var i = 0; i < 7; i++) {
+            var d = new Date(monday);
+            d.setDate(monday.getDate() + i);
+            var dStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+            if (weekTemplate[i] === 'rest') {
+                delete plans[dStr];
+            } else {
+                plans[dStr] = weekTemplate[i];
+            }
+        }
+        
+        localStorage.setItem('sovietCoachCalendar', JSON.stringify(plans));
+        document.getElementById('weekTemplateModal').style.display = 'none';
+        renderCalendar();
+        showAutosave();
+    }
+
+    // --- STREAK CALCULATION ---
+    function updateStreak() {
+        var history = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
+        if (history.length === 0) {
+            document.getElementById('streakBadge').style.display = 'none';
+            return;
+        }
+        
+        var streak = 0;
+        var checkDate = new Date();
+        checkDate.setHours(0,0,0,0);
+        
+        for (var i = 0; i < 365; i++) {
+            var dStr = checkDate.getFullYear() + '-' + String(checkDate.getMonth()+1).padStart(2,'0') + '-' + String(checkDate.getDate()).padStart(2,'0');
+            var startOfDay = new Date(checkDate).getTime();
+            var endOfDay = startOfDay + 86400000;
+            var hasRecord = history.some(function(h) { return h.timestamp >= startOfDay && h.timestamp < endOfDay; });
+            
+            if (hasRecord) {
+                streak++;
+            } else if (i > 0) {
+                break;
+            }
+            checkDate.setDate(checkDate.getDate() - 1);
+        }
+        
+        if (streak > 1) {
+            document.getElementById('streakCount').innerText = streak + ' DNÍ';
+            document.getElementById('streakBadge').style.display = 'inline-flex';
+        } else {
+            document.getElementById('streakBadge').style.display = 'none';
+        }
+    }
+
+    // --- TIMER PRESETS ---
+    function setHiitPreset(base, sprint, rounds) {
+        if (isTimerRunning) return;
+        document.getElementById('inputHiitBase').value = base;
+        document.getElementById('inputHiitSprint').value = sprint;
+        document.getElementById('inputHiitRounds').value = rounds;
+        hiitBase = base;
+        hiitSprint = sprint;
+        hiitRoundsTotal = rounds;
+        resetTimer();
+    }
+    
+    // --- BOX ROUND COUNT ---
+    var boxRoundsTotal = 6;
+    
+    function adjBox(field, val) {
+        if (isTimerRunning) return;
+        var el = document.getElementById('inputBoxRounds');
+        var current = parseInt(el.value) || 6;
+        var newVal = current + val;
+        if (newVal < 1) newVal = 1;
+        if (newVal > 15) newVal = 15;
+        el.value = newVal;
+        boxRoundsTotal = newVal;
+    }
+
+    // --- WEEKLY SUMMARY ---
+    function renderWeeklySummary() {
+        var block = document.getElementById('weeklySummaryBlock');
+        var today = new Date(window.globalActiveDate);
+        var dayOfWeek = today.getDay();
+        var monday = new Date(today);
+        monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+        
+        var history = JSON.parse(localStorage.getItem('sovietCoachHistoryV2')) || [];
+        var dietHist = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var waterLog = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
+        
+        var workouts = 0, totalKcal = 0, kcalDays = 0, totalWater = 0, waterDays = 0;
+        
+        for (var i = 0; i < 7; i++) {
+            var d = new Date(monday);
+            d.setDate(monday.getDate() + i);
+            var dStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+            var startOfDay = d.getTime();
+            var endOfDay = startOfDay + 86400000;
+            
+            if (history.some(function(h) { return h.timestamp >= startOfDay && h.timestamp < endOfDay; })) workouts++;
+            
+            var dayDiet = dietHist.filter(function(f) { return f.date === dStr; });
+            var dk = dayDiet.reduce(function(sum, f) { return sum + f.kcal; }, 0);
+            if (dk > 0) { totalKcal += dk; kcalDays++; }
+            
+            if (waterLog[dStr]) { totalWater += waterLog[dStr]; waterDays++; }
+        }
+        
+        var avgKcal = kcalDays > 0 ? Math.round(totalKcal / kcalDays) : 0;
+        var avgWater = waterDays > 0 ? (totalWater / waterDays).toFixed(1) : '0';
+        
+        block.innerHTML = 
+            '<div class="weekly-stat"><div class="weekly-stat-val">' + workouts + '/7</div><div class="weekly-stat-label">Tréninky</div></div>' +
+            '<div class="weekly-stat"><div class="weekly-stat-val">' + avgKcal + '</div><div class="weekly-stat-label">Ø Kcal</div></div>' +
+            '<div class="weekly-stat"><div class="weekly-stat-val">' + avgWater + 'L</div><div class="weekly-stat-label">Ø Voda</div></div>';
+    }
+
+    // --- MACRO GRAPH MODE ---
+    var currentGraphMode = 'kcal';
+    
+    function setGraphMode(mode) {
+        currentGraphMode = mode;
+        document.querySelectorAll('.macro-graph-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.getElementById('graphBtn' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
+        renderStats();
+    }
+
+    // --- CSV EXPORT ---
+    function exportCSV() {
+        var dietHist = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var wHist = JSON.parse(localStorage.getItem('sovietCoachWeightLog')) || {};
+        var waterLog = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
+        
+        var csv = 'Datum,Typ,Jidlo,Mnozstvi,Jednotka,Kcal,Bilkoviny,Sacharidy,Tuky,Vaha_kg,Voda_L\n';
+        
+        var allDates = {};
+        dietHist.forEach(function(f) { allDates[f.date] = true; });
+        Object.keys(wHist).forEach(function(d) { allDates[d] = true; });
+        Object.keys(waterLog).forEach(function(d) { allDates[d] = true; });
+        
+        Object.keys(allDates).sort().forEach(function(date) {
+            var dayDiet = dietHist.filter(function(f) { return f.date === date; });
+            if (dayDiet.length > 0) {
+                dayDiet.forEach(function(f) {
+                    csv += date + ',jidlo,' + f.name.replace(/,/g, ';') + ',' + f.amount + ',' + f.unit + ',' + f.kcal + ',' + f.p + ',' + f.c + ',' + f.f + ',' + (wHist[date]||'') + ',' + (waterLog[date]||'') + '\n';
+                });
+            } else {
+                csv += date + ',zaznam,,,,' + ',,,' + ',' + (wHist[date]||'') + ',' + (waterLog[date]||'') + '\n';
+            }
+        });
+        
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'soviet_coach_data.csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }
+
+    // --- REST TIMER BETWEEN SETS ---
+    var restTimerInterval = null;
+    var restTimeLeft = 0;
+    
+    function startRestTimer(seconds, exerciseEl) {
+        clearInterval(restTimerInterval);
+        var container = exerciseEl.querySelector('.rest-countdown');
+        if (!container) return;
+        restTimeLeft = seconds;
+        container.classList.add('active');
+        container.querySelector('.rest-countdown-val').innerText = restTimeLeft;
+        
+        restTimerInterval = setInterval(function() {
+            restTimeLeft--;
+            if (restTimeLeft <= 0) {
+                clearInterval(restTimerInterval);
+                container.classList.remove('active');
+                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            } else {
+                container.querySelector('.rest-countdown-val').innerText = restTimeLeft;
+            }
+        }, 1000);
+    }
+    
+    function getRestTime(exerciseName, intensity) {
+        var n = exerciseName.toLowerCase();
+        var i = intensity.toLowerCase();
+        if (n.includes('švihadlo') || n.includes('mobilita') || n.includes('cooldown') || n.includes('roadwork') || n.includes('steady') || n.includes('hiit') || n.includes('circuit') || n.includes('večer') || n.includes('spin')) return 0;
+        if (n.includes('pogo') || n.includes('jump') || n.includes('landing') || n.includes('split') || n.includes('plyo') || n.includes('ice skat')) return 60;
+        if (n.includes('dřep') || n.includes('shyby') || n.includes('bench') || n.includes('clean') || i.includes('rpe 8')) return 120;
+        if (n.includes('k-r') || n.includes('band snap') || n.includes('dead hang') || n.includes('contrast')) return 60;
+        if (n.includes('pallof') || n.includes('plank row') || n.includes('pull-apart') || n.includes('bird')) return 60;
+        return 90;
+    }
+    
+    // --- EXERCISE BLOCK CLASSIFICATION ---
+    function getExerciseBlock(name, intensity) {
+        var n = name.toLowerCase();
+        if (n.includes('švihadlo') || n.includes('mobilita') || n.includes('warmup') || intensity === 'Warmup' || intensity === 'Plynule') return { label: 'PŘÍPRAVA', cls: 'warmup' };
+        if (n.includes('pogo') || n.includes('jump') || n.includes('landing') || n.includes('plyo') || n.includes('split jump') || n.includes('ice skat')) return { label: 'PLYOMETRIE', cls: 'plyo' };
+        if (n.includes('k-r') || n.includes('band snap') || n.includes('dead hang') || n.includes('contrast')) return { label: 'KONTRAKCE-RELAXACE', cls: 'kr' };
+        if (n.includes('pallof') || n.includes('plank row') || n.includes('bird') || n.includes('dead bug') || n.includes('core')) return { label: 'CORE & STABILITA', cls: 'core' };
+        if (n.includes('steady') || n.includes('hiit') || n.includes('circuit') || n.includes('sprint') || n.includes('tabata')) return { label: 'CONDITIONING', cls: 'conditioning' };
+        if (n.includes('cooldown') || n.includes('mobilita') || intensity === 'Uvolnění') return { label: 'MOBILITA', cls: 'mobility' };
+        if (n.includes('shadow') || n.includes('večer')) return { label: 'BOX', cls: 'conditioning' };
+        return { label: 'SÍLA', cls: 'strength' };
+    }
+
+    // --- WORKOUT DURATION TIMER ---
+    var workoutStartTime = null;
+    var workoutDurationInterval = null;
+    
+    function startWorkoutTimer() {
+        workoutStartTime = Date.now();
+        clearInterval(workoutDurationInterval);
+        workoutDurationInterval = setInterval(function() {
+            var elapsed = Math.floor((Date.now() - workoutStartTime) / 1000);
+            var m = Math.floor(elapsed / 60);
+            var s = elapsed % 60;
+            var el = document.getElementById('workoutDurationDisplay');
+            if (el) el.innerText = m + ':' + (s < 10 ? '0' : '') + s;
+        }, 1000);
+    }
+    
+    function stopWorkoutTimer() {
+        clearInterval(workoutDurationInterval);
+        if (!workoutStartTime) return '0:00';
+        var elapsed = Math.floor((Date.now() - workoutStartTime) / 1000);
+        var m = Math.floor(elapsed / 60);
+        workoutStartTime = null;
+        return m + ' min';
+    }
+
+    // --- DAILY CHECK-IN ---
+    function loadCheckin() {
+        var data = JSON.parse(localStorage.getItem('sovietCoachCheckin')) || {};
+        var today = getActiveDateStr();
+        var d = data[today] || {};
+        var labels = { 1: '😫', 2: '😐', 3: '🙂', 4: '💪', 5: '🔥' };
+        
+        document.getElementById('checkinFeelVal').innerText = d.feel ? labels[d.feel] : '—';
+        document.getElementById('checkinSleepVal').innerText = d.sleep ? d.sleep + 'h' : '—';
+        document.getElementById('checkinSorenessVal').innerText = d.soreness ? ['—','👍','😐','⚠️','🔴','💀'][d.soreness] : '—';
+        
+        document.getElementById('checkinFeel').classList.toggle('filled', !!d.feel);
+        document.getElementById('checkinSleep').classList.toggle('filled', !!d.sleep);
+        document.getElementById('checkinSoreness').classList.toggle('filled', !!d.soreness);
+    }
+    
+    function cycleCheckin(field) {
+        var data = JSON.parse(localStorage.getItem('sovietCoachCheckin')) || {};
+        var today = getActiveDateStr();
+        if (!data[today]) data[today] = {};
+        
+        if (field === 'feel') {
+            data[today].feel = ((data[today].feel || 0) % 5) + 1;
+        } else if (field === 'sleep') {
+            var vals = [0, 5, 6, 7, 8, 9, 10];
+            var idx = vals.indexOf(data[today].sleep || 0);
+            data[today].sleep = vals[(idx + 1) % vals.length];
+        } else if (field === 'soreness') {
+            data[today].soreness = ((data[today].soreness || 0) % 5) + 1;
+        }
+        
+        localStorage.setItem('sovietCoachCheckin', JSON.stringify(data));
+        loadCheckin();
+        showAutosave();
+    }
+
+    // --- GYM A/B PREVIEW ---
+    function updateGymPreview() {
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var activePlan = plans[getActiveDateStr()];
+        var preview = document.getElementById('gymPreview');
+        if (!preview) return;
+        
+        if (activePlan === 'gym') {
+            var lastGym = localStorage.getItem('lastGymType') || 'B';
+            var nextGym = lastGym === 'A' ? 'B' : 'A';
+            var phase = localStorage.getItem('userPhase') || "1";
+            var data = workoutsDB[phase]['gym' + nextGym];
+            preview.innerText = nextGym === 'A' ? '→ FITKO A: ' + data.title : '→ FITKO B: ' + data.title;
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+    
+    // --- TOMORROW PREVIEW ---
+    function updateTomorrowPreview() {
+        var el = document.getElementById('tomorrowPreview');
+        if (!el) return;
+        var tomorrow = new Date(window.globalActiveDate);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var tStr = tomorrow.getFullYear() + '-' + String(tomorrow.getMonth()+1).padStart(2,'0') + '-' + String(tomorrow.getDate()).padStart(2,'0');
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var plan = plans[tStr];
+        var labels = { gym: '⚡ FITKO', box: '🥊 BOX DAY', cardio: '🏃 KARDIO', rest: '🧘 VOLNO' };
+        if (plan) {
+            el.innerHTML = '<strong>ZÍTRA:</strong> ' + (labels[plan] || 'VOLNO');
+        } else {
+            el.innerHTML = '<strong>ZÍTRA:</strong> Naplánuj v kalendáři';
+        }
+    }
+
+    // --- MICRO DASHBOARD ---
+    function updateMicroDash() {
+        var dietHist = JSON.parse(localStorage.getItem('sovietCoachDiet')) || [];
+        var waterLog = JSON.parse(localStorage.getItem('sovietCoachWaterLog')) || {};
+        var today = getActiveDateStr();
+        
+        var todayFood = dietHist.filter(function(f) { return f.date === today; });
+        var todayKcal = todayFood.reduce(function(s, f) { return s + f.kcal; }, 0);
+        var todayWater = waterLog[today] || 0;
+        
+        var weight = parseFloat(localStorage.getItem('userWeight')) || 80;
+        var height = parseInt(localStorage.getItem('userHeight')) || 180;
+        var age = parseInt(localStorage.getItem('userAge')) || 30;
+        var bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+        var plans = JSON.parse(localStorage.getItem('sovietCoachCalendar')) || {};
+        var plan = plans[today];
+        var mult = plan === 'box' ? 1.75 : plan === 'gym' ? 1.55 : plan === 'cardio' ? 1.35 : 1.2;
+        var targetKcal = Math.round(bmr * mult);
+        var targetWater = parseFloat((weight * 0.035 + (plan === 'box' ? 1.5 : plan === 'gym' ? 1.0 : plan === 'cardio' ? 0.8 : 0)).toFixed(1));
+        
+        var streakEl = document.getElementById('mdStreak');
+        var kcalEl = document.getElementById('mdKcal');
+        var waterEl = document.getElementById('mdWater');
+        
+        if (streakEl) {
+            var streakBadge = document.getElementById('streakBadge');
+            if (streakBadge && streakBadge.style.display !== 'none') {
+                streakEl.innerHTML = '🔥 <span>' + (document.getElementById('streakCount').innerText || '') + '</span>';
+            } else { streakEl.innerHTML = ''; }
+        }
+        if (kcalEl) kcalEl.innerHTML = '<span>' + todayKcal + '</span>/' + targetKcal + ' kcal';
+        if (waterEl) waterEl.innerHTML = '💧 <span>' + todayWater.toFixed(1) + '</span>/' + targetWater + 'L';
+    }
+
+    // --- CONFIRM RESET WORKOUT ---
+    function confirmResetWorkout() {
+        var doneItems = document.querySelectorAll('#workout-block .exercise-item.done');
+        var activeWeights = document.querySelectorAll('#workout-block .ex-weight-input');
+        var hasProgress = doneItems.length > 0;
+        activeWeights.forEach(function(w) { if (w.value) hasProgress = true; });
+        
+        if (hasProgress) {
+            if (!confirm('Opravdu odejít? Neuložený progres bude ztracen.')) return;
+        }
+        stopWorkoutTimer();
+        resetWorkoutUI();
+    }
+
+    // --- OLED TOGGLE ---
+    function toggleOled() {
+        var isOled = document.getElementById('oledToggle').checked;
+        document.body.classList.toggle('oled-mode', isOled);
+        localStorage.setItem('sovietCoachOled', isOled ? '1' : '0');
+    }
+    
+    function loadOled() {
+        var isOled = localStorage.getItem('sovietCoachOled') === '1';
+        document.body.classList.toggle('oled-mode', isOled);
+        var toggle = document.getElementById('oledToggle');
+        if (toggle) toggle.checked = isOled;
+    }
+
+    // --- SWIPE NAVIGATION ---
+    var touchStartX = 0;
+    var touchEndX = 0;
+    var tabOrder = ['calendar', 'workout', 'rege', 'diet', 'history'];
+    
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        var diff = touchStartX - touchEndX;
+        if (Math.abs(diff) < 80) return;
+        
+        var activeTab = document.querySelector('.tab-content.active');
+        if (!activeTab) return;
+        var currentId = activeTab.id.replace('tab-', '');
+        var currentIdx = tabOrder.indexOf(currentId);
+        if (currentIdx === -1) return;
+        
+        var nextIdx;
+        if (diff > 0 && currentIdx < tabOrder.length - 1) nextIdx = currentIdx + 1;
+        else if (diff < 0 && currentIdx > 0) nextIdx = currentIdx - 1;
+        else return;
+        
+        var navItems = document.querySelectorAll('.nav-item');
+        if (navItems[nextIdx]) switchTab(tabOrder[nextIdx], navItems[nextIdx]);
+    }, { passive: true });
+
+    // --- TONNAGE CALCULATOR ---
+    function calcTonnage(weight, reps, sets) {
+        if (!weight || !reps || !sets) return 0;
+        return Math.round(weight * reps * sets);
+    }
+
     // Init
     setGlobalDateToToday();
+    updateStreak();
+    loadOled();
+    loadCheckin();
 
 </script>
 </body>
